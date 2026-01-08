@@ -81,7 +81,7 @@ VOWELS_DATA = {
         "examples": [
             {"word": "đi", "meaning": "to go", "sentence": "Đi học = Go to school"},
             {"word": "bí", "meaning": "squash / secret", "sentence": "Bí mật = Secret"},
-            {"word": "khi", "meaning": "when / monkey", "sentence": "Khi nào = When"},
+            {"word": "khi", "meaning": "when", "sentence": "Khi nào = When"},
             {"word": "thi", "meaning": "to take exam", "sentence": "Thi cử = Examination"},
         ]
     },
