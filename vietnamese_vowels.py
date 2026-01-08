@@ -432,11 +432,31 @@ class AudioPlayer:
 class VietnameseVowelsApp:
     """Main application class"""
 
+    # Steam-inspired dark theme colors
+    COLORS = {
+        'bg_dark': '#1b2838',        # Main background
+        'bg_medium': '#2a475e',      # Secondary background
+        'bg_light': '#3d5a73',       # Lighter elements
+        'bg_card': '#1e3a4c',        # Card background
+        'text_primary': '#c7d5e0',   # Main text
+        'text_secondary': '#8b929a', # Secondary text
+        'text_bright': '#ffffff',    # Bright text
+        'accent_blue': '#1a9fff',    # Primary accent
+        'accent_hover': '#67c1f5',   # Hover state
+        'success': '#5c7e10',        # Green/success
+        'success_hover': '#7cb318',  # Green hover
+        'error': '#c23b22',          # Red/error
+        'error_hover': '#e74c3c',    # Red hover
+        'border': '#3d5a73',         # Border color
+        'gold': '#ffc82c',           # Gold for mastered
+    }
+
     def __init__(self, root):
         self.root = root
         self.root.title("Vietnamese Vowels - Leitner Learning System")
-        self.root.geometry("900x700")
-        self.root.minsize(800, 600)
+        self.root.geometry("950x750")
+        self.root.minsize(850, 650)
+        self.root.configure(bg=self.COLORS['bg_dark'])
 
         # Initialize systems
         self.leitner = LeitnerSystem()
@@ -446,8 +466,8 @@ class VietnameseVowelsApp:
 
         # Current state
         self.current_vowel = None
-        self.current_word = None  # The example word being shown
-        self.current_word_data = None  # Full data for current word
+        self.current_word = None
+        self.current_word_data = None
         self.review_queue = []
         self.in_review_mode = False
         self.show_answer = False
@@ -462,46 +482,169 @@ class VietnameseVowelsApp:
         messagebox.showwarning("Audio Error", message)
 
     def setup_styles(self):
-        """Setup ttk styles"""
+        """Setup Steam-like dark theme styles"""
         style = ttk.Style()
         style.theme_use('clam')
 
-        # Configure styles
-        style.configure('Title.TLabel', font=('Helvetica', 24, 'bold'))
-        style.configure('Vowel.TLabel', font=('Helvetica', 72, 'bold'))
-        style.configure('Description.TLabel', font=('Helvetica', 14))
-        style.configure('Word.TLabel', font=('Helvetica', 18))
-        style.configure('Big.TButton', font=('Helvetica', 14), padding=10)
-        style.configure('Correct.TButton', font=('Helvetica', 14, 'bold'))
-        style.configure('Wrong.TButton', font=('Helvetica', 14, 'bold'))
+        c = self.COLORS
+
+        # General frame styling
+        style.configure('TFrame', background=c['bg_dark'])
+        style.configure('Card.TFrame', background=c['bg_card'])
+
+        # Label styles
+        style.configure('TLabel',
+            background=c['bg_dark'],
+            foreground=c['text_primary'],
+            font=('Segoe UI', 11))
+
+        style.configure('Title.TLabel',
+            background=c['bg_dark'],
+            foreground=c['text_bright'],
+            font=('Segoe UI', 28, 'bold'))
+
+        style.configure('Subtitle.TLabel',
+            background=c['bg_dark'],
+            foreground=c['accent_blue'],
+            font=('Segoe UI', 16, 'bold'))
+
+        style.configure('Vowel.TLabel',
+            background=c['bg_card'],
+            foreground=c['accent_hover'],
+            font=('Segoe UI', 72, 'bold'))
+
+        style.configure('Word.TLabel',
+            background=c['bg_card'],
+            foreground=c['text_bright'],
+            font=('Segoe UI', 42, 'bold'))
+
+        style.configure('Description.TLabel',
+            background=c['bg_dark'],
+            foreground=c['text_secondary'],
+            font=('Segoe UI', 12))
+
+        style.configure('CardDesc.TLabel',
+            background=c['bg_card'],
+            foreground=c['text_secondary'],
+            font=('Segoe UI', 12))
+
+        style.configure('Stats.TLabel',
+            background=c['bg_dark'],
+            foreground=c['accent_hover'],
+            font=('Segoe UI', 11))
+
+        style.configure('Gold.TLabel',
+            background=c['bg_dark'],
+            foreground=c['gold'],
+            font=('Segoe UI', 12, 'bold'))
+
+        # Button styles - Steam blue
+        style.configure('TButton',
+            background=c['accent_blue'],
+            foreground=c['text_bright'],
+            font=('Segoe UI', 11, 'bold'),
+            padding=(20, 10),
+            borderwidth=0)
+        style.map('TButton',
+            background=[('active', c['accent_hover']), ('pressed', c['bg_light'])],
+            foreground=[('active', c['text_bright'])])
+
+        style.configure('Big.TButton',
+            background=c['accent_blue'],
+            foreground=c['text_bright'],
+            font=('Segoe UI', 13, 'bold'),
+            padding=(30, 15))
+        style.map('Big.TButton',
+            background=[('active', c['accent_hover']), ('pressed', c['bg_light'])])
+
+        style.configure('Success.TButton',
+            background=c['success'],
+            foreground=c['text_bright'],
+            font=('Segoe UI', 12, 'bold'),
+            padding=(25, 12))
+        style.map('Success.TButton',
+            background=[('active', c['success_hover'])])
+
+        style.configure('Danger.TButton',
+            background=c['error'],
+            foreground=c['text_bright'],
+            font=('Segoe UI', 12, 'bold'),
+            padding=(25, 12))
+        style.map('Danger.TButton',
+            background=[('active', c['error_hover'])])
+
+        style.configure('Small.TButton',
+            background=c['bg_medium'],
+            foreground=c['text_primary'],
+            font=('Segoe UI', 10),
+            padding=(10, 5))
+        style.map('Small.TButton',
+            background=[('active', c['bg_light'])])
+
+        # LabelFrame
+        style.configure('TLabelframe',
+            background=c['bg_card'],
+            foreground=c['text_primary'],
+            bordercolor=c['border'],
+            borderwidth=2,
+            relief='flat')
+        style.configure('TLabelframe.Label',
+            background=c['bg_card'],
+            foreground=c['accent_hover'],
+            font=('Segoe UI', 12, 'bold'))
+
+        # Scrollbar
+        style.configure('TScrollbar',
+            background=c['bg_medium'],
+            troughcolor=c['bg_dark'],
+            borderwidth=0,
+            arrowcolor=c['text_primary'])
 
     def create_widgets(self):
-        """Create main widgets"""
+        """Create main widgets with Steam-like dark theme"""
+        c = self.COLORS
+
         # Main container
-        self.main_frame = ttk.Frame(self.root, padding="20")
+        self.main_frame = tk.Frame(self.root, bg=c['bg_dark'], padx=30, pady=20)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Header
-        self.header_frame = ttk.Frame(self.main_frame)
-        self.header_frame.pack(fill=tk.X, pady=(0, 20))
+        # Header with gradient-like effect
+        self.header_frame = tk.Frame(self.main_frame, bg=c['bg_dark'])
+        self.header_frame.pack(fill=tk.X, pady=(0, 25))
 
-        self.title_label = ttk.Label(
-            self.header_frame,
-            text="🇻🇳 Vietnamese Vowels",
-            style='Title.TLabel'
+        # Title with Vietnamese flag colors hint
+        title_frame = tk.Frame(self.header_frame, bg=c['bg_dark'])
+        title_frame.pack(side=tk.LEFT)
+
+        self.title_label = tk.Label(
+            title_frame,
+            text="VIETNAMESE VOWELS",
+            font=('Segoe UI', 24, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_dark']
         )
         self.title_label.pack(side=tk.LEFT)
 
-        # Stats display
-        self.stats_label = ttk.Label(self.header_frame, text="")
-        self.stats_label.pack(side=tk.RIGHT)
+        # Accent bar under title
+        accent_bar = tk.Frame(title_frame, bg=c['accent_blue'], height=3)
+        accent_bar.pack(fill=tk.X, pady=(5, 0))
 
-        # Content frame (changes based on mode)
-        self.content_frame = ttk.Frame(self.main_frame)
+        # Stats display
+        self.stats_label = tk.Label(
+            self.header_frame,
+            text="",
+            font=('Segoe UI', 11),
+            fg=c['text_secondary'],
+            bg=c['bg_dark']
+        )
+        self.stats_label.pack(side=tk.RIGHT, pady=10)
+
+        # Content frame
+        self.content_frame = tk.Frame(self.main_frame, bg=c['bg_dark'])
         self.content_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Navigation buttons
-        self.nav_frame = ttk.Frame(self.main_frame)
+        # Navigation frame
+        self.nav_frame = tk.Frame(self.main_frame, bg=c['bg_dark'])
         self.nav_frame.pack(fill=tk.X, pady=(20, 0))
 
         self.update_stats_display()
@@ -518,238 +661,396 @@ class VietnameseVowelsApp:
 
     def update_stats_display(self):
         """Update the stats display in header"""
+        c = self.COLORS
         stats = self.leitner.get_progress_stats()
         self.stats_label.config(
-            text=f"📊 Mastered: {stats['mastered']}/{stats['total_cards']} | "
-                 f"Accuracy: {stats['accuracy']:.0f}% | "
-                 f"Sessions: {stats['sessions']}"
+            text=f"Mastered: {stats['mastered']}/{stats['total_cards']}  |  "
+                 f"Accuracy: {stats['accuracy']:.0f}%  |  "
+                 f"Sessions: {stats['sessions']}",
+            fg=c['text_secondary']
         )
 
     def show_home(self):
-        """Show home screen"""
+        """Show home screen with Steam-like dark theme"""
         self.clear_content()
         self.clear_nav()
         self.in_review_mode = False
+        c = self.COLORS
 
-        # Welcome message
-        welcome = ttk.Label(
-            self.content_frame,
+        # Main content container with some padding
+        container = tk.Frame(self.content_frame, bg=c['bg_dark'])
+        container.pack(fill=tk.BOTH, expand=True, padx=20)
+
+        # Welcome section
+        welcome = tk.Label(
+            container,
             text="Learn Vietnamese Vowels",
-            style='Title.TLabel'
+            font=('Segoe UI', 32, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_dark']
         )
-        welcome.pack(pady=20)
+        welcome.pack(pady=(20, 10))
 
-        # Description
-        desc = ttk.Label(
-            self.content_frame,
-            text="Master the 12 Vietnamese vowels using the Leitner spaced repetition system.\n"
-                 "Each vowel comes with example words and pronunciation.",
-            style='Description.TLabel',
+        desc = tk.Label(
+            container,
+            text="Master the 12 Vietnamese vowels using spaced repetition.\nEach vowel comes with example words and native pronunciation.",
+            font=('Segoe UI', 12),
+            fg=c['text_secondary'],
+            bg=c['bg_dark'],
             justify=tk.CENTER
         )
-        desc.pack(pady=10)
+        desc.pack(pady=(0, 30))
 
-        # Stats card
-        stats = self.leitner.get_progress_stats()
-        stats_frame = ttk.LabelFrame(self.content_frame, text="Your Progress", padding=20)
-        stats_frame.pack(pady=20, padx=50, fill=tk.X)
+        # Stats card with dark theme
+        stats_card = tk.Frame(container, bg=c['bg_card'], padx=30, pady=20)
+        stats_card.pack(fill=tk.X, pady=10)
 
-        stats_grid = ttk.Frame(stats_frame)
-        stats_grid.pack()
+        # Stats header
+        stats_header = tk.Label(
+            stats_card,
+            text="YOUR PROGRESS",
+            font=('Segoe UI', 14, 'bold'),
+            fg=c['accent_hover'],
+            bg=c['bg_card']
+        )
+        stats_header.pack(anchor=tk.W, pady=(0, 15))
 
-        labels = [
-            ("📦 Box 1 (New)", len(self.leitner.boxes[1])),
-            ("📦 Box 2", len(self.leitner.boxes[2])),
-            ("📦 Box 3", len(self.leitner.boxes[3])),
-            ("📦 Box 4", len(self.leitner.boxes[4])),
-            ("⭐ Box 5 (Mastered)", len(self.leitner.boxes[5])),
+        # Progress boxes in a row
+        boxes_frame = tk.Frame(stats_card, bg=c['bg_card'])
+        boxes_frame.pack(fill=tk.X)
+
+        box_data = [
+            ("BOX 1", "New", len(self.leitner.boxes[1]), c['text_primary']),
+            ("BOX 2", "", len(self.leitner.boxes[2]), c['text_primary']),
+            ("BOX 3", "", len(self.leitner.boxes[3]), c['text_primary']),
+            ("BOX 4", "", len(self.leitner.boxes[4]), c['text_primary']),
+            ("BOX 5", "Mastered", len(self.leitner.boxes[5]), c['gold']),
         ]
 
-        for i, (label, count) in enumerate(labels):
-            ttk.Label(stats_grid, text=label).grid(row=i, column=0, sticky=tk.W, padx=10, pady=2)
-            ttk.Label(stats_grid, text=str(count)).grid(row=i, column=1, sticky=tk.E, padx=10, pady=2)
+        for i, (box_name, subtitle, count, color) in enumerate(box_data):
+            box_frame = tk.Frame(boxes_frame, bg=c['bg_medium'], padx=15, pady=10)
+            box_frame.pack(side=tk.LEFT, padx=5, expand=True, fill=tk.X)
 
-        # Action buttons
-        btn_frame = ttk.Frame(self.content_frame)
+            tk.Label(
+                box_frame,
+                text=box_name,
+                font=('Segoe UI', 10, 'bold'),
+                fg=c['text_secondary'],
+                bg=c['bg_medium']
+            ).pack()
+
+            tk.Label(
+                box_frame,
+                text=str(count),
+                font=('Segoe UI', 24, 'bold'),
+                fg=color,
+                bg=c['bg_medium']
+            ).pack()
+
+            if subtitle:
+                tk.Label(
+                    box_frame,
+                    text=subtitle,
+                    font=('Segoe UI', 9),
+                    fg=c['text_secondary'],
+                    bg=c['bg_medium']
+                ).pack()
+
+        # Action buttons with Steam style
+        btn_frame = tk.Frame(container, bg=c['bg_dark'])
         btn_frame.pack(pady=30)
 
         cards_due = len(self.leitner.get_cards_for_review())
 
-        review_btn = ttk.Button(
+        # Start Review button - prominent green
+        review_btn = tk.Button(
             btn_frame,
-            text=f"📚 Start Review ({cards_due} cards due)",
-            style='Big.TButton',
+            text=f"START REVIEW  ({cards_due} cards due)",
+            font=('Segoe UI', 14, 'bold'),
+            fg=c['text_bright'],
+            bg=c['success'],
+            activebackground=c['success_hover'],
+            activeforeground=c['text_bright'],
+            bd=0,
+            padx=40,
+            pady=15,
+            cursor='hand2',
             command=self.start_review
         )
-        review_btn.pack(pady=5)
+        review_btn.pack(pady=8)
 
-        browse_btn = ttk.Button(
+        # Browse button - blue accent
+        browse_btn = tk.Button(
             btn_frame,
-            text="📖 Browse All Vowels",
-            style='Big.TButton',
+            text="BROWSE ALL VOWELS",
+            font=('Segoe UI', 12, 'bold'),
+            fg=c['text_bright'],
+            bg=c['accent_blue'],
+            activebackground=c['accent_hover'],
+            activeforeground=c['text_bright'],
+            bd=0,
+            padx=35,
+            pady=12,
+            cursor='hand2',
             command=self.show_browse
         )
-        browse_btn.pack(pady=5)
+        browse_btn.pack(pady=8)
 
-        # Leitner info
-        info_frame = ttk.LabelFrame(self.content_frame, text="How the Leitner System Works", padding=15)
-        info_frame.pack(pady=20, padx=50, fill=tk.X)
+        # Leitner info card
+        info_card = tk.Frame(container, bg=c['bg_card'], padx=25, pady=15)
+        info_card.pack(fill=tk.X, pady=20)
+
+        tk.Label(
+            info_card,
+            text="HOW THE LEITNER SYSTEM WORKS",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['accent_hover'],
+            bg=c['bg_card']
+        ).pack(anchor=tk.W, pady=(0, 10))
 
         info_text = (
-            "• Correct answer: Card moves to next box (less frequent review)\n"
-            "• Wrong answer: Card goes back to Box 1 (more practice needed)\n"
-            "• Box 1: Every session | Box 2: Every 2nd | Box 3: Every 4th\n"
-            "• Box 4: Every 8th | Box 5: Every 16th (mastered!)"
+            "✓  Correct answer → Card moves to next box (less frequent review)\n"
+            "✗  Wrong answer → Card goes back to Box 1 (more practice needed)\n\n"
+            "Box 1: Every session  |  Box 2: Every 2nd  |  Box 3: Every 4th\n"
+            "Box 4: Every 8th  |  Box 5: Every 16th (mastered!)"
         )
-        ttk.Label(info_frame, text=info_text, justify=tk.LEFT).pack()
+        tk.Label(
+            info_card,
+            text=info_text,
+            font=('Segoe UI', 11),
+            fg=c['text_secondary'],
+            bg=c['bg_card'],
+            justify=tk.LEFT
+        ).pack(anchor=tk.W)
 
         self.update_stats_display()
 
     def show_browse(self):
-        """Show browsing mode - list all vowels"""
+        """Show browsing mode - list all vowels with dark theme"""
         self.clear_content()
         self.clear_nav()
         self.in_review_mode = False
+        c = self.COLORS
 
         # Title
-        ttk.Label(
+        tk.Label(
             self.content_frame,
             text="Browse Vietnamese Vowels",
-            style='Title.TLabel'
-        ).pack(pady=10)
+            font=('Segoe UI', 24, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_dark']
+        ).pack(pady=15)
 
-        # Scrollable frame for vowels
-        canvas = tk.Canvas(self.content_frame)
-        scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
-        scrollable_frame = ttk.Frame(canvas)
+        # Vowels grid container
+        grid_frame = tk.Frame(self.content_frame, bg=c['bg_dark'])
+        grid_frame.pack(fill=tk.BOTH, expand=True, padx=40, pady=10)
 
-        scrollable_frame.bind(
-            "<Configure>",
-            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-        )
-
-        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-        canvas.configure(yscrollcommand=scrollbar.set)
-
-        # Grid of vowel buttons
+        # Grid of vowel cards
         vowels = list(VOWELS_DATA.keys())
         for i, vowel in enumerate(vowels):
             row = i // 4
             col = i % 4
 
             box = self.leitner.get_card_box(vowel)
-            box_indicator = "⭐" if box == 5 else f"📦{box}"
+            is_mastered = box == 5
 
-            btn = ttk.Button(
-                scrollable_frame,
-                text=f"{vowel}\n{box_indicator}",
-                style='Big.TButton',
+            # Card frame
+            card = tk.Frame(
+                grid_frame,
+                bg=c['bg_card'] if not is_mastered else c['bg_medium'],
+                padx=10,
+                pady=10
+            )
+            card.grid(row=row, column=col, padx=8, pady=8, sticky="nsew")
+
+            # Vowel button
+            btn_color = c['gold'] if is_mastered else c['accent_blue']
+            btn = tk.Button(
+                card,
+                text=vowel,
+                font=('Segoe UI', 32, 'bold'),
+                fg=c['text_bright'],
+                bg=btn_color,
+                activebackground=c['accent_hover'],
+                activeforeground=c['text_bright'],
+                bd=0,
+                width=3,
+                height=1,
+                cursor='hand2',
                 command=lambda v=vowel: self.show_vowel_detail(v)
             )
-            btn.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
+            btn.pack(pady=5)
 
-        canvas.pack(side="left", fill="both", expand=True, padx=20)
-        scrollbar.pack(side="right", fill="y")
+            # Box indicator
+            box_text = "★ MASTERED" if is_mastered else f"Box {box}"
+            tk.Label(
+                card,
+                text=box_text,
+                font=('Segoe UI', 9),
+                fg=c['gold'] if is_mastered else c['text_secondary'],
+                bg=c['bg_card'] if not is_mastered else c['bg_medium']
+            ).pack()
+
+        # Configure grid weights
+        for col in range(4):
+            grid_frame.columnconfigure(col, weight=1)
 
         # Back button
-        ttk.Button(
+        back_btn = tk.Button(
             self.nav_frame,
-            text="← Back to Home",
+            text="← BACK TO HOME",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            activeforeground=c['text_bright'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
             command=self.show_home
-        ).pack(side=tk.LEFT)
+        )
+        back_btn.pack(side=tk.LEFT)
 
     def show_vowel_detail(self, vowel):
-        """Show detailed view of a single vowel"""
+        """Show detailed view of a single vowel with dark theme"""
         self.clear_content()
         self.clear_nav()
+        c = self.COLORS
 
         data = VOWELS_DATA[vowel]
+        box = self.leitner.get_card_box(vowel)
+        is_mastered = box == 5
+
+        # Main card
+        card = tk.Frame(self.content_frame, bg=c['bg_card'], padx=40, pady=30)
+        card.pack(fill=tk.BOTH, expand=True, padx=30, pady=10)
 
         # Vowel display
-        vowel_frame = ttk.Frame(self.content_frame)
-        vowel_frame.pack(pady=20)
+        tk.Label(
+            card,
+            text=vowel,
+            font=('Segoe UI', 80, 'bold'),
+            fg=c['gold'] if is_mastered else c['accent_hover'],
+            bg=c['bg_card']
+        ).pack(pady=(0, 5))
 
-        ttk.Label(vowel_frame, text=vowel, style='Vowel.TLabel').pack()
-        ttk.Label(vowel_frame, text=data['ipa'], style='Description.TLabel').pack()
+        tk.Label(
+            card,
+            text=data['ipa'],
+            font=('Segoe UI', 16),
+            fg=c['text_secondary'],
+            bg=c['bg_card']
+        ).pack()
 
         # Pronunciation button
-        sound_btn = ttk.Button(
-            vowel_frame,
-            text="🔊 Hear Pronunciation",
-            style='Big.TButton',
+        sound_btn = tk.Button(
+            card,
+            text="🔊  HEAR PRONUNCIATION",
+            font=('Segoe UI', 12, 'bold'),
+            fg=c['text_bright'],
+            bg=c['accent_blue'],
+            activebackground=c['accent_hover'],
+            bd=0,
+            padx=25,
+            pady=10,
+            cursor='hand2',
             command=lambda: self.audio.speak(vowel)
         )
-        sound_btn.pack(pady=10)
+        sound_btn.pack(pady=15)
 
         # Description
-        ttk.Label(
-            self.content_frame,
+        tk.Label(
+            card,
             text=data['description'],
-            style='Description.TLabel',
-            wraplength=600
+            font=('Segoe UI', 14),
+            fg=c['text_primary'],
+            bg=c['bg_card'],
+            wraplength=500
         ).pack(pady=10)
 
-        # Examples
-        examples_frame = ttk.LabelFrame(self.content_frame, text="Example Words", padding=15)
-        examples_frame.pack(pady=20, padx=30, fill=tk.X)
+        # Status badge
+        status_text = "★ MASTERED" if is_mastered else f"Box {box}"
+        status_color = c['gold'] if is_mastered else c['accent_blue']
+        tk.Label(
+            card,
+            text=status_text,
+            font=('Segoe UI', 11, 'bold'),
+            fg=status_color,
+            bg=c['bg_medium'],
+            padx=15,
+            pady=5
+        ).pack(pady=10)
+
+        # Examples section
+        examples_card = tk.Frame(card, bg=c['bg_medium'], padx=20, pady=15)
+        examples_card.pack(fill=tk.X, pady=15)
+
+        tk.Label(
+            examples_card,
+            text="EXAMPLE WORDS",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['accent_hover'],
+            bg=c['bg_medium']
+        ).pack(anchor=tk.W, pady=(0, 10))
 
         for example in data['examples']:
-            ex_frame = ttk.Frame(examples_frame)
-            ex_frame.pack(fill=tk.X, pady=5)
+            ex_frame = tk.Frame(examples_card, bg=c['bg_medium'])
+            ex_frame.pack(fill=tk.X, pady=4)
 
-            word_btn = ttk.Button(
+            word_btn = tk.Button(
                 ex_frame,
                 text=f"🔊 {example['word']}",
+                font=('Segoe UI', 12, 'bold'),
+                fg=c['text_bright'],
+                bg=c['bg_light'],
+                activebackground=c['accent_blue'],
+                bd=0,
+                padx=15,
+                pady=5,
+                cursor='hand2',
                 command=lambda w=example['word']: self.audio.speak(w)
             )
             word_btn.pack(side=tk.LEFT)
 
-            ttk.Label(
+            tk.Label(
                 ex_frame,
                 text=f"  =  {example['meaning']}",
-                style='Word.TLabel'
+                font=('Segoe UI', 12),
+                fg=c['text_primary'],
+                bg=c['bg_medium']
             ).pack(side=tk.LEFT, padx=10)
 
-            # Sentence with sound
-            sent_frame = ttk.Frame(examples_frame)
-            sent_frame.pack(fill=tk.X, pady=2, padx=20)
-
-            sentence_word = example['sentence'].split('=')[0].strip()
-            sent_btn = ttk.Button(
-                sent_frame,
-                text="🔊",
-                width=3,
-                command=lambda s=sentence_word: self.audio.speak(s)
-            )
-            sent_btn.pack(side=tk.LEFT)
-
-            ttk.Label(
-                sent_frame,
-                text=f"  {example['sentence']}",
-                font=('Helvetica', 11, 'italic')
-            ).pack(side=tk.LEFT)
-
-        # Current box status
-        box = self.leitner.get_card_box(vowel)
-        status_text = "⭐ Mastered!" if box == 5 else f"📦 Currently in Box {box}"
-        ttk.Label(
-            self.content_frame,
-            text=status_text,
-            style='Description.TLabel'
-        ).pack(pady=20)
-
         # Navigation
-        ttk.Button(
+        back_btn = tk.Button(
             self.nav_frame,
-            text="← Back to Browse",
+            text="← BACK TO BROWSE",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
             command=self.show_browse
-        ).pack(side=tk.LEFT)
+        )
+        back_btn.pack(side=tk.LEFT)
 
-        ttk.Button(
+        home_btn = tk.Button(
             self.nav_frame,
-            text="🏠 Home",
+            text="HOME",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
             command=self.show_home
-        ).pack(side=tk.RIGHT)
+        )
+        home_btn.pack(side=tk.RIGHT)
 
     def start_review(self):
         """Start a review session"""
@@ -769,9 +1070,10 @@ class VietnameseVowelsApp:
         self.show_next_card()
 
     def show_next_card(self):
-        """Show the next card in review queue - shows a WORD first, then reveals the vowel"""
+        """Show the next card in review queue with dark theme"""
         self.clear_content()
         self.clear_nav()
+        c = self.COLORS
 
         if not self.review_queue:
             self.end_review()
@@ -787,155 +1089,229 @@ class VietnameseVowelsApp:
 
         # Progress indicator
         remaining = len(self.review_queue)
-        ttk.Label(
-            self.content_frame,
+        progress_frame = tk.Frame(self.content_frame, bg=c['bg_dark'])
+        progress_frame.pack(fill=tk.X, pady=10)
+
+        tk.Label(
+            progress_frame,
             text=f"Cards remaining: {remaining + 1}",
-            style='Description.TLabel'
-        ).pack(pady=5)
+            font=('Segoe UI', 11),
+            fg=c['text_secondary'],
+            bg=c['bg_dark']
+        ).pack(side=tk.LEFT)
 
-        # Card frame
-        card_frame = ttk.Frame(self.content_frame, relief="raised", borderwidth=2)
-        card_frame.pack(pady=20, padx=50, fill=tk.BOTH, expand=True)
+        # Progress bar visual
+        progress_bar_bg = tk.Frame(progress_frame, bg=c['bg_medium'], height=6)
+        progress_bar_bg.pack(side=tk.RIGHT, fill=tk.X, expand=True, padx=(20, 0))
+        total_cards = remaining + 1 + (12 - len(self.leitner.get_cards_for_review()) - remaining - 1)
+        if total_cards > 0:
+            progress_pct = (12 - remaining - 1) / 12
+            progress_bar = tk.Frame(progress_bar_bg, bg=c['accent_blue'], height=6, width=int(400 * progress_pct))
+            progress_bar.place(x=0, y=0)
 
-        # Instruction - user should guess pronunciation first
-        ttk.Label(
-            card_frame,
+        # Main card
+        self.card_frame = tk.Frame(self.content_frame, bg=c['bg_card'], padx=50, pady=40)
+        self.card_frame.pack(fill=tk.BOTH, expand=True, padx=30, pady=15)
+
+        # Instruction
+        tk.Label(
+            self.card_frame,
             text="How do you pronounce this word?",
-            style='Description.TLabel'
-        ).pack(pady=(20, 10))
+            font=('Segoe UI', 14),
+            fg=c['text_secondary'],
+            bg=c['bg_card']
+        ).pack(pady=(0, 20))
 
-        # Word display (question side) - show the word with its meaning
-        ttk.Label(
-            card_frame,
+        # Word display
+        tk.Label(
+            self.card_frame,
             text=self.current_word,
-            style='Vowel.TLabel'
+            font=('Segoe UI', 64, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_card']
         ).pack(pady=10)
 
-        ttk.Label(
-            card_frame,
+        tk.Label(
+            self.card_frame,
             text=f"({self.current_word_data['meaning']})",
-            style='Description.TLabel'
+            font=('Segoe UI', 14),
+            fg=c['text_secondary'],
+            bg=c['bg_card']
         ).pack(pady=5)
 
-        # Hint about the vowel
-        ttk.Label(
-            card_frame,
+        # Hint
+        tk.Label(
+            self.card_frame,
             text="Try to say it out loud, then check your pronunciation!",
-            style='Description.TLabel',
-            font=('Helvetica', 12, 'italic')
-        ).pack(pady=15)
+            font=('Segoe UI', 12, 'italic'),
+            fg=c['accent_hover'],
+            bg=c['bg_card']
+        ).pack(pady=20)
 
-        # Show Answer button
-        self.answer_frame = ttk.Frame(card_frame)
+        # Answer frame (will be populated when answer is revealed)
+        self.answer_frame = tk.Frame(self.card_frame, bg=c['bg_card'])
         self.answer_frame.pack(fill=tk.BOTH, expand=True, pady=10)
 
-        show_btn = ttk.Button(
+        # Show Answer button
+        show_btn = tk.Button(
             self.answer_frame,
-            text="Show Answer",
-            style='Big.TButton',
+            text="SHOW ANSWER",
+            font=('Segoe UI', 14, 'bold'),
+            fg=c['text_bright'],
+            bg=c['accent_blue'],
+            activebackground=c['accent_hover'],
+            bd=0,
+            padx=40,
+            pady=15,
+            cursor='hand2',
             command=self.reveal_answer
         )
         show_btn.pack(pady=20)
 
-        # Navigation
-        ttk.Button(
+        # End session button
+        end_btn = tk.Button(
             self.nav_frame,
-            text="❌ End Session",
+            text="END SESSION",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['error'],
+            activebackground=c['error_hover'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
             command=self.end_review
-        ).pack(side=tk.LEFT)
+        )
+        end_btn.pack(side=tk.LEFT)
 
     def reveal_answer(self):
-        """Reveal the answer - plays the word and shows the vowel"""
+        """Reveal the answer with dark theme styling"""
         for widget in self.answer_frame.winfo_children():
             widget.destroy()
 
+        c = self.COLORS
         data = VOWELS_DATA[self.current_vowel]
 
-        # Play the word pronunciation automatically when answer is revealed
+        # Play the word pronunciation automatically
         self.root.after(100, lambda: self.audio.speak(self.current_word))
 
-        # Header showing correct pronunciation
-        ttk.Label(
+        # Divider line
+        tk.Frame(self.answer_frame, bg=c['border'], height=2).pack(fill=tk.X, pady=10)
+
+        # Correct pronunciation header
+        tk.Label(
             self.answer_frame,
-            text="Correct pronunciation:",
-            style='Description.TLabel'
-        ).pack(pady=(5, 0))
+            text="CORRECT PRONUNCIATION",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['accent_hover'],
+            bg=c['bg_card']
+        ).pack(pady=(5, 10))
 
-        # The word with replay button
-        word_frame = ttk.Frame(self.answer_frame)
-        word_frame.pack(pady=10)
+        # Word with replay button
+        word_frame = tk.Frame(self.answer_frame, bg=c['bg_card'])
+        word_frame.pack(pady=5)
 
-        ttk.Label(
+        tk.Label(
             word_frame,
             text=self.current_word,
-            font=('Helvetica', 36, 'bold')
-        ).pack(side=tk.LEFT, padx=5)
+            font=('Segoe UI', 32, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_card']
+        ).pack(side=tk.LEFT, padx=10)
 
-        ttk.Button(
+        replay_btn = tk.Button(
             word_frame,
-            text="🔊 Replay",
+            text="🔊 REPLAY",
+            font=('Segoe UI', 10, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_medium'],
+            activebackground=c['accent_blue'],
+            bd=0,
+            padx=15,
+            pady=5,
+            cursor='hand2',
             command=lambda: self.audio.speak(self.current_word)
-        ).pack(side=tk.LEFT, padx=5)
+        )
+        replay_btn.pack(side=tk.LEFT, padx=10)
 
-        # Show which vowel it contains
-        ttk.Label(
-            self.answer_frame,
-            text=f"Contains the vowel: {self.current_vowel}",
-            style='Description.TLabel'
-        ).pack(pady=5)
+        # Vowel info
+        vowel_info = tk.Frame(self.answer_frame, bg=c['bg_medium'], padx=20, pady=10)
+        vowel_info.pack(fill=tk.X, pady=10, padx=20)
 
-        # IPA and description
-        ttk.Label(
-            self.answer_frame,
-            text=f"{data['ipa']} - {data['description']}",
-            style='Description.TLabel',
-            wraplength=500
-        ).pack(pady=5)
+        tk.Label(
+            vowel_info,
+            text=f"Contains vowel:  {self.current_vowel}",
+            font=('Segoe UI', 14, 'bold'),
+            fg=c['gold'],
+            bg=c['bg_medium']
+        ).pack(side=tk.LEFT)
 
-        # Button to hear JUST the vowel sound
-        vowel_btn = ttk.Button(
+        tk.Label(
+            vowel_info,
+            text=f"  {data['ipa']}  -  {data['description']}",
+            font=('Segoe UI', 11),
+            fg=c['text_secondary'],
+            bg=c['bg_medium']
+        ).pack(side=tk.LEFT, padx=10)
+
+        # Button to hear just the vowel
+        vowel_btn = tk.Button(
             self.answer_frame,
-            text=f"🔊 Hear vowel '{self.current_vowel}' by itself",
-            style='Big.TButton',
+            text=f"🔊  HEAR VOWEL '{self.current_vowel}' BY ITSELF",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_light'],
+            activebackground=c['accent_blue'],
+            bd=0,
+            padx=20,
+            pady=10,
+            cursor='hand2',
             command=lambda: self.audio.speak(self.current_vowel)
         )
-        vowel_btn.pack(pady=10)
+        vowel_btn.pack(pady=15)
 
-        # Did you get it right?
-        ttk.Label(
+        # Question
+        tk.Label(
             self.answer_frame,
             text="Did you pronounce it correctly?",
-            style='Description.TLabel',
-            font=('Helvetica', 12, 'bold')
-        ).pack(pady=(10, 5))
+            font=('Segoe UI', 13, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_card']
+        ).pack(pady=(10, 15))
 
         # Correct/Wrong buttons
-        btn_frame = ttk.Frame(self.answer_frame)
+        btn_frame = tk.Frame(self.answer_frame, bg=c['bg_card'])
         btn_frame.pack(pady=10)
 
         wrong_btn = tk.Button(
             btn_frame,
-            text="❌ Wrong",
-            font=('Helvetica', 14, 'bold'),
-            bg='#ff6b6b',
-            fg='white',
-            width=12,
-            height=2,
+            text="✗  WRONG",
+            font=('Segoe UI', 13, 'bold'),
+            fg=c['text_bright'],
+            bg=c['error'],
+            activebackground=c['error_hover'],
+            bd=0,
+            padx=35,
+            pady=12,
+            cursor='hand2',
             command=self.mark_wrong
         )
-        wrong_btn.pack(side=tk.LEFT, padx=10)
+        wrong_btn.pack(side=tk.LEFT, padx=15)
 
         correct_btn = tk.Button(
             btn_frame,
-            text="✓ Correct",
-            font=('Helvetica', 14, 'bold'),
-            bg='#51cf66',
-            fg='white',
-            width=12,
-            height=2,
+            text="✓  CORRECT",
+            font=('Segoe UI', 13, 'bold'),
+            fg=c['text_bright'],
+            bg=c['success'],
+            activebackground=c['success_hover'],
+            bd=0,
+            padx=35,
+            pady=12,
+            cursor='hand2',
             command=self.mark_correct
         )
-        correct_btn.pack(side=tk.LEFT, padx=10)
+        correct_btn.pack(side=tk.LEFT, padx=15)
 
     def mark_correct(self):
         """Mark current card as correct"""
