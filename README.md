@@ -6,9 +6,17 @@ A standalone application to learn Vietnamese vowels using the **Leitner System**
 
 - **12 Vietnamese Vowels**: Learn all Vietnamese vowels (a, ă, â, e, ê, i, o, ô, ơ, u, ư, y)
 - **Example Words**: Each vowel comes with common Vietnamese words
-- **Audio Pronunciation**: Click to hear native pronunciation (requires internet for Google TTS)
+- **Audio Pronunciation**: Native Vietnamese pronunciation
+- **Offline Audio Support**: Generate audio files once, use offline forever
 - **Leitner System**: Scientifically proven spaced repetition for effective memorization
 - **Progress Tracking**: Your progress is saved automatically
+
+## How It Works
+
+1. **See a word** - A Vietnamese word appears on screen
+2. **Guess the pronunciation** - Try to say it out loud
+3. **Check your answer** - Click "Show Answer" to hear the correct pronunciation
+4. **Rate yourself** - Did you get it right? The Leitner System tracks your progress
 
 ## The Leitner System
 
@@ -45,6 +53,28 @@ python build.py
 # On Windows: dist/VietnameseVowels.exe
 # On Linux/Mac: dist/VietnameseVowels
 ```
+
+## Audio Setup
+
+The app supports two audio modes:
+
+### Online Mode (Default)
+- Uses Google Text-to-Speech
+- Requires internet connection
+- Works out of the box
+
+### Offline Mode (Recommended)
+Generate audio files once, then use offline forever:
+
+```bash
+# Generate all audio files (requires internet once)
+python generate_audio.py
+
+# This creates an 'audio' folder with .mp3 files
+# The app will automatically use these files
+```
+
+When building the executable, audio files are bundled automatically if they exist.
 
 ## Requirements
 

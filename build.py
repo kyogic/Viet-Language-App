@@ -48,6 +48,15 @@ def build_executable():
         "--exclude-module", "ssl",
     ])
 
+    # Include audio files if they exist
+    audio_dir = os.path.join(os.path.dirname(__file__), "audio")
+    if os.path.exists(audio_dir) and os.listdir(audio_dir):
+        print(f"Including audio files from: {audio_dir}")
+        cmd.extend(["--add-data", f"{audio_dir}{os.pathsep}audio"])
+    else:
+        print("No audio files found. App will use online TTS (requires internet).")
+        print("Run 'python generate_audio.py' first to create offline audio files.")
+
     # Add the main script
     cmd.append("vietnamese_vowels.py")
 
