@@ -309,47 +309,84 @@ class LeitnerSystem:
 class AudioPlayer:
     """Handles text-to-speech for Vietnamese pronunciation"""
 
-    def __init__(self):
+    def __init__(self, root=None):
+        self.root = root
         self.pygame_initialized = False
+        self.error_callback = None
         if AUDIO_AVAILABLE:
             try:
-                pygame.mixer.init()
+                pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
                 self.pygame_initialized = True
-            except:
-                pass
+            except Exception as e:
+                print(f"Pygame init error: {e}")
 
-    def speak(self, text):
+    def set_error_callback(self, callback):
+        """Set callback function for error reporting"""
+        self.error_callback = callback
+
+    def show_error(self, message):
+        """Show error to user"""
+        if self.error_callback:
+            self.error_callback(message)
+        else:
+            print(f"Audio error: {message}")
+
+    def speak(self, text, on_complete=None):
         """Convert text to speech and play it"""
-        if not AUDIO_AVAILABLE or not self.pygame_initialized:
-            messagebox.showinfo("Audio", f"Playing: '{text}'\n\n(Audio not available - install gtts and pygame for sound)")
+        if not AUDIO_AVAILABLE:
+            self.show_error(f"Audio libraries not installed.\nInstall with: pip install gtts pygame")
             return
 
+        if not self.pygame_initialized:
+            # Try to reinitialize
+            try:
+                pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
+                self.pygame_initialized = True
+            except Exception as e:
+                self.show_error(f"Could not initialize audio: {e}")
+                return
+
         def play_audio():
+            temp_path = None
             try:
                 # Create a temporary file for the audio
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as fp:
                     temp_path = fp.name
 
-                # Generate speech
-                tts = gTTS(text=text, lang='vi')
+                # Generate speech from Google TTS (requires internet)
+                tts = gTTS(text=text, lang='vi', slow=False)
                 tts.save(temp_path)
+
+                # Stop any currently playing audio
+                pygame.mixer.music.stop()
 
                 # Play the audio
                 pygame.mixer.music.load(temp_path)
+                pygame.mixer.music.set_volume(1.0)
                 pygame.mixer.music.play()
 
                 # Wait for playback to finish
                 while pygame.mixer.music.get_busy():
                     pygame.time.Clock().tick(10)
 
-                # Clean up
-                try:
-                    os.unlink(temp_path)
-                except:
-                    pass
+                # Callback when done
+                if on_complete:
+                    on_complete()
 
             except Exception as e:
-                print(f"Audio error: {e}")
+                error_msg = str(e)
+                if "No address associated" in error_msg or "getaddrinfo" in error_msg:
+                    self.show_error("No internet connection.\nAudio requires internet for Google TTS.")
+                else:
+                    self.show_error(f"Audio error: {error_msg}")
+            finally:
+                # Clean up temp file
+                if temp_path:
+                    try:
+                        pygame.mixer.music.unload()
+                        os.unlink(temp_path)
+                    except:
+                        pass
 
         # Run in a separate thread to avoid blocking UI
         thread = threading.Thread(target=play_audio)
@@ -369,10 +406,13 @@ class VietnameseVowelsApp:
         # Initialize systems
         self.leitner = LeitnerSystem()
         self.leitner.initialize_cards(list(VOWELS_DATA.keys()))
-        self.audio = AudioPlayer()
+        self.audio = AudioPlayer(root)
+        self.audio.set_error_callback(self.show_audio_error)
 
         # Current state
         self.current_vowel = None
+        self.current_word = None  # The example word being shown
+        self.current_word_data = None  # Full data for current word
         self.review_queue = []
         self.in_review_mode = False
         self.show_answer = False
@@ -381,6 +421,10 @@ class VietnameseVowelsApp:
         self.setup_styles()
         self.create_widgets()
         self.show_home()
+
+    def show_audio_error(self, message):
+        """Display audio error to user"""
+        messagebox.showwarning("Audio Error", message)
 
     def setup_styles(self):
         """Setup ttk styles"""
@@ -690,7 +734,7 @@ class VietnameseVowelsApp:
         self.show_next_card()
 
     def show_next_card(self):
-        """Show the next card in review queue"""
+        """Show the next card in review queue - shows a WORD first, then reveals the vowel"""
         self.clear_content()
         self.clear_nav()
 
@@ -700,6 +744,11 @@ class VietnameseVowelsApp:
 
         self.current_vowel = self.review_queue.pop(0)
         self.show_answer = False
+
+        # Pick a random example word for this vowel
+        data = VOWELS_DATA[self.current_vowel]
+        self.current_word_data = random.choice(data['examples'])
+        self.current_word = self.current_word_data['word']
 
         # Progress indicator
         remaining = len(self.review_queue)
@@ -713,25 +762,47 @@ class VietnameseVowelsApp:
         card_frame = ttk.Frame(self.content_frame, relief="raised", borderwidth=2)
         card_frame.pack(pady=20, padx=50, fill=tk.BOTH, expand=True)
 
-        # Vowel (question side)
+        # Instruction
         ttk.Label(
             card_frame,
-            text=self.current_vowel,
+            text="Listen to this word and identify the vowel:",
+            style='Description.TLabel'
+        ).pack(pady=(20, 10))
+
+        # Word display (question side) - show the word with its meaning
+        ttk.Label(
+            card_frame,
+            text=self.current_word,
             style='Vowel.TLabel'
-        ).pack(pady=30)
+        ).pack(pady=10)
 
-        data = VOWELS_DATA[self.current_vowel]
+        ttk.Label(
+            card_frame,
+            text=f"({self.current_word_data['meaning']})",
+            style='Description.TLabel'
+        ).pack(pady=5)
 
-        # Sound button
+        # Sound button - plays the WORD
         sound_btn = ttk.Button(
             card_frame,
-            text="🔊 Hear Sound",
+            text=f"🔊 Hear '{self.current_word}'",
             style='Big.TButton',
-            command=lambda: self.audio.speak(self.current_vowel)
+            command=lambda: self.audio.speak(self.current_word)
         )
-        sound_btn.pack(pady=10)
+        sound_btn.pack(pady=15)
 
-        # Show Answer button or Answer content
+        # Auto-play the word on card display
+        self.root.after(300, lambda: self.audio.speak(self.current_word))
+
+        # Hint about which vowel to identify
+        ttk.Label(
+            card_frame,
+            text="Which vowel sound do you hear?",
+            style='Description.TLabel',
+            font=('Helvetica', 12, 'italic')
+        ).pack(pady=10)
+
+        # Show Answer button
         self.answer_frame = ttk.Frame(card_frame)
         self.answer_frame.pack(fill=tk.BOTH, expand=True, pady=10)
 
@@ -751,46 +822,68 @@ class VietnameseVowelsApp:
         ).pack(side=tk.LEFT)
 
     def reveal_answer(self):
-        """Reveal the answer on the card"""
+        """Reveal the answer - shows the vowel and lets user hear it in isolation"""
         for widget in self.answer_frame.winfo_children():
             widget.destroy()
 
         data = VOWELS_DATA[self.current_vowel]
 
-        # IPA and description
+        # The vowel answer - big and prominent
         ttk.Label(
             self.answer_frame,
-            text=f"{data['ipa']}",
+            text="The vowel is:",
             style='Description.TLabel'
-        ).pack()
+        ).pack(pady=(5, 0))
 
         ttk.Label(
             self.answer_frame,
-            text=data['description'],
+            text=self.current_vowel,
+            font=('Helvetica', 48, 'bold')
+        ).pack(pady=5)
+
+        # IPA and description
+        ttk.Label(
+            self.answer_frame,
+            text=f"{data['ipa']} - {data['description']}",
             style='Description.TLabel',
             wraplength=500
         ).pack(pady=5)
 
-        # Example words
-        examples_text = " | ".join([f"{ex['word']} ({ex['meaning']})" for ex in data['examples'][:3]])
+        # Button to hear JUST the vowel sound
+        vowel_btn = ttk.Button(
+            self.answer_frame,
+            text=f"🔊 Hear vowel '{self.current_vowel}' by itself",
+            style='Big.TButton',
+            command=lambda: self.audio.speak(self.current_vowel)
+        )
+        vowel_btn.pack(pady=10)
+
+        # Also show the word again for comparison
         ttk.Label(
             self.answer_frame,
-            text=examples_text,
-            style='Word.TLabel',
-            wraplength=600
-        ).pack(pady=10)
-
-        # Play an example word
-        example_word = data['examples'][0]['word']
-        ttk.Button(
-            self.answer_frame,
-            text=f"🔊 Hear '{example_word}'",
-            command=lambda: self.audio.speak(example_word)
+            text=f"In the word: {self.current_word} ({self.current_word_data['meaning']})",
+            style='Description.TLabel'
         ).pack(pady=5)
+
+        # Button to replay the word
+        word_btn = ttk.Button(
+            self.answer_frame,
+            text=f"🔊 Hear word '{self.current_word}' again",
+            command=lambda: self.audio.speak(self.current_word)
+        )
+        word_btn.pack(pady=5)
+
+        # Did you get it right?
+        ttk.Label(
+            self.answer_frame,
+            text="Did you identify the vowel correctly?",
+            style='Description.TLabel',
+            font=('Helvetica', 12, 'bold')
+        ).pack(pady=(15, 5))
 
         # Correct/Wrong buttons
         btn_frame = ttk.Frame(self.answer_frame)
-        btn_frame.pack(pady=20)
+        btn_frame.pack(pady=10)
 
         wrong_btn = tk.Button(
             btn_frame,
