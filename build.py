@@ -42,10 +42,9 @@ def build_executable():
         "--hidden-import", "pygame.time",
     ])
 
-    # Exclude problematic modules
+    # Exclude problematic modules (but keep ssl for gTTS)
     cmd.extend([
         "--exclude-module", "cryptography",
-        "--exclude-module", "ssl",
     ])
 
     # Include audio files if they exist
