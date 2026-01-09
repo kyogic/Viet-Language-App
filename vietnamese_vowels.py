@@ -12,12 +12,12 @@ import sys
 import random
 import tempfile
 import threading
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 # Import content packs
 try:
-    from content_packs import CONTENT_PACKS, get_pack_data, get_all_pack_ids, get_pack_info
+    from content_packs import CONTENT_PACKS, get_pack_data, get_pack_info
     CONTENT_PACKS_AVAILABLE = True
 except ImportError:
     CONTENT_PACKS_AVAILABLE = False

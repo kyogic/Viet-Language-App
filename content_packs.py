@@ -1800,11 +1800,6 @@ def get_pack_data(pack_id):
     return {}
 
 
-def get_all_pack_ids():
-    """Get list of all available pack IDs"""
-    return list(CONTENT_PACKS.keys())
-
-
 def get_pack_info(pack_id):
     """Get metadata for a specific pack"""
     return CONTENT_PACKS.get(pack_id, {})
