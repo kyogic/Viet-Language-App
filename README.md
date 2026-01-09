@@ -1,14 +1,16 @@
 # Vietnamese Vowels Learning App
 
-A standalone application to learn Vietnamese vowels using the **Leitner System** for spaced repetition learning.
+A standalone application to learn Vietnamese vowels and tones using the **Leitner System** for spaced repetition learning.
 
 ## Features
 
-- **42 Vietnamese Vowels**: Complete coverage of Vietnamese vowel sounds
+- **48 Learning Cards**: Complete coverage of Vietnamese sounds
+  - 6 Tones: ngang, sắc, huyền, hỏi, ngã, nặng
   - 12 Monophthongs (single vowels): a, ă, â, e, ê, i, o, ô, ơ, u, ư, y
   - 19 Diphthongs (vowel pairs): ai, ao, au, ay, ây, eo, êu, ia, iu, oi, ôi, ơi, ua, uê, ui, uo, ưa, ưi, ưu
   - 11 Triphthongs (triple vowels): iêu, yêu, oai, oay, oao, oeo, uây, uôi, ươi, ươu, uya
-- **Example Words**: Each vowel comes with 4 common Vietnamese words and sentences
+- **Tone Comparison**: See how the same syllable changes meaning with different tones
+- **Example Words**: Each card comes with 4 common Vietnamese words and sentences
 - **Audio Pronunciation**: Native Vietnamese pronunciation via Google TTS
 - **Offline Audio Support**: Generate audio files once, use offline forever
 - **Leitner System**: Scientifically proven spaced repetition for effective memorization
@@ -89,7 +91,18 @@ When building the executable, audio files are bundled automatically if they exis
 - gtts (Google Text-to-Speech)
 - pygame (for audio playback)
 
-## Vietnamese Vowels Reference
+## Vietnamese Reference
+
+### The 6 Tones
+
+| Tone | Mark | Pitch | Example |
+|------|------|-------|---------|
+| Ngang | (none) | mid-level | ma (ghost) |
+| Sắc | ́ | rising | má (mother) |
+| Huyền | ̀ | falling | mà (but) |
+| Hỏi | ̉ | dipping-rising | mả (grave) |
+| Ngã | ̃ | broken-rising | mã (horse) |
+| Nặng | ̣ | low-falling | mạ (rice seedling) |
 
 ### Monophthongs (Single Vowels)
 
