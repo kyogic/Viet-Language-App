@@ -492,6 +492,127 @@ VOWELS_DATA = {
     },
 }
 
+# Vietnamese tones data - essential for reading comprehension
+TONES_DATA = {
+    # === THE 6 VIETNAMESE TONES ===
+    "ngang": {
+        "name": "Ngang",
+        "mark": "(no mark)",
+        "description": "Level tone - mid pitch, flat",
+        "ipa": "˧",
+        "category": "tone",
+        "pitch": "mid-level",
+        "examples": [
+            {"word": "ma", "meaning": "ghost", "sentence": "Con ma = The ghost"},
+            {"word": "ba", "meaning": "three / father", "sentence": "Ba người = Three people"},
+            {"word": "ta", "meaning": "we / us", "sentence": "Chúng ta = We"},
+            {"word": "la", "meaning": "to shout", "sentence": "La hét = To shout"},
+        ],
+        "tone_set": {
+            "ma": "ghost", "má": "mother/cheek", "mà": "but/which",
+            "mả": "grave/tomb", "mã": "horse/code", "mạ": "rice seedling"
+        }
+    },
+    "sắc": {
+        "name": "Sắc",
+        "mark": "́ (acute accent)",
+        "description": "Rising tone - starts mid, rises sharply",
+        "ipa": "˧˥",
+        "category": "tone",
+        "pitch": "rising",
+        "examples": [
+            {"word": "má", "meaning": "mother / cheek", "sentence": "Má tôi = My mother"},
+            {"word": "bá", "meaning": "aunt (father's older sister)", "sentence": "Bá sĩ = Doctor (old term)"},
+            {"word": "cá", "meaning": "fish", "sentence": "Con cá = The fish"},
+            {"word": "lá", "meaning": "leaf", "sentence": "Lá cây = Tree leaf"},
+        ],
+        "tone_set": {
+            "ma": "ghost", "má": "mother/cheek", "mà": "but/which",
+            "mả": "grave/tomb", "mã": "horse/code", "mạ": "rice seedling"
+        }
+    },
+    "huyền": {
+        "name": "Huyền",
+        "mark": "̀ (grave accent)",
+        "description": "Falling tone - starts mid, falls gradually",
+        "ipa": "˨˩",
+        "category": "tone",
+        "pitch": "falling",
+        "examples": [
+            {"word": "mà", "meaning": "but / which / that", "sentence": "Nhưng mà = But"},
+            {"word": "bà", "meaning": "grandmother / Mrs.", "sentence": "Bà nội = Paternal grandmother"},
+            {"word": "là", "meaning": "is / to be", "sentence": "Đây là = This is"},
+            {"word": "và", "meaning": "and", "sentence": "Tôi và bạn = Me and you"},
+        ],
+        "tone_set": {
+            "ma": "ghost", "má": "mother/cheek", "mà": "but/which",
+            "mả": "grave/tomb", "mã": "horse/code", "mạ": "rice seedling"
+        }
+    },
+    "hỏi": {
+        "name": "Hỏi",
+        "mark": "̉ (hook above)",
+        "description": "Dipping-rising tone - falls then rises (questioning)",
+        "ipa": "˧˩˧",
+        "category": "tone",
+        "pitch": "dipping-rising",
+        "examples": [
+            {"word": "mả", "meaning": "grave / tomb", "sentence": "Mả mồ = Grave"},
+            {"word": "bả", "meaning": "poison / she (Southern)", "sentence": "Thuốc bả = Poison"},
+            {"word": "cả", "meaning": "all / eldest", "sentence": "Tất cả = All"},
+            {"word": "ổ", "meaning": "nest / loaf", "sentence": "Ổ bánh mì = Loaf of bread"},
+        ],
+        "tone_set": {
+            "ma": "ghost", "má": "mother/cheek", "mà": "but/which",
+            "mả": "grave/tomb", "mã": "horse/code", "mạ": "rice seedling"
+        }
+    },
+    "ngã": {
+        "name": "Ngã",
+        "mark": "̃ (tilde)",
+        "description": "Rising glottalized - rises with a glottal stop",
+        "ipa": "˧˥ˀ",
+        "category": "tone",
+        "pitch": "broken-rising",
+        "examples": [
+            {"word": "mã", "meaning": "horse / code", "sentence": "Con mã = The horse"},
+            {"word": "bã", "meaning": "residue / pulp", "sentence": "Bã cà phê = Coffee grounds"},
+            {"word": "đã", "meaning": "already (past tense)", "sentence": "Đã xong = Already done"},
+            {"word": "cũ", "meaning": "old (things)", "sentence": "Đồ cũ = Old things"},
+        ],
+        "tone_set": {
+            "ma": "ghost", "má": "mother/cheek", "mà": "but/which",
+            "mả": "grave/tomb", "mã": "horse/code", "mạ": "rice seedling"
+        }
+    },
+    "nặng": {
+        "name": "Nặng",
+        "mark": "̣ (dot below)",
+        "description": "Low falling tone - short, low, with glottal stop",
+        "ipa": "˧˨ʔ",
+        "category": "tone",
+        "pitch": "low-falling",
+        "examples": [
+            {"word": "mạ", "meaning": "rice seedling", "sentence": "Cây mạ = Rice seedling"},
+            {"word": "bạ", "meaning": "register / record", "sentence": "Hộ bạ = Household register"},
+            {"word": "lạ", "meaning": "strange / unfamiliar", "sentence": "Người lạ = Stranger"},
+            {"word": "nặng", "meaning": "heavy", "sentence": "Rất nặng = Very heavy"},
+        ],
+        "tone_set": {
+            "ma": "ghost", "má": "mother/cheek", "mà": "but/which",
+            "mả": "grave/tomb", "mã": "horse/code", "mạ": "rice seedling"
+        }
+    },
+}
+
+# Combined data for the learning system
+def get_all_cards():
+    """Get all cards (vowels + tones) for the learning system"""
+    cards = {}
+    cards.update(VOWELS_DATA)
+    cards.update(TONES_DATA)
+    return cards
+
 
 class LeitnerSystem:
     """
@@ -827,7 +948,7 @@ class VietnameseVowelsApp:
 
         # Initialize systems
         self.leitner = LeitnerSystem()
-        self.leitner.initialize_cards(list(VOWELS_DATA.keys()))
+        self.leitner.initialize_cards(list(get_all_cards().keys()))
         self.audio = AudioPlayer(root)
         self.audio.set_error_callback(self.show_audio_error)
 
@@ -1210,7 +1331,7 @@ class VietnameseVowelsApp:
         self.update_stats_display()
 
     def show_browse(self):
-        """Show browsing mode - list all vowels with dark theme"""
+        """Show browsing mode - list all cards organized by category"""
         self.clear_content()
         self.clear_nav()
         self.in_review_mode = False
@@ -1219,65 +1340,131 @@ class VietnameseVowelsApp:
         # Title
         tk.Label(
             self.content_frame,
-            text="Browse Vietnamese Vowels",
+            text="Browse All Cards",
             font=('Segoe UI', 24, 'bold'),
             fg=c['text_bright'],
             bg=c['bg_dark']
-        ).pack(pady=15)
+        ).pack(pady=10)
 
-        # Vowels grid container
-        grid_frame = tk.Frame(self.content_frame, bg=c['bg_dark'])
-        grid_frame.pack(fill=tk.BOTH, expand=True, padx=40, pady=10)
+        # Create scrollable canvas
+        canvas = tk.Canvas(self.content_frame, bg=c['bg_dark'], highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg=c['bg_dark'])
 
-        # Grid of vowel cards
-        vowels = list(VOWELS_DATA.keys())
-        for i, vowel in enumerate(vowels):
-            row = i // 4
-            col = i % 4
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
 
-            box = self.leitner.get_card_box(vowel)
-            is_mastered = box == 5
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
 
-            # Card frame
-            card = tk.Frame(
-                grid_frame,
-                bg=c['bg_card'] if not is_mastered else c['bg_medium'],
-                padx=10,
-                pady=10
-            )
-            card.grid(row=row, column=col, padx=8, pady=8, sticky="nsew")
+        # Enable mouse wheel scrolling
+        def on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.bind_all("<MouseWheel>", on_mousewheel)
 
-            # Vowel button
-            btn_color = c['gold'] if is_mastered else c['accent_blue']
-            btn = tk.Button(
-                card,
-                text=vowel,
-                font=('Segoe UI', 32, 'bold'),
-                fg=c['text_bright'],
-                bg=btn_color,
-                activebackground=c['accent_hover'],
-                activeforeground=c['text_bright'],
-                bd=0,
-                width=3,
-                height=1,
-                cursor='hand2',
-                command=lambda v=vowel: self.show_vowel_detail(v)
-            )
-            btn.pack(pady=5)
+        canvas.pack(side="left", fill="both", expand=True, padx=20)
+        scrollbar.pack(side="right", fill="y")
 
-            # Box indicator
-            box_text = "★ MASTERED" if is_mastered else f"Box {box}"
+        # Get all cards and organize by category
+        all_cards = get_all_cards()
+        categories = {
+            "tone": ("TONES (6)", []),
+            "monophthong": ("MONOPHTHONGS - Single Vowels (12)", []),
+            "diphthong": ("DIPHTHONGS - Vowel Pairs (19)", []),
+            "triphthong": ("TRIPHTHONGS - Triple Vowels (11)", []),
+        }
+
+        for key, data in all_cards.items():
+            cat = data.get('category', 'monophthong')
+            if cat in categories:
+                categories[cat][1].append(key)
+
+        # Display each category
+        for cat_key in ["tone", "monophthong", "diphthong", "triphthong"]:
+            cat_name, items = categories[cat_key]
+            if not items:
+                continue
+
+            # Category header
+            cat_frame = tk.Frame(scrollable_frame, bg=c['bg_dark'])
+            cat_frame.pack(fill=tk.X, pady=(15, 5), padx=20)
+
             tk.Label(
-                card,
-                text=box_text,
-                font=('Segoe UI', 9),
-                fg=c['gold'] if is_mastered else c['text_secondary'],
-                bg=c['bg_card'] if not is_mastered else c['bg_medium']
-            ).pack()
+                cat_frame,
+                text=cat_name,
+                font=('Segoe UI', 14, 'bold'),
+                fg=c['accent_hover'],
+                bg=c['bg_dark']
+            ).pack(anchor=tk.W)
 
-        # Configure grid weights
-        for col in range(4):
-            grid_frame.columnconfigure(col, weight=1)
+            # Grid for this category
+            grid_frame = tk.Frame(scrollable_frame, bg=c['bg_dark'])
+            grid_frame.pack(fill=tk.X, padx=20, pady=5)
+
+            cols = 6 if cat_key == "tone" else 6
+            for i, item in enumerate(items):
+                row = i // cols
+                col = i % cols
+
+                box = self.leitner.get_card_box(item)
+                is_mastered = box == 5
+                data = all_cards[item]
+
+                # Card frame
+                card = tk.Frame(
+                    grid_frame,
+                    bg=c['bg_card'] if not is_mastered else c['bg_medium'],
+                    padx=8,
+                    pady=8
+                )
+                card.grid(row=row, column=col, padx=4, pady=4, sticky="nsew")
+
+                # Display text (use name for tones, key for vowels)
+                display_text = data.get('name', item) if cat_key == "tone" else item
+                font_size = 14 if cat_key == "tone" else 24
+
+                # Button
+                btn_color = c['gold'] if is_mastered else (c['success'] if cat_key == "tone" else c['accent_blue'])
+                btn = tk.Button(
+                    card,
+                    text=display_text,
+                    font=('Segoe UI', font_size, 'bold'),
+                    fg=c['text_bright'],
+                    bg=btn_color,
+                    activebackground=c['accent_hover'],
+                    activeforeground=c['text_bright'],
+                    bd=0,
+                    width=6 if cat_key == "tone" else 3,
+                    cursor='hand2',
+                    command=lambda v=item: self.show_vowel_detail(v)
+                )
+                btn.pack(pady=3)
+
+                # Tone mark indicator for tones
+                if cat_key == "tone":
+                    tk.Label(
+                        card,
+                        text=data.get('mark', ''),
+                        font=('Segoe UI', 9),
+                        fg=c['text_secondary'],
+                        bg=c['bg_card'] if not is_mastered else c['bg_medium']
+                    ).pack()
+                else:
+                    # Box indicator
+                    box_text = "★" if is_mastered else f"Box {box}"
+                    tk.Label(
+                        card,
+                        text=box_text,
+                        font=('Segoe UI', 9),
+                        fg=c['gold'] if is_mastered else c['text_secondary'],
+                        bg=c['bg_card'] if not is_mastered else c['bg_medium']
+                    ).pack()
+
+            # Configure grid weights
+            for col in range(cols):
+                grid_frame.columnconfigure(col, weight=1)
 
         # Navigation buttons
         back_btn = tk.Button(
@@ -1313,27 +1500,67 @@ class VietnameseVowelsApp:
         home_btn.pack(side=tk.RIGHT)
 
     def show_vowel_detail(self, vowel):
-        """Show detailed view of a single vowel with dark theme"""
+        """Show detailed view of a single vowel or tone with dark theme"""
         self.clear_content()
         self.clear_nav()
         c = self.COLORS
 
-        data = VOWELS_DATA[vowel]
+        data = get_all_cards()[vowel]
         box = self.leitner.get_card_box(vowel)
         is_mastered = box == 5
+        is_tone = data.get('category') == 'tone'
 
-        # Main card
-        card = tk.Frame(self.content_frame, bg=c['bg_card'], padx=40, pady=30)
-        card.pack(fill=tk.BOTH, expand=True, padx=30, pady=10)
+        # Create scrollable canvas for tones (they have more content)
+        if is_tone:
+            canvas = tk.Canvas(self.content_frame, bg=c['bg_card'], highlightthickness=0)
+            scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
+            card = tk.Frame(canvas, bg=c['bg_card'], padx=40, pady=30)
+            canvas.create_window((0, 0), window=card, anchor="nw")
+            canvas.configure(yscrollcommand=scrollbar.set)
+            card.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+            canvas.pack(side="left", fill="both", expand=True, padx=30, pady=10)
+            scrollbar.pack(side="right", fill="y")
+        else:
+            # Main card for vowels
+            card = tk.Frame(self.content_frame, bg=c['bg_card'], padx=40, pady=30)
+            card.pack(fill=tk.BOTH, expand=True, padx=30, pady=10)
 
-        # Vowel display
-        tk.Label(
-            card,
-            text=vowel,
-            font=('Segoe UI', 80, 'bold'),
-            fg=c['gold'] if is_mastered else c['accent_hover'],
-            bg=c['bg_card']
-        ).pack(pady=(0, 5))
+        if is_tone:
+            # Tone display - show name prominently
+            tk.Label(
+                card,
+                text=data.get('name', vowel),
+                font=('Segoe UI', 48, 'bold'),
+                fg=c['gold'] if is_mastered else c['success'],
+                bg=c['bg_card']
+            ).pack(pady=(0, 5))
+
+            # Tone mark
+            tk.Label(
+                card,
+                text=f"Mark: {data.get('mark', '')}",
+                font=('Segoe UI', 18),
+                fg=c['accent_hover'],
+                bg=c['bg_card']
+            ).pack()
+
+            # Pitch description
+            tk.Label(
+                card,
+                text=f"Pitch: {data.get('pitch', '')}",
+                font=('Segoe UI', 14),
+                fg=c['text_secondary'],
+                bg=c['bg_card']
+            ).pack(pady=5)
+        else:
+            # Vowel display
+            tk.Label(
+                card,
+                text=vowel,
+                font=('Segoe UI', 80, 'bold'),
+                fg=c['gold'] if is_mastered else c['accent_hover'],
+                bg=c['bg_card']
+            ).pack(pady=(0, 5))
 
         tk.Label(
             card,
@@ -1343,10 +1570,22 @@ class VietnameseVowelsApp:
             bg=c['bg_card']
         ).pack()
 
-        # Pronunciation button
+        # Description
+        if data.get('description'):
+            tk.Label(
+                card,
+                text=data['description'],
+                font=('Segoe UI', 14),
+                fg=c['text_primary'],
+                bg=c['bg_card'],
+                wraplength=500
+            ).pack(pady=10)
+
+        # Pronunciation button - for tones, play an example word
+        example_word = data['examples'][0]['word'] if data.get('examples') else vowel
         sound_btn = tk.Button(
             card,
-            text="🔊  HEAR PRONUNCIATION",
+            text=f"🔊  HEAR EXAMPLE ({example_word})",
             font=('Segoe UI', 12, 'bold'),
             fg=c['text_bright'],
             bg=c['accent_blue'],
@@ -1355,19 +1594,9 @@ class VietnameseVowelsApp:
             padx=25,
             pady=10,
             cursor='hand2',
-            command=lambda: self.audio.speak(vowel)
+            command=lambda w=example_word: self.audio.speak(w)
         )
         sound_btn.pack(pady=15)
-
-        # Description
-        tk.Label(
-            card,
-            text=data['description'],
-            font=('Segoe UI', 14),
-            fg=c['text_primary'],
-            bg=c['bg_card'],
-            wraplength=500
-        ).pack(pady=10)
 
         # Status badge
         status_text = "★ MASTERED" if is_mastered else f"Box {box}"
@@ -1381,6 +1610,47 @@ class VietnameseVowelsApp:
             padx=15,
             pady=5
         ).pack(pady=10)
+
+        # Tone comparison section (only for tones)
+        if is_tone and data.get('tone_set'):
+            tone_card = tk.Frame(card, bg=c['bg_medium'], padx=20, pady=15)
+            tone_card.pack(fill=tk.X, pady=15)
+
+            tk.Label(
+                tone_card,
+                text="TONE COMPARISON - Same syllable, different tones:",
+                font=('Segoe UI', 11, 'bold'),
+                fg=c['accent_hover'],
+                bg=c['bg_medium']
+            ).pack(anchor=tk.W, pady=(0, 10))
+
+            tone_grid = tk.Frame(tone_card, bg=c['bg_medium'])
+            tone_grid.pack(fill=tk.X)
+
+            for i, (word, meaning) in enumerate(data['tone_set'].items()):
+                tone_item = tk.Frame(tone_grid, bg=c['bg_light'], padx=10, pady=5)
+                tone_item.grid(row=0, column=i, padx=3, pady=3)
+
+                word_btn = tk.Button(
+                    tone_item,
+                    text=word,
+                    font=('Segoe UI', 16, 'bold'),
+                    fg=c['text_bright'],
+                    bg=c['bg_light'],
+                    activebackground=c['accent_blue'],
+                    bd=0,
+                    cursor='hand2',
+                    command=lambda w=word: self.audio.speak(w)
+                )
+                word_btn.pack()
+
+                tk.Label(
+                    tone_item,
+                    text=meaning,
+                    font=('Segoe UI', 9),
+                    fg=c['text_secondary'],
+                    bg=c['bg_light']
+                ).pack()
 
         # Examples section
         examples_card = tk.Frame(card, bg=c['bg_medium'], padx=20, pady=15)
@@ -1483,7 +1753,7 @@ class VietnameseVowelsApp:
         self.show_answer = False
 
         # Pick a random example word for this vowel
-        data = VOWELS_DATA[self.current_vowel]
+        data = get_all_cards()[self.current_vowel]
         self.current_word_data = random.choice(data['examples'])
         self.current_word = self.current_word_data['word']
 
@@ -1606,7 +1876,7 @@ class VietnameseVowelsApp:
             widget.destroy()
 
         c = self.COLORS
-        data = VOWELS_DATA[self.current_vowel]
+        data = get_all_cards()[self.current_vowel]
 
         # Play the word pronunciation automatically
         self.root.after(100, lambda: self.audio.speak(self.current_word))
