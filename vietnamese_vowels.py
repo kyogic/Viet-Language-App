@@ -555,6 +555,24 @@ class LeitnerSystem:
         except Exception as e:
             print(f"Could not save progress: {e}")
 
+    def reset_progress(self):
+        """Reset all progress - move all cards back to box 1 and clear stats"""
+        # Collect all cards from all boxes
+        all_cards = []
+        for box in self.boxes.values():
+            all_cards.extend(box)
+
+        # Reset boxes
+        self.boxes = {1: all_cards, 2: [], 3: [], 4: [], 5: []}
+        self.session_count = 0
+        self.stats = {
+            "total_reviews": 0,
+            "correct_answers": 0,
+            "wrong_answers": 0,
+            "last_session": None
+        }
+        self.save_progress()
+
     def initialize_cards(self, vowels):
         """Initialize all vowels in box 1 if not already present"""
         all_cards = set()
@@ -800,8 +818,12 @@ class VietnameseVowelsApp:
         self.root = root
         self.root.title("Vietnamese Vowels - Leitner Learning System")
         self.root.geometry("950x750")
-        self.root.minsize(850, 650)
+        self.root.minsize(600, 500)
         self.root.configure(bg=self.COLORS['bg_dark'])
+
+        # Make window responsive
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
 
         # Initialize systems
         self.leitner = LeitnerSystem()
@@ -1141,6 +1163,23 @@ class VietnameseVowelsApp:
         )
         browse_btn.pack(pady=8)
 
+        # Reset progress button
+        reset_btn = tk.Button(
+            btn_frame,
+            text="RESET PROGRESS",
+            font=('Segoe UI', 10, 'bold'),
+            fg=c['text_secondary'],
+            bg=c['bg_medium'],
+            activebackground=c['error'],
+            activeforeground=c['text_bright'],
+            bd=0,
+            padx=25,
+            pady=8,
+            cursor='hand2',
+            command=self.confirm_reset_progress
+        )
+        reset_btn.pack(pady=8)
+
         # Leitner info card
         info_card = tk.Frame(container, bg=c['bg_card'], padx=25, pady=15)
         info_card.pack(fill=tk.X, pady=20)
@@ -1240,10 +1279,10 @@ class VietnameseVowelsApp:
         for col in range(4):
             grid_frame.columnconfigure(col, weight=1)
 
-        # Back button
+        # Navigation buttons
         back_btn = tk.Button(
             self.nav_frame,
-            text="← BACK TO HOME",
+            text="← BACK",
             font=('Segoe UI', 11, 'bold'),
             fg=c['text_primary'],
             bg=c['bg_medium'],
@@ -1256,6 +1295,22 @@ class VietnameseVowelsApp:
             command=self.show_home
         )
         back_btn.pack(side=tk.LEFT)
+
+        home_btn = tk.Button(
+            self.nav_frame,
+            text="HOME",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            activeforeground=c['text_bright'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.show_home
+        )
+        home_btn.pack(side=tk.RIGHT)
 
     def show_vowel_detail(self, vowel):
         """Show detailed view of a single vowel with dark theme"""
@@ -1513,7 +1568,7 @@ class VietnameseVowelsApp:
         )
         show_btn.pack(pady=20)
 
-        # End session button
+        # Navigation buttons
         end_btn = tk.Button(
             self.nav_frame,
             text="END SESSION",
@@ -1528,6 +1583,22 @@ class VietnameseVowelsApp:
             command=self.end_review
         )
         end_btn.pack(side=tk.LEFT)
+
+        home_btn = tk.Button(
+            self.nav_frame,
+            text="HOME",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            activeforeground=c['text_bright'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.show_home
+        )
+        home_btn.pack(side=tk.RIGHT)
 
     def reveal_answer(self):
         """Reveal the answer with dark theme styling"""
@@ -1624,39 +1695,54 @@ class VietnameseVowelsApp:
             bg=c['bg_card']
         ).pack(pady=(10, 15))
 
-        # Correct/Wrong buttons
+        # Correct/Wrong/Repeat buttons
         btn_frame = tk.Frame(self.answer_frame, bg=c['bg_card'])
         btn_frame.pack(pady=10)
 
         wrong_btn = tk.Button(
             btn_frame,
             text="✗  WRONG",
-            font=('Segoe UI', 13, 'bold'),
+            font=('Segoe UI', 12, 'bold'),
             fg=c['text_bright'],
             bg=c['error'],
             activebackground=c['error_hover'],
             bd=0,
-            padx=35,
+            padx=25,
             pady=12,
             cursor='hand2',
             command=self.mark_wrong
         )
-        wrong_btn.pack(side=tk.LEFT, padx=15)
+        wrong_btn.pack(side=tk.LEFT, padx=8)
+
+        repeat_btn = tk.Button(
+            btn_frame,
+            text="↻  REPEAT",
+            font=('Segoe UI', 12, 'bold'),
+            fg=c['text_bright'],
+            bg=c['accent_blue'],
+            activebackground=c['accent_hover'],
+            bd=0,
+            padx=25,
+            pady=12,
+            cursor='hand2',
+            command=self.add_back_to_deck
+        )
+        repeat_btn.pack(side=tk.LEFT, padx=8)
 
         correct_btn = tk.Button(
             btn_frame,
             text="✓  CORRECT",
-            font=('Segoe UI', 13, 'bold'),
+            font=('Segoe UI', 12, 'bold'),
             fg=c['text_bright'],
             bg=c['success'],
             activebackground=c['success_hover'],
             bd=0,
-            padx=35,
+            padx=25,
             pady=12,
             cursor='hand2',
             command=self.mark_correct
         )
-        correct_btn.pack(side=tk.LEFT, padx=15)
+        correct_btn.pack(side=tk.LEFT, padx=8)
 
     def mark_correct(self):
         """Mark current card as correct"""
@@ -1670,6 +1756,12 @@ class VietnameseVowelsApp:
         if self.current_vowel:
             self.leitner.card_wrong(self.current_vowel)
             self.update_stats_display()
+        self.show_next_card()
+
+    def add_back_to_deck(self):
+        """Add current card back to the end of the review queue without scoring"""
+        if self.current_vowel:
+            self.review_queue.append(self.current_vowel)
         self.show_next_card()
 
     def end_review(self):
@@ -1686,6 +1778,23 @@ class VietnameseVowelsApp:
         )
 
         self.show_home()
+
+    def confirm_reset_progress(self):
+        """Ask for confirmation before resetting progress"""
+        result = messagebox.askyesno(
+            "Reset Progress",
+            "Are you sure you want to reset ALL progress?\n\n"
+            "This will:\n"
+            "• Move all cards back to Box 1\n"
+            "• Reset your session count to 0\n"
+            "• Clear all statistics\n\n"
+            "This action cannot be undone!"
+        )
+        if result:
+            self.leitner.reset_progress()
+            self.update_stats_display()
+            messagebox.showinfo("Progress Reset", "All progress has been reset.")
+            self.show_home()
 
 
 def main():
