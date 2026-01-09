@@ -4,19 +4,28 @@ A standalone application to learn Vietnamese vowels using the **Leitner System**
 
 ## Features
 
-- **12 Vietnamese Vowels**: Learn all Vietnamese vowels (a, ă, â, e, ê, i, o, ô, ơ, u, ư, y)
-- **Example Words**: Each vowel comes with common Vietnamese words
-- **Audio Pronunciation**: Native Vietnamese pronunciation
+- **42 Vietnamese Vowels**: Complete coverage of Vietnamese vowel sounds
+  - 12 Monophthongs (single vowels): a, ă, â, e, ê, i, o, ô, ơ, u, ư, y
+  - 19 Diphthongs (vowel pairs): ai, ao, au, ay, ây, eo, êu, ia, iu, oi, ôi, ơi, ua, uê, ui, uo, ưa, ưi, ưu
+  - 11 Triphthongs (triple vowels): iêu, yêu, oai, oay, oao, oeo, uây, uôi, ươi, ươu, uya
+- **Example Words**: Each vowel comes with 4 common Vietnamese words and sentences
+- **Audio Pronunciation**: Native Vietnamese pronunciation via Google TTS
 - **Offline Audio Support**: Generate audio files once, use offline forever
 - **Leitner System**: Scientifically proven spaced repetition for effective memorization
 - **Progress Tracking**: Your progress is saved automatically
+- **Reset Progress**: Start fresh anytime with the reset button
+- **Responsive UI**: Works in both fullscreen and windowed mode
+- **Steam-Inspired Dark Theme**: Easy on the eyes for extended study sessions
 
 ## How It Works
 
 1. **See a word** - A Vietnamese word appears on screen
 2. **Guess the pronunciation** - Try to say it out loud
 3. **Check your answer** - Click "Show Answer" to hear the correct pronunciation
-4. **Rate yourself** - Did you get it right? The Leitner System tracks your progress
+4. **Rate yourself** - Three options:
+   - **Wrong** - Card goes back to Box 1 for more practice
+   - **Repeat** - Card goes to end of current deck (no scoring)
+   - **Correct** - Card advances to the next box
 
 ## The Leitner System
 
@@ -27,9 +36,6 @@ The app uses the Leitner System with 5 boxes:
 - **Box 3**: Review every 4 sessions
 - **Box 4**: Review every 8 sessions
 - **Box 5**: Review every 16 sessions (mastered!)
-
-- ✓ **Correct answer**: Card moves to the next box
-- ✗ **Wrong answer**: Card goes back to Box 1
 
 ## Running the App
 
@@ -83,27 +89,67 @@ When building the executable, audio files are bundled automatically if they exis
 - gtts (Google Text-to-Speech)
 - pygame (for audio playback)
 
-## Vietnamese Vowels Chart
+## Vietnamese Vowels Reference
 
-| Vowel | IPA | Sound Like |
-|-------|-----|------------|
-| a | /aː/ | 'a' in father |
-| ă | /a/ | 'u' in cut (short) |
-| â | /ə/ | 'u' in but (very short) |
-| e | /ɛ/ | 'e' in bed |
-| ê | /e/ | 'ay' in say (no glide) |
-| i/y | /i/ | 'ee' in see |
-| o | /ɔ/ | 'o' in hot (British) |
-| ô | /o/ | 'o' in go (no glide) |
-| ơ | /əː/ | 'u' in fur (no r) |
-| u | /u/ | 'oo' in food |
-| ư | /ɯ/ | 'oo' with unrounded lips |
+### Monophthongs (Single Vowels)
+
+| Vowel | IPA |
+|-------|-----|
+| a | /aː/ |
+| ă | /a/ |
+| â | /ə/ |
+| e | /ɛ/ |
+| ê | /e/ |
+| i/y | /i/ |
+| o | /ɔ/ |
+| ô | /o/ |
+| ơ | /əː/ |
+| u | /u/ |
+| ư | /ɯ/ |
+
+### Diphthongs (Vowel Pairs)
+
+| Vowel | IPA | Example |
+|-------|-----|---------|
+| ai | /aːj/ | hai (two) |
+| ao | /aːw/ | sao (star) |
+| au | /aw/ | sau (after) |
+| ay | /aj/ | tay (hand) |
+| ây | /əj/ | đây (here) |
+| eo | /ɛw/ | mèo (cat) |
+| êu | /ew/ | kêu (to call) |
+| ia | /iə/ | chia (to share) |
+| iu | /iw/ | dịu (gentle) |
+| oi | /ɔj/ | nói (to speak) |
+| ôi | /oj/ | tôi (I/me) |
+| ơi | /əːj/ | mới (new) |
+| ua | /uə/ | mua (to buy) |
+| uê | /ue/ | quê (hometown) |
+| ui | /uj/ | vui (happy) |
+| ưa | /ɯə/ | mưa (rain) |
+| ưi | /ɯj/ | gửi (to send) |
+| ưu | /ɯw/ | lưu (to save) |
+
+### Triphthongs (Triple Vowels)
+
+| Vowel | IPA | Example |
+|-------|-----|---------|
+| iêu | /iəw/ | nhiều (many) |
+| yêu | /iəw/ | yêu (to love) |
+| oai | /waːj/ | ngoài (outside) |
+| oay | /waj/ | xoay (to rotate) |
+| uôi | /uəj/ | đuôi (tail) |
+| ươi | /ɯəj/ | người (person) |
+| ươu | /ɯəw/ | rượu (alcohol) |
+| uya | /wiə/ | khuya (late night) |
 
 ## Progress Storage
 
 Your learning progress is saved to:
 - **Linux/Mac**: `~/.vietnamese_vowels/vowels_progress.json`
 - **Windows**: `C:\Users\<you>\.vietnamese_vowels\vowels_progress.json`
+
+Use the **Reset Progress** button on the home screen to start fresh.
 
 ## License
 
