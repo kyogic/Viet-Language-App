@@ -18,6 +18,9 @@ A standalone application to learn Vietnamese vowels and tones using the **Leitne
 - **Reset Progress**: Start fresh anytime with the reset button
 - **Responsive UI**: Works in both fullscreen and windowed mode
 - **Steam-Inspired Dark Theme**: Easy on the eyes for extended study sessions
+- **Downloadable Content Packs**: Expand your vocabulary with specialized packs:
+  - Manga, Fiction & Fantasy Pack (500+ words): Onomatopoeia, emotions, action words, fantasy terms
+  - Self-Help & Personal Development Pack (300+ words): Mindset, goals, habits, productivity vocabulary
 
 ## How It Works
 
@@ -38,6 +41,26 @@ The app uses the Leitner System with 5 boxes:
 - **Box 3**: Review every 4 sessions
 - **Box 4**: Review every 8 sessions
 - **Box 5**: Review every 16 sessions (mastered!)
+
+## Content Packs
+
+Expand your vocabulary beyond vowels and tones with downloadable content packs:
+
+### Available Packs
+
+| Pack | Words | Description |
+|------|-------|-------------|
+| Manga, Fiction & Fantasy | 500+ | Onomatopoeia (bùm, xoẹt), exclamations (trời ơi!), action verbs, emotions, fantasy/manga terminology |
+| Self-Help & Personal Development | 300+ | Mindset, goals, habits, productivity, relationships, finance vocabulary |
+
+### How to Use Content Packs
+
+1. Click **CONTENT PACKS** on the home screen
+2. Browse available packs and click **DOWNLOAD & INSTALL**
+3. Click **STUDY NOW** to start learning pack vocabulary
+4. Toggle packs on/off or reset progress as needed
+
+Each pack has its own Leitner box system, so your progress is tracked separately.
 
 ## Running the App
 
@@ -162,7 +185,10 @@ Your learning progress is saved to:
 - **Linux/Mac**: `~/.vietnamese_vowels/vowels_progress.json`
 - **Windows**: `C:\Users\<you>\.vietnamese_vowels\vowels_progress.json`
 
-Use the **Reset Progress** button on the home screen to start fresh.
+Content pack progress is saved separately in `content_packs_state.json` in the same directory.
+
+Use the **Reset Progress** button on the home screen to start fresh (vowels/tones only).
+Use the **Reset** button in Content Packs to reset individual pack progress.
 
 ## License
 

@@ -15,6 +15,14 @@ import threading
 from datetime import datetime, timedelta
 from pathlib import Path
 
+# Import content packs
+try:
+    from content_packs import CONTENT_PACKS, get_pack_data, get_all_pack_ids, get_pack_info
+    CONTENT_PACKS_AVAILABLE = True
+except ImportError:
+    CONTENT_PACKS_AVAILABLE = False
+    CONTENT_PACKS = {}
+
 # Try to import audio libraries
 try:
     from gtts import gTTS
@@ -913,6 +921,188 @@ class AudioPlayer:
         thread.start()
 
 
+class ContentPackManager:
+    """Manages downloadable content packs for vocabulary expansion"""
+
+    def __init__(self, save_file="content_packs_state.json"):
+        self.save_file = save_file
+        self.downloaded_packs = set()
+        self.enabled_packs = set()
+        self.pack_progress = {}  # Stores Leitner box positions for pack words
+        self.load_state()
+
+    def get_save_path(self):
+        """Get the path for saving pack state"""
+        home = Path.home()
+        save_dir = home / ".vietnamese_vowels"
+        try:
+            save_dir.mkdir(exist_ok=True)
+            return save_dir / self.save_file
+        except:
+            return Path(self.save_file)
+
+    def load_state(self):
+        """Load pack state from file"""
+        save_path = self.get_save_path()
+        try:
+            if save_path.exists():
+                with open(save_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    self.downloaded_packs = set(data.get('downloaded', []))
+                    self.enabled_packs = set(data.get('enabled', []))
+                    self.pack_progress = data.get('progress', {})
+        except Exception as e:
+            print(f"Could not load pack state: {e}")
+
+    def save_state(self):
+        """Save pack state to file"""
+        save_path = self.get_save_path()
+        try:
+            data = {
+                'downloaded': list(self.downloaded_packs),
+                'enabled': list(self.enabled_packs),
+                'progress': self.pack_progress
+            }
+            with open(save_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"Could not save pack state: {e}")
+
+    def download_pack(self, pack_id):
+        """Download/enable a content pack"""
+        if pack_id in CONTENT_PACKS:
+            self.downloaded_packs.add(pack_id)
+            self.enabled_packs.add(pack_id)
+            # Initialize progress for all words in pack
+            pack_data = get_pack_data(pack_id)
+            if pack_id not in self.pack_progress:
+                self.pack_progress[pack_id] = {
+                    'boxes': {1: list(pack_data.keys()), 2: [], 3: [], 4: [], 5: []},
+                    'stats': {'total_reviews': 0, 'correct': 0, 'wrong': 0}
+                }
+            self.save_state()
+            return True
+        return False
+
+    def remove_pack(self, pack_id):
+        """Remove a downloaded pack"""
+        self.downloaded_packs.discard(pack_id)
+        self.enabled_packs.discard(pack_id)
+        self.save_state()
+
+    def toggle_pack(self, pack_id):
+        """Toggle a pack on/off"""
+        if pack_id in self.enabled_packs:
+            self.enabled_packs.discard(pack_id)
+        else:
+            self.enabled_packs.add(pack_id)
+        self.save_state()
+
+    def is_downloaded(self, pack_id):
+        return pack_id in self.downloaded_packs
+
+    def is_enabled(self, pack_id):
+        return pack_id in self.enabled_packs
+
+    def get_pack_cards_for_review(self, pack_id, session_count):
+        """Get cards due for review from a specific pack"""
+        if pack_id not in self.pack_progress:
+            return []
+
+        boxes = self.pack_progress[pack_id]['boxes']
+        cards = []
+
+        # Box 1: Every session
+        cards.extend([(pack_id, w) for w in boxes.get('1', boxes.get(1, []))])
+
+        # Box 2: Every 2 sessions
+        if session_count % 2 == 0:
+            cards.extend([(pack_id, w) for w in boxes.get('2', boxes.get(2, []))])
+
+        # Box 3: Every 4 sessions
+        if session_count % 4 == 0:
+            cards.extend([(pack_id, w) for w in boxes.get('3', boxes.get(3, []))])
+
+        # Box 4: Every 8 sessions
+        if session_count % 8 == 0:
+            cards.extend([(pack_id, w) for w in boxes.get('4', boxes.get(4, []))])
+
+        # Box 5: Every 16 sessions
+        if session_count % 16 == 0:
+            cards.extend([(pack_id, w) for w in boxes.get('5', boxes.get(5, []))])
+
+        return cards
+
+    def card_correct(self, pack_id, word):
+        """Move card to next box"""
+        if pack_id not in self.pack_progress:
+            return
+
+        boxes = self.pack_progress[pack_id]['boxes']
+        # Convert keys to strings for consistency
+        boxes = {str(k): v for k, v in boxes.items()}
+
+        for box_num in ['1', '2', '3', '4', '5']:
+            if word in boxes.get(box_num, []):
+                boxes[box_num].remove(word)
+                next_box = str(min(int(box_num) + 1, 5))
+                if next_box not in boxes:
+                    boxes[next_box] = []
+                boxes[next_box].append(word)
+                break
+
+        self.pack_progress[pack_id]['boxes'] = boxes
+        self.pack_progress[pack_id]['stats']['total_reviews'] += 1
+        self.pack_progress[pack_id]['stats']['correct'] += 1
+        self.save_state()
+
+    def card_wrong(self, pack_id, word):
+        """Move card back to box 1"""
+        if pack_id not in self.pack_progress:
+            return
+
+        boxes = self.pack_progress[pack_id]['boxes']
+        boxes = {str(k): v for k, v in boxes.items()}
+
+        for box_num in ['2', '3', '4', '5']:
+            if word in boxes.get(box_num, []):
+                boxes[box_num].remove(word)
+                if '1' not in boxes:
+                    boxes['1'] = []
+                boxes['1'].append(word)
+                break
+
+        self.pack_progress[pack_id]['boxes'] = boxes
+        self.pack_progress[pack_id]['stats']['total_reviews'] += 1
+        self.pack_progress[pack_id]['stats']['wrong'] += 1
+        self.save_state()
+
+    def get_pack_stats(self, pack_id):
+        """Get statistics for a specific pack"""
+        if pack_id not in self.pack_progress:
+            return {'total': 0, 'mastered': 0, 'learning': 0, 'new': 0}
+
+        boxes = self.pack_progress[pack_id]['boxes']
+        boxes = {str(k): v for k, v in boxes.items()}
+
+        return {
+            'total': sum(len(v) for v in boxes.values()),
+            'mastered': len(boxes.get('5', [])),
+            'learning': sum(len(boxes.get(str(i), [])) for i in range(2, 5)),
+            'new': len(boxes.get('1', []))
+        }
+
+    def reset_pack_progress(self, pack_id):
+        """Reset progress for a specific pack"""
+        if pack_id in self.pack_progress:
+            pack_data = get_pack_data(pack_id)
+            self.pack_progress[pack_id] = {
+                'boxes': {1: list(pack_data.keys()), 2: [], 3: [], 4: [], 5: []},
+                'stats': {'total_reviews': 0, 'correct': 0, 'wrong': 0}
+            }
+            self.save_state()
+
+
 class VietnameseVowelsApp:
     """Main application class"""
 
@@ -951,6 +1141,7 @@ class VietnameseVowelsApp:
         self.leitner.initialize_cards(list(get_all_cards().keys()))
         self.audio = AudioPlayer(root)
         self.audio.set_error_callback(self.show_audio_error)
+        self.pack_manager = ContentPackManager() if CONTENT_PACKS_AVAILABLE else None
 
         # Current state
         self.current_vowel = None
@@ -1283,6 +1474,24 @@ class VietnameseVowelsApp:
             command=self.show_browse
         )
         browse_btn.pack(pady=8)
+
+        # Content Packs button
+        if CONTENT_PACKS_AVAILABLE:
+            packs_btn = tk.Button(
+                btn_frame,
+                text="CONTENT PACKS",
+                font=('Segoe UI', 12, 'bold'),
+                fg=c['text_bright'],
+                bg=c['bg_medium'],
+                activebackground=c['accent_hover'],
+                activeforeground=c['text_bright'],
+                bd=0,
+                padx=35,
+                pady=12,
+                cursor='hand2',
+                command=self.show_content_packs
+            )
+            packs_btn.pack(pady=8)
 
         # Reset progress button
         reset_btn = tk.Button(
@@ -2065,6 +2274,700 @@ class VietnameseVowelsApp:
             self.update_stats_display()
             messagebox.showinfo("Progress Reset", "All progress has been reset.")
             self.show_home()
+
+    def show_content_packs(self):
+        """Show content packs browser"""
+        self.clear_content()
+        self.clear_nav()
+        self.in_review_mode = False
+        c = self.COLORS
+
+        # Title
+        tk.Label(
+            self.content_frame,
+            text="Content Packs",
+            font=('Segoe UI', 24, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_dark']
+        ).pack(pady=10)
+
+        tk.Label(
+            self.content_frame,
+            text="Download vocabulary packs to expand your learning",
+            font=('Segoe UI', 12),
+            fg=c['text_secondary'],
+            bg=c['bg_dark']
+        ).pack(pady=(0, 20))
+
+        # Create scrollable canvas
+        canvas = tk.Canvas(self.content_frame, bg=c['bg_dark'], highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg=c['bg_dark'])
+
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True, padx=20)
+        scrollbar.pack(side="right", fill="y")
+
+        # Display all available packs
+        for pack_id, pack_info in CONTENT_PACKS.items():
+            is_downloaded = self.pack_manager.is_downloaded(pack_id)
+            is_enabled = self.pack_manager.is_enabled(pack_id)
+            stats = self.pack_manager.get_pack_stats(pack_id) if is_downloaded else None
+
+            # Pack card
+            pack_card = tk.Frame(scrollable_frame, bg=c['bg_card'], padx=20, pady=15)
+            pack_card.pack(fill=tk.X, padx=20, pady=10)
+
+            # Header row
+            header_frame = tk.Frame(pack_card, bg=c['bg_card'])
+            header_frame.pack(fill=tk.X)
+
+            # Icon and title
+            tk.Label(
+                header_frame,
+                text=f"{pack_info.get('icon', '')}  {pack_info['name']}",
+                font=('Segoe UI', 16, 'bold'),
+                fg=c['accent_hover'] if is_downloaded else c['text_primary'],
+                bg=c['bg_card']
+            ).pack(side=tk.LEFT)
+
+            # Status badge
+            if is_downloaded:
+                status_text = "ENABLED" if is_enabled else "DISABLED"
+                status_color = c['success'] if is_enabled else c['text_secondary']
+            else:
+                status_text = "NOT INSTALLED"
+                status_color = c['text_secondary']
+
+            tk.Label(
+                header_frame,
+                text=status_text,
+                font=('Segoe UI', 10, 'bold'),
+                fg=c['text_bright'],
+                bg=status_color,
+                padx=10,
+                pady=2
+            ).pack(side=tk.RIGHT)
+
+            # Description
+            tk.Label(
+                pack_card,
+                text=pack_info['description'],
+                font=('Segoe UI', 11),
+                fg=c['text_secondary'],
+                bg=c['bg_card'],
+                wraplength=600,
+                justify=tk.LEFT
+            ).pack(anchor=tk.W, pady=(10, 5))
+
+            # Word count
+            tk.Label(
+                pack_card,
+                text=f"{pack_info['word_count']} words  •  Categories: {', '.join(pack_info['categories'])}",
+                font=('Segoe UI', 10),
+                fg=c['text_secondary'],
+                bg=c['bg_card']
+            ).pack(anchor=tk.W)
+
+            # Progress stats if downloaded
+            if is_downloaded and stats:
+                progress_frame = tk.Frame(pack_card, bg=c['bg_medium'], padx=10, pady=8)
+                progress_frame.pack(fill=tk.X, pady=(10, 5))
+
+                tk.Label(
+                    progress_frame,
+                    text=f"Progress:  New: {stats['new']}  |  Learning: {stats['learning']}  |  Mastered: {stats['mastered']}",
+                    font=('Segoe UI', 10),
+                    fg=c['text_primary'],
+                    bg=c['bg_medium']
+                ).pack(side=tk.LEFT)
+
+            # Action buttons
+            btn_frame = tk.Frame(pack_card, bg=c['bg_card'])
+            btn_frame.pack(fill=tk.X, pady=(10, 0))
+
+            if is_downloaded:
+                # Toggle button
+                toggle_text = "DISABLE" if is_enabled else "ENABLE"
+                toggle_color = c['text_secondary'] if is_enabled else c['success']
+                toggle_btn = tk.Button(
+                    btn_frame,
+                    text=toggle_text,
+                    font=('Segoe UI', 10, 'bold'),
+                    fg=c['text_bright'],
+                    bg=toggle_color,
+                    activebackground=c['accent_hover'],
+                    bd=0,
+                    padx=15,
+                    pady=5,
+                    cursor='hand2',
+                    command=lambda p=pack_id: self.toggle_pack(p)
+                )
+                toggle_btn.pack(side=tk.LEFT, padx=(0, 10))
+
+                # Study button if enabled
+                if is_enabled:
+                    study_btn = tk.Button(
+                        btn_frame,
+                        text="STUDY NOW",
+                        font=('Segoe UI', 10, 'bold'),
+                        fg=c['text_bright'],
+                        bg=c['accent_blue'],
+                        activebackground=c['accent_hover'],
+                        bd=0,
+                        padx=15,
+                        pady=5,
+                        cursor='hand2',
+                        command=lambda p=pack_id: self.start_pack_review(p)
+                    )
+                    study_btn.pack(side=tk.LEFT, padx=(0, 10))
+
+                # Browse button
+                browse_btn = tk.Button(
+                    btn_frame,
+                    text="BROWSE",
+                    font=('Segoe UI', 10, 'bold'),
+                    fg=c['text_primary'],
+                    bg=c['bg_medium'],
+                    activebackground=c['bg_light'],
+                    bd=0,
+                    padx=15,
+                    pady=5,
+                    cursor='hand2',
+                    command=lambda p=pack_id: self.show_pack_detail(p)
+                )
+                browse_btn.pack(side=tk.LEFT, padx=(0, 10))
+
+                # Reset progress button
+                reset_btn = tk.Button(
+                    btn_frame,
+                    text="RESET",
+                    font=('Segoe UI', 10, 'bold'),
+                    fg=c['text_primary'],
+                    bg=c['bg_medium'],
+                    activebackground=c['error'],
+                    bd=0,
+                    padx=15,
+                    pady=5,
+                    cursor='hand2',
+                    command=lambda p=pack_id: self.reset_pack(p)
+                )
+                reset_btn.pack(side=tk.LEFT)
+
+            else:
+                # Download button
+                download_btn = tk.Button(
+                    btn_frame,
+                    text="DOWNLOAD & INSTALL",
+                    font=('Segoe UI', 11, 'bold'),
+                    fg=c['text_bright'],
+                    bg=c['success'],
+                    activebackground=c['success_hover'],
+                    bd=0,
+                    padx=20,
+                    pady=8,
+                    cursor='hand2',
+                    command=lambda p=pack_id: self.download_pack(p)
+                )
+                download_btn.pack(side=tk.LEFT)
+
+        # Navigation
+        back_btn = tk.Button(
+            self.nav_frame,
+            text="← BACK",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.show_home
+        )
+        back_btn.pack(side=tk.LEFT)
+
+    def download_pack(self, pack_id):
+        """Download and install a content pack"""
+        if self.pack_manager.download_pack(pack_id):
+            pack_info = get_pack_info(pack_id)
+            messagebox.showinfo(
+                "Pack Installed",
+                f"{pack_info['name']} has been installed!\n\n"
+                f"{pack_info['word_count']} words added to your learning.\n"
+                "Click 'STUDY NOW' to start learning."
+            )
+            self.show_content_packs()
+
+    def toggle_pack(self, pack_id):
+        """Toggle a pack on/off"""
+        self.pack_manager.toggle_pack(pack_id)
+        self.show_content_packs()
+
+    def reset_pack(self, pack_id):
+        """Reset progress for a pack"""
+        pack_info = get_pack_info(pack_id)
+        result = messagebox.askyesno(
+            "Reset Pack Progress",
+            f"Are you sure you want to reset progress for:\n{pack_info['name']}?\n\n"
+            "All words will go back to Box 1."
+        )
+        if result:
+            self.pack_manager.reset_pack_progress(pack_id)
+            messagebox.showinfo("Progress Reset", "Pack progress has been reset.")
+            self.show_content_packs()
+
+    def show_pack_detail(self, pack_id):
+        """Show detailed view of a content pack's vocabulary"""
+        self.clear_content()
+        self.clear_nav()
+        c = self.COLORS
+
+        pack_info = get_pack_info(pack_id)
+        pack_data = get_pack_data(pack_id)
+
+        # Title
+        tk.Label(
+            self.content_frame,
+            text=f"{pack_info.get('icon', '')}  {pack_info['name']}",
+            font=('Segoe UI', 20, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_dark']
+        ).pack(pady=10)
+
+        # Create scrollable canvas
+        canvas = tk.Canvas(self.content_frame, bg=c['bg_dark'], highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg=c['bg_dark'])
+
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        def on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.bind_all("<MouseWheel>", on_mousewheel)
+
+        canvas.pack(side="left", fill="both", expand=True, padx=20)
+        scrollbar.pack(side="right", fill="y")
+
+        # Group words by category
+        categories = {}
+        for word, data in pack_data.items():
+            cat = data.get('category', 'other')
+            if cat not in categories:
+                categories[cat] = []
+            categories[cat].append((word, data))
+
+        # Display each category
+        for cat_name, words in sorted(categories.items()):
+            # Category header
+            cat_frame = tk.Frame(scrollable_frame, bg=c['bg_dark'])
+            cat_frame.pack(fill=tk.X, pady=(15, 5), padx=20)
+
+            tk.Label(
+                cat_frame,
+                text=f"{cat_name.upper()} ({len(words)} words)",
+                font=('Segoe UI', 14, 'bold'),
+                fg=c['accent_hover'],
+                bg=c['bg_dark']
+            ).pack(anchor=tk.W)
+
+            # Words grid
+            grid_frame = tk.Frame(scrollable_frame, bg=c['bg_dark'])
+            grid_frame.pack(fill=tk.X, padx=20, pady=5)
+
+            cols = 4
+            for i, (word, data) in enumerate(words):
+                row = i // cols
+                col = i % cols
+
+                word_card = tk.Frame(grid_frame, bg=c['bg_card'], padx=10, pady=8)
+                word_card.grid(row=row, column=col, padx=4, pady=4, sticky="nsew")
+
+                # Word button with audio
+                word_btn = tk.Button(
+                    word_card,
+                    text=word,
+                    font=('Segoe UI', 12, 'bold'),
+                    fg=c['text_bright'],
+                    bg=c['bg_light'],
+                    activebackground=c['accent_blue'],
+                    bd=0,
+                    padx=10,
+                    pady=5,
+                    cursor='hand2',
+                    command=lambda w=word: self.audio.speak(w)
+                )
+                word_btn.pack()
+
+                # Meaning
+                example = data['examples'][0] if data.get('examples') else {'meaning': ''}
+                tk.Label(
+                    word_card,
+                    text=example.get('meaning', '')[:30],
+                    font=('Segoe UI', 9),
+                    fg=c['text_secondary'],
+                    bg=c['bg_card'],
+                    wraplength=120
+                ).pack()
+
+            for col in range(cols):
+                grid_frame.columnconfigure(col, weight=1)
+
+        # Navigation
+        back_btn = tk.Button(
+            self.nav_frame,
+            text="← BACK TO PACKS",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.show_content_packs
+        )
+        back_btn.pack(side=tk.LEFT)
+
+        home_btn = tk.Button(
+            self.nav_frame,
+            text="HOME",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.show_home
+        )
+        home_btn.pack(side=tk.RIGHT)
+
+    def start_pack_review(self, pack_id):
+        """Start a review session for a specific content pack"""
+        self.leitner.start_session()
+        session_count = self.leitner.session_count
+
+        # Get cards due from this pack
+        self.pack_review_queue = self.pack_manager.get_pack_cards_for_review(pack_id, session_count)
+        self.current_pack_id = pack_id
+        self.in_review_mode = True
+        self.is_pack_review = True
+
+        if not self.pack_review_queue:
+            messagebox.showinfo(
+                "No Cards Due",
+                "Great job! No cards are due for review right now.\n"
+                "Come back later to continue learning."
+            )
+            self.show_content_packs()
+            return
+
+        random.shuffle(self.pack_review_queue)
+        self.show_next_pack_card()
+
+    def show_next_pack_card(self):
+        """Show the next card in pack review queue"""
+        self.clear_content()
+        self.clear_nav()
+        c = self.COLORS
+
+        if not self.pack_review_queue:
+            self.end_pack_review()
+            return
+
+        pack_id, word = self.pack_review_queue.pop(0)
+        self.current_pack_word = (pack_id, word)
+        pack_data = get_pack_data(pack_id)
+        word_data = pack_data.get(word, {})
+        self.current_pack_word_data = word_data
+
+        # Progress indicator
+        remaining = len(self.pack_review_queue)
+        pack_info = get_pack_info(pack_id)
+
+        progress_frame = tk.Frame(self.content_frame, bg=c['bg_dark'])
+        progress_frame.pack(fill=tk.X, pady=10)
+
+        tk.Label(
+            progress_frame,
+            text=f"{pack_info['name']}  •  Cards remaining: {remaining + 1}",
+            font=('Segoe UI', 11),
+            fg=c['text_secondary'],
+            bg=c['bg_dark']
+        ).pack(side=tk.LEFT)
+
+        # Main card
+        self.card_frame = tk.Frame(self.content_frame, bg=c['bg_card'], padx=50, pady=40)
+        self.card_frame.pack(fill=tk.BOTH, expand=True, padx=30, pady=15)
+
+        # Instruction
+        tk.Label(
+            self.card_frame,
+            text="How do you pronounce this word?",
+            font=('Segoe UI', 14),
+            fg=c['text_secondary'],
+            bg=c['bg_card']
+        ).pack(pady=(0, 20))
+
+        # Word display
+        tk.Label(
+            self.card_frame,
+            text=word,
+            font=('Segoe UI', 54, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_card']
+        ).pack(pady=10)
+
+        # Category hint
+        category = word_data.get('category', '')
+        tk.Label(
+            self.card_frame,
+            text=f"({category})",
+            font=('Segoe UI', 12),
+            fg=c['text_secondary'],
+            bg=c['bg_card']
+        ).pack(pady=5)
+
+        # Hint
+        tk.Label(
+            self.card_frame,
+            text="Try to say it out loud, then check your pronunciation!",
+            font=('Segoe UI', 12, 'italic'),
+            fg=c['accent_hover'],
+            bg=c['bg_card']
+        ).pack(pady=20)
+
+        # Answer frame
+        self.answer_frame = tk.Frame(self.card_frame, bg=c['bg_card'])
+        self.answer_frame.pack(fill=tk.BOTH, expand=True, pady=10)
+
+        # Show Answer button
+        show_btn = tk.Button(
+            self.answer_frame,
+            text="SHOW ANSWER",
+            font=('Segoe UI', 14, 'bold'),
+            fg=c['text_bright'],
+            bg=c['accent_blue'],
+            activebackground=c['accent_hover'],
+            bd=0,
+            padx=40,
+            pady=15,
+            cursor='hand2',
+            command=self.reveal_pack_answer
+        )
+        show_btn.pack(pady=20)
+
+        # Navigation
+        end_btn = tk.Button(
+            self.nav_frame,
+            text="END SESSION",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['error'],
+            activebackground=c['error_hover'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.end_pack_review
+        )
+        end_btn.pack(side=tk.LEFT)
+
+        home_btn = tk.Button(
+            self.nav_frame,
+            text="HOME",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_medium'],
+            activebackground=c['bg_light'],
+            bd=0,
+            padx=20,
+            pady=8,
+            cursor='hand2',
+            command=self.show_home
+        )
+        home_btn.pack(side=tk.RIGHT)
+
+    def reveal_pack_answer(self):
+        """Reveal the answer for pack word"""
+        for widget in self.answer_frame.winfo_children():
+            widget.destroy()
+
+        c = self.COLORS
+        pack_id, word = self.current_pack_word
+        word_data = self.current_pack_word_data
+
+        # Play the word pronunciation automatically
+        self.root.after(100, lambda: self.audio.speak(word))
+
+        # Divider line
+        tk.Frame(self.answer_frame, bg=c['border'], height=2).pack(fill=tk.X, pady=10)
+
+        # Correct pronunciation header
+        tk.Label(
+            self.answer_frame,
+            text="CORRECT PRONUNCIATION",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['accent_hover'],
+            bg=c['bg_card']
+        ).pack(pady=(5, 10))
+
+        # Word with replay button
+        word_frame = tk.Frame(self.answer_frame, bg=c['bg_card'])
+        word_frame.pack(pady=5)
+
+        tk.Label(
+            word_frame,
+            text=word,
+            font=('Segoe UI', 28, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_card']
+        ).pack(side=tk.LEFT, padx=10)
+
+        replay_btn = tk.Button(
+            word_frame,
+            text="REPLAY",
+            font=('Segoe UI', 10, 'bold'),
+            fg=c['text_bright'],
+            bg=c['bg_medium'],
+            activebackground=c['accent_blue'],
+            bd=0,
+            padx=15,
+            pady=5,
+            cursor='hand2',
+            command=lambda: self.audio.speak(word)
+        )
+        replay_btn.pack(side=tk.LEFT, padx=10)
+
+        # Meaning and example
+        if word_data.get('examples'):
+            example = word_data['examples'][0]
+            meaning_frame = tk.Frame(self.answer_frame, bg=c['bg_medium'], padx=20, pady=10)
+            meaning_frame.pack(fill=tk.X, pady=10, padx=20)
+
+            tk.Label(
+                meaning_frame,
+                text=f"Meaning: {example.get('meaning', '')}",
+                font=('Segoe UI', 14, 'bold'),
+                fg=c['gold'],
+                bg=c['bg_medium']
+            ).pack(anchor=tk.W)
+
+            if example.get('sentence'):
+                tk.Label(
+                    meaning_frame,
+                    text=example['sentence'],
+                    font=('Segoe UI', 11),
+                    fg=c['text_secondary'],
+                    bg=c['bg_medium']
+                ).pack(anchor=tk.W, pady=(5, 0))
+
+        # Question
+        tk.Label(
+            self.answer_frame,
+            text="Did you pronounce it correctly?",
+            font=('Segoe UI', 13, 'bold'),
+            fg=c['text_primary'],
+            bg=c['bg_card']
+        ).pack(pady=(15, 15))
+
+        # Correct/Wrong/Repeat buttons
+        btn_frame = tk.Frame(self.answer_frame, bg=c['bg_card'])
+        btn_frame.pack(pady=10)
+
+        wrong_btn = tk.Button(
+            btn_frame,
+            text="WRONG",
+            font=('Segoe UI', 12, 'bold'),
+            fg=c['text_bright'],
+            bg=c['error'],
+            activebackground=c['error_hover'],
+            bd=0,
+            padx=25,
+            pady=12,
+            cursor='hand2',
+            command=self.pack_mark_wrong
+        )
+        wrong_btn.pack(side=tk.LEFT, padx=8)
+
+        repeat_btn = tk.Button(
+            btn_frame,
+            text="REPEAT",
+            font=('Segoe UI', 12, 'bold'),
+            fg=c['text_bright'],
+            bg=c['accent_blue'],
+            activebackground=c['accent_hover'],
+            bd=0,
+            padx=25,
+            pady=12,
+            cursor='hand2',
+            command=self.pack_add_back
+        )
+        repeat_btn.pack(side=tk.LEFT, padx=8)
+
+        correct_btn = tk.Button(
+            btn_frame,
+            text="CORRECT",
+            font=('Segoe UI', 12, 'bold'),
+            fg=c['text_bright'],
+            bg=c['success'],
+            activebackground=c['success_hover'],
+            bd=0,
+            padx=25,
+            pady=12,
+            cursor='hand2',
+            command=self.pack_mark_correct
+        )
+        correct_btn.pack(side=tk.LEFT, padx=8)
+
+    def pack_mark_correct(self):
+        """Mark pack card as correct"""
+        pack_id, word = self.current_pack_word
+        self.pack_manager.card_correct(pack_id, word)
+        self.show_next_pack_card()
+
+    def pack_mark_wrong(self):
+        """Mark pack card as wrong"""
+        pack_id, word = self.current_pack_word
+        self.pack_manager.card_wrong(pack_id, word)
+        self.show_next_pack_card()
+
+    def pack_add_back(self):
+        """Add pack card back to queue"""
+        self.pack_review_queue.append(self.current_pack_word)
+        self.show_next_pack_card()
+
+    def end_pack_review(self):
+        """End the pack review session"""
+        self.in_review_mode = False
+        self.is_pack_review = False
+        pack_info = get_pack_info(self.current_pack_id)
+        stats = self.pack_manager.get_pack_stats(self.current_pack_id)
+
+        messagebox.showinfo(
+            "Session Complete",
+            f"Great work on {pack_info['name']}!\n\n"
+            f"Cards Mastered: {stats['mastered']}/{stats['total']}\n"
+            f"Still Learning: {stats['learning']}\n"
+            f"New Cards: {stats['new']}"
+        )
+
+        self.show_content_packs()
 
 
 def main():
