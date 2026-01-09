@@ -25,9 +25,11 @@ except ImportError:
 
 # Vietnamese vowels data with example words and pronunciations
 VOWELS_DATA = {
+    # === MONOPHTHONGS (Single Vowels) ===
     "a": {
-        "description": "Like 'a' in 'father', but shorter",
+        "description": "",
         "ipa": "/aː/",
+        "category": "monophthong",
         "examples": [
             {"word": "ba", "meaning": "three / father", "sentence": "Ba người = Three people"},
             {"word": "cá", "meaning": "fish", "sentence": "Con cá = The fish"},
@@ -36,8 +38,9 @@ VOWELS_DATA = {
         ]
     },
     "ă": {
-        "description": "Short 'a' sound, like 'u' in 'cut'",
+        "description": "",
         "ipa": "/a/",
+        "category": "monophthong",
         "examples": [
             {"word": "ăn", "meaning": "to eat", "sentence": "Ăn cơm = Eat rice"},
             {"word": "bắt", "meaning": "to catch", "sentence": "Bắt cá = Catch fish"},
@@ -46,8 +49,9 @@ VOWELS_DATA = {
         ]
     },
     "â": {
-        "description": "Like 'u' in 'but', very short",
+        "description": "",
         "ipa": "/ə/",
+        "category": "monophthong",
         "examples": [
             {"word": "ân", "meaning": "grace / favor", "sentence": "Ân huệ = Favor"},
             {"word": "cấp", "meaning": "level / urgent", "sentence": "Cấp bách = Urgent"},
@@ -56,8 +60,9 @@ VOWELS_DATA = {
         ]
     },
     "e": {
-        "description": "Like 'e' in 'bed'",
+        "description": "",
         "ipa": "/ɛ/",
+        "category": "monophthong",
         "examples": [
             {"word": "em", "meaning": "younger sibling / I (younger)", "sentence": "Em gái = Younger sister"},
             {"word": "đẹp", "meaning": "beautiful", "sentence": "Rất đẹp = Very beautiful"},
@@ -66,8 +71,9 @@ VOWELS_DATA = {
         ]
     },
     "ê": {
-        "description": "Like 'ay' in 'say' but without the glide",
+        "description": "",
         "ipa": "/e/",
+        "category": "monophthong",
         "examples": [
             {"word": "bê", "meaning": "calf (baby cow)", "sentence": "Con bê = The calf"},
             {"word": "đêm", "meaning": "night", "sentence": "Ban đêm = At night"},
@@ -76,8 +82,9 @@ VOWELS_DATA = {
         ]
     },
     "i": {
-        "description": "Like 'ee' in 'see'",
+        "description": "",
         "ipa": "/i/",
+        "category": "monophthong",
         "examples": [
             {"word": "đi", "meaning": "to go", "sentence": "Đi học = Go to school"},
             {"word": "bí", "meaning": "squash / secret", "sentence": "Bí mật = Secret"},
@@ -86,8 +93,9 @@ VOWELS_DATA = {
         ]
     },
     "o": {
-        "description": "Like 'o' in 'hot' (British English)",
+        "description": "",
         "ipa": "/ɔ/",
+        "category": "monophthong",
         "examples": [
             {"word": "con", "meaning": "child / animal classifier", "sentence": "Con chó = The dog"},
             {"word": "có", "meaning": "to have", "sentence": "Tôi có = I have"},
@@ -96,8 +104,9 @@ VOWELS_DATA = {
         ]
     },
     "ô": {
-        "description": "Like 'o' in 'go' but without the glide",
+        "description": "",
         "ipa": "/o/",
+        "category": "monophthong",
         "examples": [
             {"word": "cô", "meaning": "aunt / miss", "sentence": "Cô giáo = Teacher (female)"},
             {"word": "tô", "meaning": "bowl", "sentence": "Tô phở = Bowl of pho"},
@@ -106,8 +115,9 @@ VOWELS_DATA = {
         ]
     },
     "ơ": {
-        "description": "Like 'u' in 'fur' without the 'r'",
+        "description": "",
         "ipa": "/əː/",
+        "category": "monophthong",
         "examples": [
             {"word": "mơ", "meaning": "to dream / apricot", "sentence": "Giấc mơ = Dream"},
             {"word": "bơ", "meaning": "butter / avocado", "sentence": "Quả bơ = Avocado"},
@@ -116,8 +126,9 @@ VOWELS_DATA = {
         ]
     },
     "u": {
-        "description": "Like 'oo' in 'food'",
+        "description": "",
         "ipa": "/u/",
+        "category": "monophthong",
         "examples": [
             {"word": "mua", "meaning": "to buy", "sentence": "Mua sắm = Shopping"},
             {"word": "thu", "meaning": "autumn / to collect", "sentence": "Mùa thu = Autumn"},
@@ -126,8 +137,9 @@ VOWELS_DATA = {
         ]
     },
     "ư": {
-        "description": "Like 'oo' but with lips unrounded (smile while saying 'oo')",
+        "description": "",
         "ipa": "/ɯ/",
+        "category": "monophthong",
         "examples": [
             {"word": "từ", "meaning": "word / from", "sentence": "Từ điển = Dictionary"},
             {"word": "sữa", "meaning": "milk", "sentence": "Sữa tươi = Fresh milk"},
@@ -136,13 +148,346 @@ VOWELS_DATA = {
         ]
     },
     "y": {
-        "description": "Like 'ee' in 'see' (same as 'i')",
+        "description": "",
         "ipa": "/i/",
+        "category": "monophthong",
         "examples": [
             {"word": "ý", "meaning": "meaning / idea", "sentence": "Ý kiến = Opinion"},
             {"word": "hy", "meaning": "hope (in compounds)", "sentence": "Hy vọng = Hope"},
             {"word": "lý", "meaning": "reason / plum", "sentence": "Lý do = Reason"},
             {"word": "ty", "meaning": "company (short form)", "sentence": "Công ty = Company"},
+        ]
+    },
+    # === DIPHTHONGS ===
+    "ai": {
+        "description": "",
+        "ipa": "/aːj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "hai", "meaning": "two", "sentence": "Hai người = Two people"},
+            {"word": "mai", "meaning": "tomorrow", "sentence": "Ngày mai = Tomorrow"},
+            {"word": "tai", "meaning": "ear", "sentence": "Đôi tai = Pair of ears"},
+            {"word": "dài", "meaning": "long", "sentence": "Rất dài = Very long"},
+        ]
+    },
+    "ao": {
+        "description": "",
+        "ipa": "/aːw/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "sao", "meaning": "star / why", "sentence": "Ngôi sao = Star"},
+            {"word": "cao", "meaning": "tall / high", "sentence": "Rất cao = Very tall"},
+            {"word": "báo", "meaning": "newspaper / leopard", "sentence": "Tờ báo = Newspaper"},
+            {"word": "áo", "meaning": "shirt / clothes", "sentence": "Áo dài = Traditional dress"},
+        ]
+    },
+    "au": {
+        "description": "",
+        "ipa": "/aw/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "sau", "meaning": "after / behind", "sentence": "Sau đó = After that"},
+            {"word": "đau", "meaning": "pain / hurt", "sentence": "Đau đầu = Headache"},
+            {"word": "màu", "meaning": "color", "sentence": "Màu đỏ = Red color"},
+            {"word": "rau", "meaning": "vegetable", "sentence": "Rau xanh = Green vegetable"},
+        ]
+    },
+    "ay": {
+        "description": "",
+        "ipa": "/aj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "hay", "meaning": "or / interesting", "sentence": "Hay là = Or"},
+            {"word": "tay", "meaning": "hand / arm", "sentence": "Bàn tay = Hand"},
+            {"word": "bay", "meaning": "to fly", "sentence": "Bay đi = Fly away"},
+            {"word": "ngay", "meaning": "immediately / straight", "sentence": "Ngay bây giờ = Right now"},
+        ]
+    },
+    "ây": {
+        "description": "",
+        "ipa": "/əj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "đây", "meaning": "here", "sentence": "Ở đây = Here"},
+            {"word": "mây", "meaning": "cloud", "sentence": "Đám mây = Cloud"},
+            {"word": "cây", "meaning": "tree / plant", "sentence": "Cây cối = Trees"},
+            {"word": "đầy", "meaning": "full", "sentence": "Đầy đủ = Complete"},
+        ]
+    },
+    "eo": {
+        "description": "",
+        "ipa": "/ɛw/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "kẹo", "meaning": "candy", "sentence": "Kẹo ngọt = Sweet candy"},
+            {"word": "mèo", "meaning": "cat", "sentence": "Con mèo = The cat"},
+            {"word": "đèo", "meaning": "mountain pass", "sentence": "Đèo cao = High pass"},
+            {"word": "theo", "meaning": "to follow", "sentence": "Theo dõi = To follow"},
+        ]
+    },
+    "êu": {
+        "description": "",
+        "ipa": "/ew/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "kêu", "meaning": "to call / cry", "sentence": "Kêu gọi = To call"},
+            {"word": "nêu", "meaning": "to raise / state", "sentence": "Nêu lên = To raise"},
+            {"word": "têu", "meaning": "playful", "sentence": "Nghịch têu = Mischievous"},
+            {"word": "trêu", "meaning": "to tease", "sentence": "Trêu chọc = To tease"},
+        ]
+    },
+    "ia": {
+        "description": "",
+        "ipa": "/iə/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "chia", "meaning": "to divide / share", "sentence": "Chia sẻ = To share"},
+            {"word": "kia", "meaning": "that (over there)", "sentence": "Bên kia = Over there"},
+            {"word": "mía", "meaning": "sugarcane", "sentence": "Cây mía = Sugarcane"},
+            {"word": "tía", "meaning": "purple / dad (Southern)", "sentence": "Màu tía = Purple"},
+        ]
+    },
+    "iu": {
+        "description": "",
+        "ipa": "/iw/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "dịu", "meaning": "gentle / mild", "sentence": "Dịu dàng = Gentle"},
+            {"word": "chịu", "meaning": "to endure", "sentence": "Chịu đựng = To endure"},
+            {"word": "kịu", "meaning": "creaking sound", "sentence": "Tiếng kịu = Creaking"},
+            {"word": "hiu", "meaning": "desolate", "sentence": "Hiu quạnh = Desolate"},
+        ]
+    },
+    "oi": {
+        "description": "",
+        "ipa": "/ɔj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "nói", "meaning": "to speak", "sentence": "Nói chuyện = To talk"},
+            {"word": "đói", "meaning": "hungry", "sentence": "Đói bụng = Hungry"},
+            {"word": "rồi", "meaning": "already / then", "sentence": "Xong rồi = Done already"},
+            {"word": "trời", "meaning": "sky / heaven", "sentence": "Bầu trời = Sky"},
+        ]
+    },
+    "ôi": {
+        "description": "",
+        "ipa": "/oj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "tôi", "meaning": "I / me", "sentence": "Tôi là = I am"},
+            {"word": "đôi", "meaning": "pair / couple", "sentence": "Đôi giày = Pair of shoes"},
+            {"word": "hối", "meaning": "to regret / rush", "sentence": "Hối hận = To regret"},
+            {"word": "bồi", "meaning": "waiter / to nourish", "sentence": "Bồi dưỡng = To nourish"},
+        ]
+    },
+    "ơi": {
+        "description": "",
+        "ipa": "/əːj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "ơi", "meaning": "hey / oh (vocative)", "sentence": "Anh ơi = Hey brother"},
+            {"word": "bơi", "meaning": "to swim", "sentence": "Bơi lội = Swimming"},
+            {"word": "mới", "meaning": "new / just", "sentence": "Mới đến = Just arrived"},
+            {"word": "gởi", "meaning": "to send", "sentence": "Gởi đi = Send away"},
+        ]
+    },
+    "ua": {
+        "description": "",
+        "ipa": "/uə/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "mua", "meaning": "to buy", "sentence": "Mua hàng = To shop"},
+            {"word": "cua", "meaning": "crab / to turn", "sentence": "Con cua = Crab"},
+            {"word": "chùa", "meaning": "pagoda", "sentence": "Ngôi chùa = Pagoda"},
+            {"word": "lúa", "meaning": "rice plant", "sentence": "Cánh đồng lúa = Rice field"},
+        ]
+    },
+    "uê": {
+        "description": "",
+        "ipa": "/ue/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "huê", "meaning": "flower (classical)", "sentence": "Huê Kỳ = USA (old name)"},
+            {"word": "quê", "meaning": "hometown / rural", "sentence": "Quê hương = Homeland"},
+            {"word": "tuê", "meaning": "year of age (Sino-Vietnamese)", "sentence": "Tuế nguyệt = Time"},
+            {"word": "xuê", "meaning": "to boast", "sentence": "Xuê xoa = To show off"},
+        ]
+    },
+    "ui": {
+        "description": "",
+        "ipa": "/uj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "núi", "meaning": "mountain", "sentence": "Ngọn núi = Mountain"},
+            {"word": "mùi", "meaning": "smell / scent", "sentence": "Mùi thơm = Fragrance"},
+            {"word": "túi", "meaning": "bag / pocket", "sentence": "Túi xách = Handbag"},
+            {"word": "vui", "meaning": "happy / fun", "sentence": "Vui vẻ = Happy"},
+        ]
+    },
+    "uo": {
+        "description": "",
+        "ipa": "/uə/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "cuộc", "meaning": "event / match", "sentence": "Cuộc sống = Life"},
+            {"word": "muốn", "meaning": "to want", "sentence": "Tôi muốn = I want"},
+            {"word": "buồn", "meaning": "sad", "sentence": "Buồn bã = Sad"},
+            {"word": "chuối", "meaning": "banana", "sentence": "Quả chuối = Banana"},
+        ]
+    },
+    "ưa": {
+        "description": "",
+        "ipa": "/ɯə/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "mưa", "meaning": "rain", "sentence": "Trời mưa = It's raining"},
+            {"word": "chưa", "meaning": "not yet", "sentence": "Chưa xong = Not done yet"},
+            {"word": "thưa", "meaning": "dear / sparse", "sentence": "Thưa ông = Dear sir"},
+            {"word": "xưa", "meaning": "ancient / old", "sentence": "Ngày xưa = Once upon a time"},
+        ]
+    },
+    "ưi": {
+        "description": "",
+        "ipa": "/ɯj/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "gửi", "meaning": "to send", "sentence": "Gửi thư = Send letter"},
+            {"word": "tưởi", "meaning": "to water", "sentence": "Tưới cây = Water plants"},
+            {"word": "cười", "meaning": "to laugh / smile", "sentence": "Cười vui = Laugh happily"},
+            {"word": "mười", "meaning": "ten", "sentence": "Mười người = Ten people"},
+        ]
+    },
+    "ưu": {
+        "description": "",
+        "ipa": "/ɯw/",
+        "category": "diphthong",
+        "examples": [
+            {"word": "lưu", "meaning": "to save / keep", "sentence": "Lưu trữ = To store"},
+            {"word": "cứu", "meaning": "to save / rescue", "sentence": "Cứu giúp = To help"},
+            {"word": "mưu", "meaning": "scheme / plan", "sentence": "Mưu kế = Strategy"},
+            {"word": "hưu", "meaning": "retired", "sentence": "Nghỉ hưu = Retire"},
+        ]
+    },
+    # === TRIPHTHONGS ===
+    "iêu": {
+        "description": "",
+        "ipa": "/iəw/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "nhiều", "meaning": "many / much", "sentence": "Rất nhiều = Very many"},
+            {"word": "chiều", "meaning": "afternoon / direction", "sentence": "Buổi chiều = Afternoon"},
+            {"word": "điều", "meaning": "thing / matter", "sentence": "Điều này = This thing"},
+            {"word": "liều", "meaning": "to risk / dose", "sentence": "Liều lĩnh = Reckless"},
+        ]
+    },
+    "yêu": {
+        "description": "",
+        "ipa": "/iəw/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "yêu", "meaning": "to love", "sentence": "Yêu thương = To love"},
+            {"word": "yếu", "meaning": "weak", "sentence": "Yếu đuối = Weak"},
+            {"word": "yểu", "meaning": "short-lived", "sentence": "Yểu mệnh = Short-lived"},
+            {"word": "diêu", "meaning": "kite", "sentence": "Thả diều = Fly a kite"},
+        ]
+    },
+    "oai": {
+        "description": "",
+        "ipa": "/waːj/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "hoài", "meaning": "always / in vain", "sentence": "Hoài niệm = Nostalgia"},
+            {"word": "ngoài", "meaning": "outside", "sentence": "Bên ngoài = Outside"},
+            {"word": "khoai", "meaning": "potato / tuber", "sentence": "Khoai tây = Potato"},
+            {"word": "toại", "meaning": "satisfied", "sentence": "Mãn toại = Satisfied"},
+        ]
+    },
+    "oay": {
+        "description": "",
+        "ipa": "/waj/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "xoay", "meaning": "to rotate / turn", "sentence": "Xoay vòng = Rotate"},
+            {"word": "ngoáy", "meaning": "to stir / poke", "sentence": "Ngoáy tai = Clean ear"},
+            {"word": "loay", "meaning": "to struggle", "sentence": "Loay hoay = To struggle"},
+            {"word": "khoáy", "meaning": "whorl / to dig", "sentence": "Khoáy tóc = Hair whorl"},
+        ]
+    },
+    "oao": {
+        "description": "",
+        "ipa": "/waːw/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "ngoao", "meaning": "meow", "sentence": "Mèo ngoao = Cat meows"},
+            {"word": "khoáo", "meaning": "smooth talking", "sentence": "Nói khoáo = Smooth talk"},
+            {"word": "soạo", "meaning": "sizzling sound", "sentence": "Tiếng soạo = Sizzle"},
+            {"word": "hoào", "meaning": "rushing sound", "sentence": "Gió hoào = Wind rush"},
+        ]
+    },
+    "oeo": {
+        "description": "",
+        "ipa": "/wɛw/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "ngoẹo", "meaning": "to tilt / slant", "sentence": "Ngoẹo đầu = Tilt head"},
+            {"word": "khoèo", "meaning": "bowlegged", "sentence": "Chân khoèo = Bowlegged"},
+            {"word": "ngoéo", "meaning": "to hook", "sentence": "Ngoéo tay = Hook finger"},
+            {"word": "choèo", "meaning": "folk opera", "sentence": "Hát chèo = Cheo singing"},
+        ]
+    },
+    "uây": {
+        "description": "",
+        "ipa": "/wəj/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "khuây", "meaning": "to distract / forget", "sentence": "Khuây khỏa = To distract"},
+            {"word": "quây", "meaning": "to surround", "sentence": "Quây quần = Gather around"},
+            {"word": "chuẩy", "meaning": "standard (variant)", "sentence": "Tiêu chuẩy = Standard"},
+            {"word": "xuây", "meaning": "to build (variant)", "sentence": "Xây xuây = Build"},
+        ]
+    },
+    "uôi": {
+        "description": "",
+        "ipa": "/uəj/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "đuôi", "meaning": "tail", "sentence": "Cái đuôi = The tail"},
+            {"word": "chuối", "meaning": "banana", "sentence": "Quả chuối = Banana"},
+            {"word": "muối", "meaning": "salt", "sentence": "Muối mặn = Salty"},
+            {"word": "tuổi", "meaning": "age", "sentence": "Bao nhiêu tuổi = How old"},
+        ]
+    },
+    "ươi": {
+        "description": "",
+        "ipa": "/ɯəj/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "tươi", "meaning": "fresh", "sentence": "Rau tươi = Fresh vegetables"},
+            {"word": "cười", "meaning": "to laugh", "sentence": "Cười vui = Laugh happily"},
+            {"word": "mười", "meaning": "ten", "sentence": "Mười lăm = Fifteen"},
+            {"word": "người", "meaning": "person / people", "sentence": "Người Việt = Vietnamese person"},
+        ]
+    },
+    "ươu": {
+        "description": "",
+        "ipa": "/ɯəw/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "rượu", "meaning": "alcohol / wine", "sentence": "Uống rượu = Drink alcohol"},
+            {"word": "hươu", "meaning": "deer", "sentence": "Con hươu = Deer"},
+            {"word": "bưởu", "meaning": "tumor / goiter", "sentence": "Bưởu cổ = Goiter"},
+            {"word": "cướu", "meaning": "to study", "sentence": "Nghiên cướu = Research"},
+        ]
+    },
+    "uya": {
+        "description": "",
+        "ipa": "/wiə/",
+        "category": "triphthong",
+        "examples": [
+            {"word": "khuya", "meaning": "late night", "sentence": "Đêm khuya = Late at night"},
+            {"word": "tuya", "meaning": "tube / nozzle", "sentence": "Ống tuya = Tube"},
+            {"word": "chuya", "meaning": "shuttle", "sentence": "Con chuya = Shuttle"},
+            {"word": "xuya", "meaning": "to penetrate", "sentence": "Xuyên xuya = Penetrate"},
         ]
     },
 }
