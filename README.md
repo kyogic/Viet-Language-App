@@ -18,9 +18,12 @@ A standalone application to learn Vietnamese vowels and tones using the **Leitne
 - **Reset Progress**: Start fresh anytime with the reset button
 - **Responsive UI**: Works in both fullscreen and windowed mode
 - **Steam-Inspired Dark Theme**: Easy on the eyes for extended study sessions
+- **Customizable Study Sessions**: Set how many cards to review per session (5, 10, 15, 20, 25, 30, 50, or all)
 - **Downloadable Content Packs**: Expand your vocabulary with specialized packs:
   - Manga, Fiction & Fantasy Pack (500+ words): Onomatopoeia, emotions, action words, fantasy terms
   - Self-Help & Personal Development Pack (300+ words): Mindset, goals, habits, productivity vocabulary
+  - Millennial Vocabulary Pack (200 words): Popular slang and expressions from the millennial generation
+  - Gen Z Vocabulary Pack (200 words): Trendy slang and expressions used by Gen Z
 
 ## How It Works
 
@@ -52,6 +55,8 @@ Expand your vocabulary beyond vowels and tones with downloadable content packs:
 |------|-------|-------------|
 | Manga, Fiction & Fantasy | 500+ | Onomatopoeia (bùm, xoẹt), exclamations (trời ơi!), action verbs, emotions, fantasy/manga terminology |
 | Self-Help & Personal Development | 300+ | Mindset, goals, habits, productivity, relationships, finance vocabulary |
+| Millennial Vocabulary | 200 | Popular slang (gấu, crush, thả thính), internet terms (phốt, hóng), lifestyle expressions (chill, flex) |
+| Gen Z Vocabulary | 200 | Trendy slang (real, slay, sus, cap), social media terms (viral, FYP), gaming vocabulary (GG, noob, OP) |
 
 ### How to Use Content Packs
 
@@ -186,6 +191,7 @@ Your learning progress is saved to:
 - **Windows**: `C:\Users\<you>\.vietnamese_vowels\vowels_progress.json`
 
 Content pack progress is saved separately in `content_packs_state.json` in the same directory.
+Settings (like study limit) are saved in `settings.json` in the same directory.
 
 Use the **Reset Progress** button on the home screen to start fresh (vowels/tones only).
 Use the **Reset** button in Content Packs to reset individual pack progress.

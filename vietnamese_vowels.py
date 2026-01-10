@@ -1151,6 +1151,10 @@ class VietnameseVowelsApp:
         self.in_review_mode = False
         self.show_answer = False
 
+        # Settings
+        self.study_limit = tk.IntVar(value=self.load_study_limit())
+        self.study_limit_options = [5, 10, 15, 20, 25, 30, 50, 0]  # 0 = All
+
         # Setup UI
         self.setup_styles()
         self.create_widgets()
@@ -1159,6 +1163,42 @@ class VietnameseVowelsApp:
     def show_audio_error(self, message):
         """Display audio error to user"""
         messagebox.showwarning("Audio Error", message)
+
+    def get_settings_path(self):
+        """Get the path for saving settings"""
+        home = Path.home()
+        save_dir = home / ".vietnamese_vowels"
+        try:
+            save_dir.mkdir(exist_ok=True)
+            return save_dir / "settings.json"
+        except:
+            return Path("settings.json")
+
+    def load_study_limit(self):
+        """Load study limit from settings"""
+        try:
+            settings_path = self.get_settings_path()
+            if settings_path.exists():
+                with open(settings_path, 'r') as f:
+                    data = json.load(f)
+                    return data.get('study_limit', 20)
+        except:
+            pass
+        return 20  # Default
+
+    def save_study_limit(self, *args):
+        """Save study limit to settings"""
+        try:
+            settings_path = self.get_settings_path()
+            data = {}
+            if settings_path.exists():
+                with open(settings_path, 'r') as f:
+                    data = json.load(f)
+            data['study_limit'] = self.study_limit.get()
+            with open(settings_path, 'w') as f:
+                json.dump(data, f)
+        except Exception as e:
+            print(f"Could not save settings: {e}")
 
     def setup_styles(self):
         """Setup Steam-like dark theme styles"""
@@ -1435,16 +1475,54 @@ class VietnameseVowelsApp:
                     bg=c['bg_medium']
                 ).pack()
 
+        # Study limit selector
+        limit_frame = tk.Frame(container, bg=c['bg_card'], padx=20, pady=12)
+        limit_frame.pack(fill=tk.X, pady=10)
+
+        tk.Label(
+            limit_frame,
+            text="CARDS PER SESSION:",
+            font=('Segoe UI', 11, 'bold'),
+            fg=c['text_secondary'],
+            bg=c['bg_card']
+        ).pack(side=tk.LEFT, padx=(0, 15))
+
+        for val in self.study_limit_options:
+            label = "All" if val == 0 else str(val)
+            is_selected = self.study_limit.get() == val
+            btn = tk.Radiobutton(
+                limit_frame,
+                text=label,
+                variable=self.study_limit,
+                value=val,
+                font=('Segoe UI', 10, 'bold'),
+                fg=c['text_bright'] if is_selected else c['text_secondary'],
+                bg=c['bg_card'],
+                selectcolor=c['accent_blue'],
+                activebackground=c['bg_card'],
+                activeforeground=c['text_bright'],
+                indicatoron=0,
+                padx=12,
+                pady=5,
+                bd=0,
+                cursor='hand2',
+                command=self.save_study_limit
+            )
+            btn.pack(side=tk.LEFT, padx=3)
+
         # Action buttons with Steam style
         btn_frame = tk.Frame(container, bg=c['bg_dark'])
-        btn_frame.pack(pady=30)
+        btn_frame.pack(pady=20)
 
         cards_due = len(self.leitner.get_cards_for_review())
+        limit = self.study_limit.get()
+        cards_to_study = min(cards_due, limit) if limit > 0 else cards_due
 
         # Start Review button - prominent green
+        btn_text = f"START REVIEW  ({cards_to_study} cards)" if limit > 0 else f"START REVIEW  ({cards_due} cards due)"
         review_btn = tk.Button(
             btn_frame,
-            text=f"START REVIEW  ({cards_due} cards due)",
+            text=btn_text,
             font=('Segoe UI', 14, 'bold'),
             fg=c['text_bright'],
             bg=c['success'],
@@ -1935,6 +2013,12 @@ class VietnameseVowelsApp:
         """Start a review session"""
         self.leitner.start_session()
         self.review_queue = self.leitner.get_cards_for_review()
+
+        # Apply study limit
+        limit = self.study_limit.get()
+        if limit > 0 and len(self.review_queue) > limit:
+            self.review_queue = self.review_queue[:limit]
+
         self.in_review_mode = True
 
         if not self.review_queue:
@@ -2678,6 +2762,12 @@ class VietnameseVowelsApp:
             return
 
         random.shuffle(self.pack_review_queue)
+
+        # Apply study limit
+        limit = self.study_limit.get()
+        if limit > 0 and len(self.pack_review_queue) > limit:
+            self.pack_review_queue = self.pack_review_queue[:limit]
+
         self.show_next_pack_card()
 
     def show_next_pack_card(self):

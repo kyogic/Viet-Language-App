@@ -21,6 +21,22 @@ CONTENT_PACKS = {
         "word_count": 300,
         "categories": ["Mindset", "Goals", "Habits", "Emotions", "Success"],
         "icon": "🎯"
+    },
+    "millennial": {
+        "id": "millennial",
+        "name": "Millennial Vocabulary",
+        "description": "Popular Vietnamese slang and expressions from the millennial generation (born 1981-1996)",
+        "word_count": 200,
+        "categories": ["Slang", "Internet", "Lifestyle", "Emotions", "Social"],
+        "icon": "📱"
+    },
+    "genz": {
+        "id": "genz",
+        "name": "Gen Z Vocabulary",
+        "description": "Trendy Vietnamese slang and expressions used by Gen Z (born 1997-2012)",
+        "word_count": 200,
+        "categories": ["Slang", "Internet", "Gaming", "Social Media", "Trends"],
+        "icon": "🔥"
     }
 }
 
@@ -1791,12 +1807,1279 @@ SELF_HELP_PACK = {
 }
 
 
+# ============================================================
+# MILLENNIAL VOCABULARY PACK
+# ============================================================
+
+MILLENNIAL_PACK = {
+    # Internet and Social Slang
+    "gấu": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "gấu", "meaning": "boyfriend/girlfriend (slang)", "sentence": "Gấu của tao = My boyfriend/girlfriend"},
+        ]
+    },
+    "cưng": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "cưng", "meaning": "sweetheart/darling", "sentence": "Cưng ơi = Hey darling"},
+        ]
+    },
+    "bồ": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "bồ", "meaning": "partner/significant other", "sentence": "Bồ tao đẹp lắm = My partner is very beautiful"},
+        ]
+    },
+    "ế": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "ế", "meaning": "single/unmarried (often humorous)", "sentence": "Ế quá trời = So single"},
+        ]
+    },
+    "FA": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "FA", "meaning": "Forever Alone (single)", "sentence": "FA mãi thôi = Forever alone"},
+        ]
+    },
+    "crush": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "crush", "meaning": "secret love interest", "sentence": "Crush của tao = My crush"},
+        ]
+    },
+    "thả thính": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "thả thính", "meaning": "to flirt", "sentence": "Đừng thả thính nữa = Stop flirting"},
+        ]
+    },
+    "cẩu lương": {
+        "category": "slang",
+        "subcategory": "relationships",
+        "examples": [
+            {"word": "cẩu lương", "meaning": "PDA/public display of affection", "sentence": "Ăn cẩu lương = Witnessing PDA"},
+        ]
+    },
+    # Internet and Social
+    "lướt": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "lướt", "meaning": "to scroll/browse", "sentence": "Lướt Facebook = Scroll Facebook"},
+        ]
+    },
+    "phốt": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "phốt", "meaning": "scandal/drama", "sentence": "Bị phốt = Got exposed"},
+        ]
+    },
+    "hóng": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "hóng", "meaning": "to wait eagerly for gossip", "sentence": "Hóng drama = Waiting for drama"},
+        ]
+    },
+    "soi": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "soi", "meaning": "to investigate/stalk online", "sentence": "Soi Facebook = Stalk on Facebook"},
+        ]
+    },
+    "ảo": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "ảo", "meaning": "fake/virtual/unreal", "sentence": "Sống ảo = Living a fake life online"},
+        ]
+    },
+    "ảo tung chảo": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "ảo tung chảo", "meaning": "extremely fake/over the top", "sentence": "Ảo tung chảo luôn = So incredibly fake"},
+        ]
+    },
+    "bay màu": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "bay màu", "meaning": "account got banned", "sentence": "Facebook bay màu = Facebook got banned"},
+        ]
+    },
+    "rep": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "rep", "meaning": "to reply", "sentence": "Rep tin nhắn = Reply to message"},
+        ]
+    },
+    "inbox": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "inbox", "meaning": "to message privately", "sentence": "Inbox cho tao = Message me"},
+        ]
+    },
+    # Lifestyle and Emotions
+    "đỉnh": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "đỉnh", "meaning": "awesome/top tier", "sentence": "Đỉnh của chóp = Absolutely peak"},
+        ]
+    },
+    "đỉnh của chóp": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "đỉnh của chóp", "meaning": "the absolute best", "sentence": "Món này đỉnh của chóp = This dish is the best"},
+        ]
+    },
+    "xỉu": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "xỉu", "meaning": "to faint/dying (figuratively)", "sentence": "Xỉu ngang = I'm done/dying"},
+        ]
+    },
+    "xỉu up xỉu down": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "xỉu up xỉu down", "meaning": "emotionally unstable", "sentence": "Xỉu up xỉu down cả ngày = Emotionally unstable all day"},
+        ]
+    },
+    "phê": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "phê", "meaning": "satisfying/high (on something)", "sentence": "Phê quá = So satisfying"},
+        ]
+    },
+    "chill": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "chill", "meaning": "to relax/chill out", "sentence": "Chill đi = Chill out"},
+        ]
+    },
+    "flex": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "flex", "meaning": "to show off", "sentence": "Flex tí = Flexing a bit"},
+        ]
+    },
+    "cool": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "cool", "meaning": "cool", "sentence": "Cool quá = So cool"},
+        ]
+    },
+    "ngầu": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "ngầu", "meaning": "cool/badass", "sentence": "Ngầu lắm = So cool"},
+        ]
+    },
+    "chanh sả": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "chanh sả", "meaning": "fancy/luxurious (sarcastic)", "sentence": "Sống chanh sả = Living fancy"},
+        ]
+    },
+    "sang chảnh": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "sang chảnh", "meaning": "luxurious/fancy", "sentence": "Sang chảnh quá = So fancy"},
+        ]
+    },
+    "trầm cảm": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "trầm cảm", "meaning": "depressed/sad", "sentence": "Hơi trầm cảm = A bit depressed"},
+        ]
+    },
+    "bùn": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "bùn", "meaning": "sad (playful)", "sentence": "Bùn quá = So sad"},
+        ]
+    },
+    "vui vẻ": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "vui vẻ", "meaning": "happy", "sentence": "Vui vẻ lên = Cheer up"},
+        ]
+    },
+    "mệt": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "mệt", "meaning": "tired (often used dramatically)", "sentence": "Mệt với mày = I'm tired of you"},
+        ]
+    },
+    "tức": {
+        "category": "slang",
+        "subcategory": "emotions",
+        "examples": [
+            {"word": "tức", "meaning": "annoyed/frustrated", "sentence": "Tức quá = So frustrated"},
+        ]
+    },
+    # Work and Life
+    "deadline": {
+        "category": "slang",
+        "subcategory": "work",
+        "examples": [
+            {"word": "deadline", "meaning": "deadline", "sentence": "Gấp deadline = Rush deadline"},
+        ]
+    },
+    "chạy deadline": {
+        "category": "slang",
+        "subcategory": "work",
+        "examples": [
+            {"word": "chạy deadline", "meaning": "rush to meet deadline", "sentence": "Đang chạy deadline = Rushing deadline"},
+        ]
+    },
+    "OT": {
+        "category": "slang",
+        "subcategory": "work",
+        "examples": [
+            {"word": "OT", "meaning": "overtime", "sentence": "Hôm nay OT = Working overtime today"},
+        ]
+    },
+    "cày": {
+        "category": "slang",
+        "subcategory": "work",
+        "examples": [
+            {"word": "cày", "meaning": "to grind/work hard", "sentence": "Cày phim = Binge watch"},
+        ]
+    },
+    "cày cuốc": {
+        "category": "slang",
+        "subcategory": "work",
+        "examples": [
+            {"word": "cày cuốc", "meaning": "to work hard/grind", "sentence": "Cày cuốc cả đêm = Grinding all night"},
+        ]
+    },
+    "nghỉ xả hơi": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "nghỉ xả hơi", "meaning": "to take a break", "sentence": "Nghỉ xả hơi đi = Take a break"},
+        ]
+    },
+    "bận": {
+        "category": "slang",
+        "subcategory": "work",
+        "examples": [
+            {"word": "bận", "meaning": "busy", "sentence": "Bận lắm = Very busy"},
+        ]
+    },
+    "rảnh": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "rảnh", "meaning": "free/available", "sentence": "Rảnh không = Are you free"},
+        ]
+    },
+    # Food and Going Out
+    "cháy túi": {
+        "category": "slang",
+        "subcategory": "money",
+        "examples": [
+            {"word": "cháy túi", "meaning": "broke/out of money", "sentence": "Cuối tháng cháy túi = Broke at month end"},
+        ]
+    },
+    "nhậu": {
+        "category": "slang",
+        "subcategory": "food",
+        "examples": [
+            {"word": "nhậu", "meaning": "to drink (alcohol) socially", "sentence": "Đi nhậu = Go drinking"},
+        ]
+    },
+    "ăn uống": {
+        "category": "slang",
+        "subcategory": "food",
+        "examples": [
+            {"word": "ăn uống", "meaning": "to eat and drink", "sentence": "Đi ăn uống = Go eat"},
+        ]
+    },
+    "quẩy": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "quẩy", "meaning": "to party/have fun", "sentence": "Đi quẩy = Go party"},
+        ]
+    },
+    "tụ tập": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "tụ tập", "meaning": "to hang out/gather", "sentence": "Tụ tập bạn bè = Hang out with friends"},
+        ]
+    },
+    "thưởng thức": {
+        "category": "slang",
+        "subcategory": "food",
+        "examples": [
+            {"word": "thưởng thức", "meaning": "to enjoy/savor", "sentence": "Thưởng thức món ngon = Enjoy delicious food"},
+        ]
+    },
+    # Common Expressions
+    "vậy á": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "vậy á", "meaning": "really?/is that so?", "sentence": "Vậy á? = Really?"},
+        ]
+    },
+    "thật hả": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "thật hả", "meaning": "really?/for real?", "sentence": "Thật hả? = For real?"},
+        ]
+    },
+    "ơ kìa": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ơ kìa", "meaning": "oh look/hey", "sentence": "Ơ kìa, ai đây = Oh, who's this"},
+        ]
+    },
+    "biết chết liền": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "biết chết liền", "meaning": "I have no idea", "sentence": "Biết chết liền = No clue"},
+        ]
+    },
+    "chịu": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "chịu", "meaning": "I give up/I don't know", "sentence": "Chịu luôn = I give up"},
+        ]
+    },
+    "kệ": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "kệ", "meaning": "don't care/whatever", "sentence": "Kệ đi = Whatever"},
+        ]
+    },
+    "cũng được": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "cũng được", "meaning": "it's okay/whatever", "sentence": "Cũng được thôi = It's fine"},
+        ]
+    },
+    "hên xui": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "hên xui", "meaning": "depends on luck", "sentence": "Hên xui thôi = Just luck"},
+        ]
+    },
+    "may mắn": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "may mắn", "meaning": "lucky", "sentence": "May mắn quá = So lucky"},
+        ]
+    },
+    "xui": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "xui", "meaning": "unlucky", "sentence": "Xui quá = So unlucky"},
+        ]
+    },
+    # Compliments and Descriptions
+    "xinh": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "xinh", "meaning": "pretty/cute", "sentence": "Xinh quá = So pretty"},
+        ]
+    },
+    "đẹp trai": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "đẹp trai", "meaning": "handsome", "sentence": "Đẹp trai quá = So handsome"},
+        ]
+    },
+    "cute": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "cute", "meaning": "cute", "sentence": "Cute quá = So cute"},
+        ]
+    },
+    "dễ thương": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "dễ thương", "meaning": "adorable/lovable", "sentence": "Dễ thương ghê = So adorable"},
+        ]
+    },
+    "ngon": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "ngon", "meaning": "delicious/good looking", "sentence": "Ngon lắm = Very good"},
+        ]
+    },
+    "chất": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "chất", "meaning": "stylish/quality", "sentence": "Chất quá = So stylish"},
+        ]
+    },
+    "xịn": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "xịn", "meaning": "premium/high quality", "sentence": "Xịn quá = So premium"},
+        ]
+    },
+    "xịn xò": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "xịn xò", "meaning": "very high quality", "sentence": "Xịn xò lắm = Very premium"},
+        ]
+    },
+    "giỏi": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "giỏi", "meaning": "good at/skilled", "sentence": "Giỏi quá = So skilled"},
+        ]
+    },
+    "pro": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "pro", "meaning": "professional/skilled", "sentence": "Pro lắm = Very pro"},
+        ]
+    },
+    # Negative Expressions
+    "dở": {
+        "category": "slang",
+        "subcategory": "negative",
+        "examples": [
+            {"word": "dở", "meaning": "bad/poor quality", "sentence": "Dở quá = So bad"},
+        ]
+    },
+    "nhạt": {
+        "category": "slang",
+        "subcategory": "negative",
+        "examples": [
+            {"word": "nhạt", "meaning": "boring/bland", "sentence": "Nhạt quá = So boring"},
+        ]
+    },
+    "chán": {
+        "category": "slang",
+        "subcategory": "negative",
+        "examples": [
+            {"word": "chán", "meaning": "bored/boring", "sentence": "Chán quá = So bored"},
+        ]
+    },
+    "kỳ": {
+        "category": "slang",
+        "subcategory": "negative",
+        "examples": [
+            {"word": "kỳ", "meaning": "weird/strange", "sentence": "Kỳ quá = So weird"},
+        ]
+    },
+    "lạ": {
+        "category": "slang",
+        "subcategory": "negative",
+        "examples": [
+            {"word": "lạ", "meaning": "strange/unfamiliar", "sentence": "Lạ quá = So strange"},
+        ]
+    },
+    "lầy": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "lầy", "meaning": "cheeky/mischievous", "sentence": "Lầy quá = So cheeky"},
+        ]
+    },
+    "lầy lội": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "lầy lội", "meaning": "very cheeky/shameless", "sentence": "Lầy lội vừa thôi = Don't be too cheeky"},
+        ]
+    },
+    "dìm hàng": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "dìm hàng", "meaning": "to make someone look bad", "sentence": "Đừng dìm hàng = Don't make me look bad"},
+        ]
+    },
+    "khen đểu": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "khen đểu", "meaning": "backhanded compliment", "sentence": "Khen đểu hoài = Always giving backhanded compliments"},
+        ]
+    },
+    "toxic": {
+        "category": "slang",
+        "subcategory": "negative",
+        "examples": [
+            {"word": "toxic", "meaning": "toxic", "sentence": "Toxic quá = So toxic"},
+        ]
+    },
+    # More lifestyle
+    "tám": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "tám", "meaning": "to gossip/chat", "sentence": "Tám chuyện = Gossip/chat"},
+        ]
+    },
+    "buôn": {
+        "category": "slang",
+        "subcategory": "lifestyle",
+        "examples": [
+            {"word": "buôn", "meaning": "to chat/gossip (Southern)", "sentence": "Buôn chuyện = Gossip"},
+        ]
+    },
+    "sến": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "sến", "meaning": "cheesy/corny", "sentence": "Sến quá = So cheesy"},
+        ]
+    },
+    "chảnh": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "chảnh", "meaning": "arrogant/stuck up", "sentence": "Chảnh quá = So stuck up"},
+        ]
+    },
+    "soái ca": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "soái ca", "meaning": "prince charming/hot guy", "sentence": "Soái ca của tao = My prince charming"},
+        ]
+    },
+    "nữ thần": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "nữ thần", "meaning": "goddess (for beautiful women)", "sentence": "Nữ thần của tao = My goddess"},
+        ]
+    },
+    "trai đẹp": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "trai đẹp", "meaning": "handsome guy", "sentence": "Trai đẹp kìa = There's a handsome guy"},
+        ]
+    },
+    "gái xinh": {
+        "category": "slang",
+        "subcategory": "compliments",
+        "examples": [
+            {"word": "gái xinh", "meaning": "pretty girl", "sentence": "Gái xinh kìa = There's a pretty girl"},
+        ]
+    },
+}
+
+
+# ============================================================
+# GEN Z VOCABULARY PACK
+# ============================================================
+
+GENZ_PACK = {
+    # Trending Slang
+    "real": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "real", "meaning": "genuine/relatable", "sentence": "Quá real = So relatable"},
+        ]
+    },
+    "slay": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "slay", "meaning": "to do extremely well", "sentence": "Slay nha = You're slaying"},
+        ]
+    },
+    "sus": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "sus", "meaning": "suspicious", "sentence": "Sus quá = So sus"},
+        ]
+    },
+    "cap": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "cap", "meaning": "lie/not true", "sentence": "No cap = No lie"},
+        ]
+    },
+    "no cap": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "no cap", "meaning": "no lie/for real", "sentence": "No cap luôn = For real"},
+        ]
+    },
+    "based": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "based", "meaning": "admirable/confident opinion", "sentence": "Based quá = So based"},
+        ]
+    },
+    "W": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "W", "meaning": "win/success", "sentence": "W lớn = Big win"},
+        ]
+    },
+    "L": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "L", "meaning": "loss/fail", "sentence": "Ăn L rồi = Took an L"},
+        ]
+    },
+    "ratio": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "ratio", "meaning": "to get more likes than the original", "sentence": "Bị ratio = Got ratioed"},
+        ]
+    },
+    "vibe": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "vibe", "meaning": "feeling/atmosphere", "sentence": "Vibe tốt = Good vibe"},
+        ]
+    },
+    "aesthetic": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "aesthetic", "meaning": "visually pleasing style", "sentence": "Aesthetic quá = So aesthetic"},
+        ]
+    },
+    "valid": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "valid", "meaning": "acceptable/understandable", "sentence": "Valid = That's valid"},
+        ]
+    },
+    "rizz": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "rizz", "meaning": "charm/ability to attract", "sentence": "Có rizz = Has rizz"},
+        ]
+    },
+    "simp": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "simp", "meaning": "someone who does too much for their crush", "sentence": "Simp quá = Such a simp"},
+        ]
+    },
+    "stan": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "stan", "meaning": "super fan", "sentence": "Stan BTS = BTS super fan"},
+        ]
+    },
+    "main": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "main", "meaning": "main character/main account", "sentence": "Đây là main = This is my main"},
+        ]
+    },
+    "ib": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "ib", "meaning": "inbox/DM", "sentence": "IB đi = DM me"},
+        ]
+    },
+    # Internet and Social Media
+    "viral": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "viral", "meaning": "trending/going viral", "sentence": "Lên viral = Going viral"},
+        ]
+    },
+    "trend": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "trend", "meaning": "trend", "sentence": "Theo trend = Follow the trend"},
+        ]
+    },
+    "content": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "content", "meaning": "content (social media)", "sentence": "Làm content = Create content"},
+        ]
+    },
+    "creator": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "creator", "meaning": "content creator", "sentence": "Content creator = Content creator"},
+        ]
+    },
+    "reaction": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "reaction", "meaning": "reaction video", "sentence": "Làm video reaction = Make reaction video"},
+        ]
+    },
+    "review": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "review", "meaning": "review", "sentence": "Review món ăn = Food review"},
+        ]
+    },
+    "mukbang": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "mukbang", "meaning": "eating show", "sentence": "Quay mukbang = Film mukbang"},
+        ]
+    },
+    "unbox": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "unbox", "meaning": "unboxing video", "sentence": "Unbox điện thoại mới = Unbox new phone"},
+        ]
+    },
+    "POV": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "POV", "meaning": "point of view", "sentence": "POV: Bạn là... = POV: You are..."},
+        ]
+    },
+    "FYP": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "FYP", "meaning": "For You Page (TikTok)", "sentence": "Lên FYP = On the FYP"},
+        ]
+    },
+    "ship": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "ship", "meaning": "to support a couple", "sentence": "Ship họ = I ship them"},
+        ]
+    },
+    "OTP": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "OTP", "meaning": "One True Pairing", "sentence": "OTP của tao = My OTP"},
+        ]
+    },
+    "bias": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "bias", "meaning": "favorite member in a group", "sentence": "Bias của tao = My bias"},
+        ]
+    },
+    "đu": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "đu", "meaning": "to be a fan/follow", "sentence": "Đu idol = Follow idol"},
+        ]
+    },
+    "fandom": {
+        "category": "slang",
+        "subcategory": "internet",
+        "examples": [
+            {"word": "fandom", "meaning": "fan community", "sentence": "Fandom này mạnh = This fandom is strong"},
+        ]
+    },
+    # Gaming
+    "GG": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "GG", "meaning": "good game", "sentence": "GG nhé = Good game"},
+        ]
+    },
+    "noob": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "noob", "meaning": "newbie/unskilled player", "sentence": "Noob quá = Such a noob"},
+        ]
+    },
+    "tryhard": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "tryhard", "meaning": "someone who tries too hard", "sentence": "Tryhard quá = Trying too hard"},
+        ]
+    },
+    "carry": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "carry", "meaning": "to carry the team", "sentence": "Carry team = Carry the team"},
+        ]
+    },
+    "feed": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "feed", "meaning": "to keep dying (giving kills)", "sentence": "Đừng feed nữa = Stop feeding"},
+        ]
+    },
+    "AFK": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "AFK", "meaning": "away from keyboard", "sentence": "AFK tí = AFK for a bit"},
+        ]
+    },
+    "buff": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "buff", "meaning": "power up/enhance", "sentence": "Buff thêm = Buff more"},
+        ]
+    },
+    "nerf": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "nerf", "meaning": "to weaken", "sentence": "Bị nerf = Got nerfed"},
+        ]
+    },
+    "lag": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "lag", "meaning": "connection delay", "sentence": "Lag quá = So much lag"},
+        ]
+    },
+    "toxic": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "toxic", "meaning": "toxic player", "sentence": "Đừng toxic = Don't be toxic"},
+        ]
+    },
+    "camp": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "camp", "meaning": "to hide and wait", "sentence": "Camp bush = Camp in bush"},
+        ]
+    },
+    "combo": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "combo", "meaning": "combination of moves", "sentence": "Combo đẹp = Nice combo"},
+        ]
+    },
+    "OP": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "OP", "meaning": "overpowered", "sentence": "OP quá = So OP"},
+        ]
+    },
+    "meta": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "meta", "meaning": "most effective tactic", "sentence": "Theo meta = Follow meta"},
+        ]
+    },
+    "rank": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "rank", "meaning": "ranked game/rank", "sentence": "Leo rank = Climb rank"},
+        ]
+    },
+    "int": {
+        "category": "slang",
+        "subcategory": "gaming",
+        "examples": [
+            {"word": "int", "meaning": "intentional feeding", "sentence": "Đừng int = Don't int"},
+        ]
+    },
+    # Emotions and Reactions
+    "bé lắm": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "bé lắm", "meaning": "so small/cute (affectionate)", "sentence": "Bé lắm bé = So cute"},
+        ]
+    },
+    "nhiều": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "nhiều", "meaning": "a lot (used as suffix)", "sentence": "Yêu nhiều = Love you lots"},
+        ]
+    },
+    "nhiu": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "nhiu", "meaning": "how much (cute spelling)", "sentence": "Yêu nhiu = Love how much"},
+        ]
+    },
+    "nha": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "nha", "meaning": "okay?/right? (sentence ender)", "sentence": "Đi học nha = Go study, okay?"},
+        ]
+    },
+    "nè": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "nè", "meaning": "hey/here (Southern)", "sentence": "Nè nè = Hey hey"},
+        ]
+    },
+    "á": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "á", "meaning": "huh?/exclamation", "sentence": "Gì á? = What?"},
+        ]
+    },
+    "hả": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "hả", "meaning": "huh?/what?", "sentence": "Cái gì hả? = What?"},
+        ]
+    },
+    "ủa": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ủa", "meaning": "huh?/wait what?", "sentence": "Ủa sao? = Wait, why?"},
+        ]
+    },
+    "oke": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "oke", "meaning": "okay", "sentence": "Oke luôn = Okay then"},
+        ]
+    },
+    "okela": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "okela", "meaning": "okay (playful)", "sentence": "Okela nha = Okay then"},
+        ]
+    },
+    "ui": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ui", "meaning": "oh!/oops!", "sentence": "Ui đau = Ouch"},
+        ]
+    },
+    "ôi": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ôi", "meaning": "oh my", "sentence": "Ôi trời = Oh my god"},
+        ]
+    },
+    "trời ơi": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "trời ơi", "meaning": "oh my god", "sentence": "Trời ơi đất hỡi = Oh my god"},
+        ]
+    },
+    "ê": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ê", "meaning": "hey!", "sentence": "Ê, đợi tao = Hey, wait for me"},
+        ]
+    },
+    "woa": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "woa", "meaning": "wow", "sentence": "Woa đẹp quá = Wow so pretty"},
+        ]
+    },
+    "ây da": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ây da", "meaning": "oh dear/oops", "sentence": "Ây da chết rồi = Oh dear"},
+        ]
+    },
+    # Abbreviations
+    "bt": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "bt", "meaning": "bình thường (normal)", "sentence": "Bt thôi = Just normal"},
+        ]
+    },
+    "dc": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "dc", "meaning": "được (can/okay)", "sentence": "Dc mà = It's okay"},
+        ]
+    },
+    "ko": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "ko", "meaning": "không (no)", "sentence": "Ko có = Don't have"},
+        ]
+    },
+    "k": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "k", "meaning": "không (no)", "sentence": "K dc = Can't"},
+        ]
+    },
+    "nc": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "nc", "meaning": "nói chuyện (chat)", "sentence": "Nc với tao = Chat with me"},
+        ]
+    },
+    "vk": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "vk", "meaning": "vợ (wife)", "sentence": "Vk đâu = Where's wife"},
+        ]
+    },
+    "ck": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "ck", "meaning": "chồng (husband)", "sentence": "Ck đâu = Where's husband"},
+        ]
+    },
+    "ny": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "ny", "meaning": "người yêu (lover)", "sentence": "Ny mới = New lover"},
+        ]
+    },
+    "bff": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "bff", "meaning": "best friend forever", "sentence": "BFF của tao = My BFF"},
+        ]
+    },
+    "ib": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "ib", "meaning": "inbox", "sentence": "IB nhé = Message me"},
+        ]
+    },
+    "cmn": {
+        "category": "slang",
+        "subcategory": "abbreviations",
+        "examples": [
+            {"word": "cmn", "meaning": "comment", "sentence": "Cmn đi = Comment please"},
+        ]
+    },
+    # Modern slang and expressions
+    "chill guy": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "chill guy", "meaning": "relaxed/unbothered person", "sentence": "Là chill guy = Being a chill guy"},
+        ]
+    },
+    "era": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "era", "meaning": "phase/era", "sentence": "Era làm việc = Work era"},
+        ]
+    },
+    "core": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "core", "meaning": "aesthetic/style core", "sentence": "Dark core = Dark aesthetic"},
+        ]
+    },
+    "coded": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "coded", "meaning": "having qualities of", "sentence": "Main character coded = Has main character energy"},
+        ]
+    },
+    "ate": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ate", "meaning": "did amazing/killed it", "sentence": "Ate sạch = Killed it"},
+        ]
+    },
+    "understood the assignment": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "understood the assignment", "meaning": "did exactly what was needed", "sentence": "Understood the assignment = Nailed it"},
+        ]
+    },
+    "rent free": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "rent free", "meaning": "constantly on your mind", "sentence": "Sống rent free = Living rent free in my head"},
+        ]
+    },
+    "main character": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "main character", "meaning": "protagonist energy", "sentence": "Main character energy = Protagonist vibes"},
+        ]
+    },
+    "NPC": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "NPC", "meaning": "boring/unimportant person", "sentence": "Sống như NPC = Living like an NPC"},
+        ]
+    },
+    "red flag": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "red flag", "meaning": "warning sign", "sentence": "Red flag lớn = Big red flag"},
+        ]
+    },
+    "green flag": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "green flag", "meaning": "positive sign", "sentence": "Green flag nè = That's a green flag"},
+        ]
+    },
+    "ick": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "ick", "meaning": "sudden turn-off", "sentence": "Cho tao ick = Gave me the ick"},
+        ]
+    },
+    "pick me": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "pick me", "meaning": "attention seeker", "sentence": "Pick me girl = Pick me girl"},
+        ]
+    },
+    "gaslight": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "gaslight", "meaning": "manipulate into questioning reality", "sentence": "Đừng gaslight = Don't gaslight"},
+        ]
+    },
+    "gatekeep": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "gatekeep", "meaning": "keep something exclusive", "sentence": "Đừng gatekeep = Don't gatekeep"},
+        ]
+    },
+    "girlboss": {
+        "category": "slang",
+        "subcategory": "expressions",
+        "examples": [
+            {"word": "girlboss", "meaning": "ambitious woman", "sentence": "Girlboss quá = Such a girlboss"},
+        ]
+    },
+}
+
+
 def get_pack_data(pack_id):
     """Get the vocabulary data for a specific pack"""
     if pack_id == "manga_fiction":
         return MANGA_FICTION_PACK
     elif pack_id == "self_help":
         return SELF_HELP_PACK
+    elif pack_id == "millennial":
+        return MILLENNIAL_PACK
+    elif pack_id == "genz":
+        return GENZ_PACK
     return {}
 
 
