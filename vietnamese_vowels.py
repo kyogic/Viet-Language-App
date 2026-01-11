@@ -1636,6 +1636,90 @@ class VietnameseVowelsApp:
         for widget in self.nav_frame.winfo_children():
             widget.destroy()
 
+    def create_scrollable_frame(self, parent):
+        """Create a scrollable frame container with mouse wheel support"""
+        c = self.COLORS
+
+        # Create canvas and scrollbar
+        canvas = tk.Canvas(parent, bg=c['bg_dark'], highlightthickness=0)
+        scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+        scrollable_frame = tk.Frame(canvas, bg=c['bg_dark'])
+
+        # Configure scroll region when frame size changes
+        def configure_scroll(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+            # Update canvas window width to match canvas width
+            canvas.itemconfig(frame_id, width=canvas.winfo_width())
+
+        scrollable_frame.bind("<Configure>", configure_scroll)
+
+        # Create window in canvas
+        frame_id = canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+
+        # Update frame width when canvas resizes
+        def on_canvas_resize(event):
+            canvas.itemconfig(frame_id, width=event.width)
+
+        canvas.bind("<Configure>", on_canvas_resize)
+
+        # Configure canvas scrolling
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Mouse wheel scrolling
+        def on_mousewheel(event):
+            # Handle different platforms
+            if event.delta:
+                canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+            elif event.num == 4:
+                canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                canvas.yview_scroll(1, "units")
+
+        # Bind mouse wheel to canvas and all children
+        def bind_mousewheel(widget):
+            widget.bind("<MouseWheel>", on_mousewheel)  # Windows/Mac
+            widget.bind("<Button-4>", on_mousewheel)    # Linux scroll up
+            widget.bind("<Button-5>", on_mousewheel)    # Linux scroll down
+
+        def bind_mousewheel_recursive(widget):
+            """Recursively bind mousewheel to widget and all children"""
+            bind_mousewheel(widget)
+            for child in widget.winfo_children():
+                bind_mousewheel_recursive(child)
+
+        bind_mousewheel(canvas)
+        bind_mousewheel(scrollable_frame)
+
+        # Store bind functions for later use with dynamic children
+        scrollable_frame.bind_mousewheel = bind_mousewheel
+        scrollable_frame.bind_mousewheel_recursive = bind_mousewheel_recursive
+
+        # Pack scrollbar and canvas
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        return scrollable_frame, canvas
+
+    def bind_canvas_mousewheel(self, canvas, scrollable_frame):
+        """Bind mousewheel scrolling to a canvas and its content frame"""
+        def on_mousewheel(event):
+            if event.delta:
+                canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+            elif event.num == 4:
+                canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                canvas.yview_scroll(1, "units")
+
+        def bind_recursive(widget):
+            widget.bind("<MouseWheel>", on_mousewheel)
+            widget.bind("<Button-4>", on_mousewheel)
+            widget.bind("<Button-5>", on_mousewheel)
+            for child in widget.winfo_children():
+                bind_recursive(child)
+
+        bind_recursive(canvas)
+        bind_recursive(scrollable_frame)
+
     def update_stats_display(self):
         """Update the stats display in header"""
         c = self.COLORS
@@ -1654,9 +1738,15 @@ class VietnameseVowelsApp:
         self.in_review_mode = False
         c = self.COLORS
 
+        # Create scrollable container for home screen
+        scroll_container, scroll_canvas = self.create_scrollable_frame(self.content_frame)
+
         # Main content container with some padding
-        container = tk.Frame(self.content_frame, bg=c['bg_dark'])
+        container = tk.Frame(scroll_container, bg=c['bg_dark'])
         container.pack(fill=tk.BOTH, expand=True, padx=20)
+
+        # Bind mousewheel to container and its children
+        scroll_container.bind_mousewheel(container)
 
         # Welcome section
         welcome = tk.Label(
@@ -1858,6 +1948,9 @@ class VietnameseVowelsApp:
             justify=tk.LEFT
         ).pack(anchor=tk.W)
 
+        # Bind mousewheel to all widgets for smooth scrolling
+        scroll_container.bind_mousewheel_recursive(container)
+
         self.update_stats_display()
 
     def show_browse(self):
@@ -1888,11 +1981,6 @@ class VietnameseVowelsApp:
 
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
-
-        # Enable mouse wheel scrolling
-        def on_mousewheel(event):
-            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-        canvas.bind_all("<MouseWheel>", on_mousewheel)
 
         canvas.pack(side="left", fill="both", expand=True, padx=20)
         scrollbar.pack(side="right", fill="y")
@@ -2028,6 +2116,9 @@ class VietnameseVowelsApp:
             command=self.show_home
         )
         home_btn.pack(side=tk.RIGHT)
+
+        # Bind mousewheel scrolling
+        self.bind_canvas_mousewheel(canvas, scrollable_frame)
 
     def show_vowel_detail(self, vowel):
         """Show detailed view of a single vowel or tone with dark theme"""
@@ -2251,6 +2342,10 @@ class VietnameseVowelsApp:
             command=self.show_home
         )
         home_btn.pack(side=tk.RIGHT)
+
+        # Bind mousewheel scrolling for tone detail view
+        if is_tone:
+            self.bind_canvas_mousewheel(canvas, card)
 
     def start_review(self):
         """Start a review session"""
@@ -2802,6 +2897,9 @@ class VietnameseVowelsApp:
         )
         back_btn.pack(side=tk.LEFT)
 
+        # Bind mousewheel scrolling
+        self.bind_canvas_mousewheel(canvas, scrollable_frame)
+
     def download_pack(self, pack_id):
         """Download and install a content pack"""
         if self.pack_manager.download_pack(pack_id):
@@ -2862,10 +2960,6 @@ class VietnameseVowelsApp:
 
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
-
-        def on_mousewheel(event):
-            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-        canvas.bind_all("<MouseWheel>", on_mousewheel)
 
         canvas.pack(side="left", fill="both", expand=True, padx=20)
         scrollbar.pack(side="right", fill="y")
@@ -2964,6 +3058,9 @@ class VietnameseVowelsApp:
             command=self.show_home
         )
         home_btn.pack(side=tk.RIGHT)
+
+        # Bind mousewheel scrolling
+        self.bind_canvas_mousewheel(canvas, scrollable_frame)
 
     def start_pack_review(self, pack_id):
         """Start a review session for a specific content pack"""
