@@ -16,12 +16,14 @@ A standalone application to learn Vietnamese vowels and tones using the **Leitne
 - **Leitner System**: Scientifically proven spaced repetition for effective memorization
 - **Progress Tracking**: Your progress is saved automatically
 - **Reset Progress**: Start fresh anytime with the reset button
-- **Responsive UI**: Works in both fullscreen and windowed mode
+- **Responsive UI**: Works in both fullscreen and windowed mode with dynamic resizing
 - **Steam-Inspired Dark Theme**: Easy on the eyes for extended study sessions
+- **Animated Game-Style Buttons**: Smooth hover and press animations with color transitions
 - **Customizable Study Sessions**: Set how many cards to review per session (5, 10, 15, 20, 25, 30, 50, or all)
 - **Downloadable Content Packs**: Expand your vocabulary with specialized packs:
   - Manga, Fiction & Fantasy Pack (500+ words): Onomatopoeia, emotions, action words, fantasy terms
   - Self-Help & Personal Development Pack (300+ words): Mindset, goals, habits, productivity vocabulary
+  - Doraemon Manga Pack (89 words): Essential vocabulary for reading Vietnamese Doraemon manga
   - Millennial Vocabulary Pack (86 words): Authentic Vietnamese slang and expressions
   - Gen Z Vocabulary Pack (90 words): Vietnamese abbreviations, cute speech, and youth expressions
 
@@ -55,6 +57,7 @@ Expand your vocabulary beyond vowels and tones with downloadable content packs:
 |------|-------|-------------|
 | Manga, Fiction & Fantasy | 500+ | Onomatopoeia (bùm, xoẹt), exclamations (trời ơi!), action verbs, emotions, fantasy/manga terminology |
 | Self-Help & Personal Development | 300+ | Mindset, goals, habits, productivity, relationships, finance vocabulary |
+| Doraemon Manga | 89 | Gadgets (bảo bối, cửa thần kỳ), school life (bài tập, điểm kém), emotions (khóc, sợ), common phrases |
 | Millennial Vocabulary | 86 | Authentic slang (gấu, thả thính, cẩu lương), internet terms (phốt, hóng, soi), expressions (đỉnh của chóp, xỉu) |
 | Gen Z Vocabulary | 90 | Text abbreviations (bt, dc, ko, ny), cute speech (bùn, nhiu, hem), gaming terms (gánh, leo, rớt) |
 

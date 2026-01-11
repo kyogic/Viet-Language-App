@@ -37,6 +37,14 @@ CONTENT_PACKS = {
         "word_count": 90,
         "categories": ["Abbreviations", "Cute Speech", "Internet", "Gaming", "Expressions"],
         "icon": "🔥"
+    },
+    "doraemon": {
+        "id": "doraemon",
+        "name": "Doraemon Manga",
+        "description": "Essential vocabulary for reading Vietnamese Doraemon manga - gadgets, expressions, school life",
+        "word_count": 89,
+        "categories": ["Gadgets", "School", "Emotions", "Actions", "Daily Life"],
+        "icon": "🤖"
     }
 }
 
@@ -3073,6 +3081,644 @@ GENZ_PACK = {
 }
 
 
+# ============================================================
+# DORAEMON MANGA VOCABULARY PACK
+# ============================================================
+
+DORAEMON_PACK = {
+    # === GADGETS (Bảo bối) ===
+    "bảo bối": {
+        "category": "gadgets",
+        "subcategory": "general",
+        "examples": [
+            {"word": "bảo bối", "meaning": "secret gadget/treasure tool", "sentence": "Doraemon lấy bảo bối ra = Doraemon takes out a gadget"},
+        ]
+    },
+    "túi thần kỳ": {
+        "category": "gadgets",
+        "subcategory": "general",
+        "examples": [
+            {"word": "túi thần kỳ", "meaning": "4-dimensional pocket", "sentence": "Lấy từ túi thần kỳ = Take from the magic pocket"},
+        ]
+    },
+    "cửa thần kỳ": {
+        "category": "gadgets",
+        "subcategory": "items",
+        "examples": [
+            {"word": "cửa thần kỳ", "meaning": "Anywhere Door", "sentence": "Dùng cửa thần kỳ đi đến = Use the Anywhere Door to go to"},
+        ]
+    },
+    "chong chóng tre": {
+        "category": "gadgets",
+        "subcategory": "items",
+        "examples": [
+            {"word": "chong chóng tre", "meaning": "Take-copter/bamboo copter", "sentence": "Đội chong chóng tre lên đầu = Put the Take-copter on head"},
+        ]
+    },
+    "cỗ máy thời gian": {
+        "category": "gadgets",
+        "subcategory": "items",
+        "examples": [
+            {"word": "cỗ máy thời gian", "meaning": "Time Machine", "sentence": "Đi bằng cỗ máy thời gian = Go by Time Machine"},
+        ]
+    },
+    "đèn thu nhỏ": {
+        "category": "gadgets",
+        "subcategory": "items",
+        "examples": [
+            {"word": "đèn thu nhỏ", "meaning": "Shrink Ray/Small Light", "sentence": "Dùng đèn thu nhỏ = Use the Shrink Ray"},
+        ]
+    },
+    "bánh mì ký ức": {
+        "category": "gadgets",
+        "subcategory": "items",
+        "examples": [
+            {"word": "bánh mì ký ức", "meaning": "Memory Bread", "sentence": "Ăn bánh mì ký ức để nhớ bài = Eat Memory Bread to remember lessons"},
+        ]
+    },
+    "mũ tàng hình": {
+        "category": "gadgets",
+        "subcategory": "items",
+        "examples": [
+            {"word": "mũ tàng hình", "meaning": "Invisibility Cape", "sentence": "Đội mũ tàng hình = Wear the Invisibility Cape"},
+        ]
+    },
+    "máy": {
+        "category": "gadgets",
+        "subcategory": "general",
+        "examples": [
+            {"word": "máy", "meaning": "machine/device", "sentence": "Máy này làm gì? = What does this machine do?"},
+        ]
+    },
+    "thần kỳ": {
+        "category": "gadgets",
+        "subcategory": "general",
+        "examples": [
+            {"word": "thần kỳ", "meaning": "magical/miraculous", "sentence": "Thật là thần kỳ = How magical"},
+        ]
+    },
+    # === SCHOOL LIFE ===
+    "học sinh": {
+        "category": "school",
+        "subcategory": "people",
+        "examples": [
+            {"word": "học sinh", "meaning": "student", "sentence": "Nobita là học sinh = Nobita is a student"},
+        ]
+    },
+    "thầy giáo": {
+        "category": "school",
+        "subcategory": "people",
+        "examples": [
+            {"word": "thầy giáo", "meaning": "male teacher", "sentence": "Thầy giáo giận lắm = The teacher is very angry"},
+        ]
+    },
+    "cô giáo": {
+        "category": "school",
+        "subcategory": "people",
+        "examples": [
+            {"word": "cô giáo", "meaning": "female teacher", "sentence": "Cô giáo gọi tên = The teacher called the name"},
+        ]
+    },
+    "bài tập": {
+        "category": "school",
+        "subcategory": "items",
+        "examples": [
+            {"word": "bài tập", "meaning": "homework/assignment", "sentence": "Quên làm bài tập = Forgot to do homework"},
+        ]
+    },
+    "bài kiểm tra": {
+        "category": "school",
+        "subcategory": "items",
+        "examples": [
+            {"word": "bài kiểm tra", "meaning": "test/exam", "sentence": "Bài kiểm tra ngày mai = Test is tomorrow"},
+        ]
+    },
+    "điểm": {
+        "category": "school",
+        "subcategory": "items",
+        "examples": [
+            {"word": "điểm", "meaning": "score/grade", "sentence": "Được điểm 0 = Got a zero"},
+        ]
+    },
+    "điểm kém": {
+        "category": "school",
+        "subcategory": "items",
+        "examples": [
+            {"word": "điểm kém", "meaning": "bad grade", "sentence": "Lại điểm kém nữa = Another bad grade again"},
+        ]
+    },
+    "trường học": {
+        "category": "school",
+        "subcategory": "places",
+        "examples": [
+            {"word": "trường học", "meaning": "school", "sentence": "Đi đến trường học = Go to school"},
+        ]
+    },
+    "lớp học": {
+        "category": "school",
+        "subcategory": "places",
+        "examples": [
+            {"word": "lớp học", "meaning": "classroom", "sentence": "Trong lớp học = In the classroom"},
+        ]
+    },
+    "sân trường": {
+        "category": "school",
+        "subcategory": "places",
+        "examples": [
+            {"word": "sân trường", "meaning": "schoolyard", "sentence": "Chơi ở sân trường = Play in the schoolyard"},
+        ]
+    },
+    "học": {
+        "category": "school",
+        "subcategory": "actions",
+        "examples": [
+            {"word": "học", "meaning": "to study", "sentence": "Phải học bài = Must study"},
+        ]
+    },
+    "thi": {
+        "category": "school",
+        "subcategory": "actions",
+        "examples": [
+            {"word": "thi", "meaning": "to take a test", "sentence": "Mai thi rồi = The test is tomorrow"},
+        ]
+    },
+    # === EMOTIONS ===
+    "khóc": {
+        "category": "emotions",
+        "subcategory": "crying",
+        "examples": [
+            {"word": "khóc", "meaning": "to cry", "sentence": "Nobita khóc = Nobita cries"},
+        ]
+    },
+    "khóc nhè": {
+        "category": "emotions",
+        "subcategory": "crying",
+        "examples": [
+            {"word": "khóc nhè", "meaning": "to whine/cry like a baby", "sentence": "Đừng khóc nhè nữa = Stop whining"},
+        ]
+    },
+    "sợ": {
+        "category": "emotions",
+        "subcategory": "fear",
+        "examples": [
+            {"word": "sợ", "meaning": "to be scared/afraid", "sentence": "Sợ quá! = So scared!"},
+        ]
+    },
+    "sợ hãi": {
+        "category": "emotions",
+        "subcategory": "fear",
+        "examples": [
+            {"word": "sợ hãi", "meaning": "terrified/frightened", "sentence": "Mặt sợ hãi = Frightened face"},
+        ]
+    },
+    "hoảng sợ": {
+        "category": "emotions",
+        "subcategory": "fear",
+        "examples": [
+            {"word": "hoảng sợ", "meaning": "panicked/terrified", "sentence": "Hoảng sợ chạy đi = Run away in panic"},
+        ]
+    },
+    "lo lắng": {
+        "category": "emotions",
+        "subcategory": "worry",
+        "examples": [
+            {"word": "lo lắng", "meaning": "worried/anxious", "sentence": "Đừng lo lắng = Don't worry"},
+        ]
+    },
+    "lo": {
+        "category": "emotions",
+        "subcategory": "worry",
+        "examples": [
+            {"word": "lo", "meaning": "to worry", "sentence": "Lo quá = So worried"},
+        ]
+    },
+    "tức giận": {
+        "category": "emotions",
+        "subcategory": "anger",
+        "examples": [
+            {"word": "tức giận", "meaning": "angry/furious", "sentence": "Mẹ tức giận lắm = Mom is very angry"},
+        ]
+    },
+    "giận": {
+        "category": "emotions",
+        "subcategory": "anger",
+        "examples": [
+            {"word": "giận", "meaning": "angry/mad", "sentence": "Giận rồi! = I'm mad!"},
+        ]
+    },
+    "vui": {
+        "category": "emotions",
+        "subcategory": "happy",
+        "examples": [
+            {"word": "vui", "meaning": "happy/joyful", "sentence": "Vui quá! = So happy!"},
+        ]
+    },
+    "vui mừng": {
+        "category": "emotions",
+        "subcategory": "happy",
+        "examples": [
+            {"word": "vui mừng", "meaning": "delighted/overjoyed", "sentence": "Vui mừng nhảy lên = Jump with joy"},
+        ]
+    },
+    "buồn": {
+        "category": "emotions",
+        "subcategory": "sad",
+        "examples": [
+            {"word": "buồn", "meaning": "sad", "sentence": "Buồn quá = So sad"},
+        ]
+    },
+    "xấu hổ": {
+        "category": "emotions",
+        "subcategory": "embarrassment",
+        "examples": [
+            {"word": "xấu hổ", "meaning": "embarrassed/ashamed", "sentence": "Xấu hổ quá = So embarrassed"},
+        ]
+    },
+    "ngạc nhiên": {
+        "category": "emotions",
+        "subcategory": "surprise",
+        "examples": [
+            {"word": "ngạc nhiên", "meaning": "surprised", "sentence": "Ngạc nhiên chưa! = Surprised yet!"},
+        ]
+    },
+    "kinh ngạc": {
+        "category": "emotions",
+        "subcategory": "surprise",
+        "examples": [
+            {"word": "kinh ngạc", "meaning": "amazed/astonished", "sentence": "Thật kinh ngạc = How amazing"},
+        ]
+    },
+    # === ACTIONS ===
+    "chạy": {
+        "category": "actions",
+        "subcategory": "movement",
+        "examples": [
+            {"word": "chạy", "meaning": "to run", "sentence": "Chạy nhanh lên! = Run faster!"},
+        ]
+    },
+    "chạy trốn": {
+        "category": "actions",
+        "subcategory": "movement",
+        "examples": [
+            {"word": "chạy trốn", "meaning": "to run away/escape", "sentence": "Chạy trốn đi! = Run away!"},
+        ]
+    },
+    "nhảy": {
+        "category": "actions",
+        "subcategory": "movement",
+        "examples": [
+            {"word": "nhảy", "meaning": "to jump", "sentence": "Nhảy lên! = Jump up!"},
+        ]
+    },
+    "bay": {
+        "category": "actions",
+        "subcategory": "movement",
+        "examples": [
+            {"word": "bay", "meaning": "to fly", "sentence": "Bay lên trời = Fly up to the sky"},
+        ]
+    },
+    "rơi": {
+        "category": "actions",
+        "subcategory": "movement",
+        "examples": [
+            {"word": "rơi", "meaning": "to fall", "sentence": "Rơi xuống đất = Fall to the ground"},
+        ]
+    },
+    "ngã": {
+        "category": "actions",
+        "subcategory": "movement",
+        "examples": [
+            {"word": "ngã", "meaning": "to fall down/trip", "sentence": "Ngã xuống = Fall down"},
+        ]
+    },
+    "đánh": {
+        "category": "actions",
+        "subcategory": "conflict",
+        "examples": [
+            {"word": "đánh", "meaning": "to hit/beat", "sentence": "Bị đánh = Got hit"},
+        ]
+    },
+    "bắt nạt": {
+        "category": "actions",
+        "subcategory": "conflict",
+        "examples": [
+            {"word": "bắt nạt", "meaning": "to bully", "sentence": "Bị bắt nạt = Being bullied"},
+        ]
+    },
+    "giúp": {
+        "category": "actions",
+        "subcategory": "helping",
+        "examples": [
+            {"word": "giúp", "meaning": "to help", "sentence": "Giúp tôi với! = Help me!"},
+        ]
+    },
+    "giúp đỡ": {
+        "category": "actions",
+        "subcategory": "helping",
+        "examples": [
+            {"word": "giúp đỡ", "meaning": "to assist/help", "sentence": "Cần giúp đỡ = Need help"},
+        ]
+    },
+    "cứu": {
+        "category": "actions",
+        "subcategory": "helping",
+        "examples": [
+            {"word": "cứu", "meaning": "to save/rescue", "sentence": "Cứu tôi với! = Save me!"},
+        ]
+    },
+    "cầu cứu": {
+        "category": "actions",
+        "subcategory": "helping",
+        "examples": [
+            {"word": "cầu cứu", "meaning": "to call for help", "sentence": "Cầu cứu Doraemon = Call Doraemon for help"},
+        ]
+    },
+    "ngủ": {
+        "category": "actions",
+        "subcategory": "daily",
+        "examples": [
+            {"word": "ngủ", "meaning": "to sleep", "sentence": "Ngủ trưa = Take a nap"},
+        ]
+    },
+    "ngủ gật": {
+        "category": "actions",
+        "subcategory": "daily",
+        "examples": [
+            {"word": "ngủ gật", "meaning": "to doze off", "sentence": "Ngủ gật trong lớp = Doze off in class"},
+        ]
+    },
+    "ăn": {
+        "category": "actions",
+        "subcategory": "daily",
+        "examples": [
+            {"word": "ăn", "meaning": "to eat", "sentence": "Ăn bánh rán = Eat dorayaki"},
+        ]
+    },
+    "mượn": {
+        "category": "actions",
+        "subcategory": "general",
+        "examples": [
+            {"word": "mượn", "meaning": "to borrow", "sentence": "Mượn bảo bối = Borrow a gadget"},
+        ]
+    },
+    "trả": {
+        "category": "actions",
+        "subcategory": "general",
+        "examples": [
+            {"word": "trả", "meaning": "to return/give back", "sentence": "Trả lại đi = Give it back"},
+        ]
+    },
+    # === DAILY LIFE ===
+    "nhà": {
+        "category": "daily_life",
+        "subcategory": "places",
+        "examples": [
+            {"word": "nhà", "meaning": "house/home", "sentence": "Về nhà = Go home"},
+        ]
+    },
+    "phòng": {
+        "category": "daily_life",
+        "subcategory": "places",
+        "examples": [
+            {"word": "phòng", "meaning": "room", "sentence": "Phòng của Nobita = Nobita's room"},
+        ]
+    },
+    "bãi đất trống": {
+        "category": "daily_life",
+        "subcategory": "places",
+        "examples": [
+            {"word": "bãi đất trống", "meaning": "empty lot/vacant lot", "sentence": "Chơi ở bãi đất trống = Play at the empty lot"},
+        ]
+    },
+    "ống cống": {
+        "category": "daily_life",
+        "subcategory": "places",
+        "examples": [
+            {"word": "ống cống", "meaning": "concrete pipe (where kids play)", "sentence": "Ngồi trên ống cống = Sit on the pipe"},
+        ]
+    },
+    "bánh rán": {
+        "category": "daily_life",
+        "subcategory": "food",
+        "examples": [
+            {"word": "bánh rán", "meaning": "dorayaki (Doraemon's favorite)", "sentence": "Doraemon thích bánh rán = Doraemon likes dorayaki"},
+        ]
+    },
+    "đồ ăn": {
+        "category": "daily_life",
+        "subcategory": "food",
+        "examples": [
+            {"word": "đồ ăn", "meaning": "food", "sentence": "Đồ ăn ngon = Delicious food"},
+        ]
+    },
+    "mẹ": {
+        "category": "daily_life",
+        "subcategory": "family",
+        "examples": [
+            {"word": "mẹ", "meaning": "mother/mom", "sentence": "Mẹ la mắng = Mom scolds"},
+        ]
+    },
+    "bố": {
+        "category": "daily_life",
+        "subcategory": "family",
+        "examples": [
+            {"word": "bố", "meaning": "father/dad", "sentence": "Bố đi làm = Dad goes to work"},
+        ]
+    },
+    "bạn": {
+        "category": "daily_life",
+        "subcategory": "people",
+        "examples": [
+            {"word": "bạn", "meaning": "friend", "sentence": "Bạn thân = Close friend"},
+        ]
+    },
+    # === COMMON PHRASES ===
+    "xong rồi": {
+        "category": "phrases",
+        "subcategory": "completion",
+        "examples": [
+            {"word": "xong rồi", "meaning": "done/finished", "sentence": "Xong rồi! = Done!"},
+        ]
+    },
+    "được rồi": {
+        "category": "phrases",
+        "subcategory": "agreement",
+        "examples": [
+            {"word": "được rồi", "meaning": "okay/alright", "sentence": "Được rồi, để tôi! = Alright, leave it to me!"},
+        ]
+    },
+    "không được": {
+        "category": "phrases",
+        "subcategory": "refusal",
+        "examples": [
+            {"word": "không được", "meaning": "can't/not allowed", "sentence": "Không được làm vậy! = Can't do that!"},
+        ]
+    },
+    "làm sao": {
+        "category": "phrases",
+        "subcategory": "question",
+        "examples": [
+            {"word": "làm sao", "meaning": "what to do/how", "sentence": "Làm sao bây giờ? = What do we do now?"},
+        ]
+    },
+    "làm sao đây": {
+        "category": "phrases",
+        "subcategory": "question",
+        "examples": [
+            {"word": "làm sao đây", "meaning": "what should I do", "sentence": "Làm sao đây! = What should I do!"},
+        ]
+    },
+    "thật sao": {
+        "category": "phrases",
+        "subcategory": "surprise",
+        "examples": [
+            {"word": "thật sao", "meaning": "really?/is that true?", "sentence": "Thật sao? = Really?"},
+        ]
+    },
+    "thật là": {
+        "category": "phrases",
+        "subcategory": "emphasis",
+        "examples": [
+            {"word": "thật là", "meaning": "truly/really is", "sentence": "Thật là tuyệt! = That's amazing!"},
+        ]
+    },
+    "tuyệt vời": {
+        "category": "phrases",
+        "subcategory": "praise",
+        "examples": [
+            {"word": "tuyệt vời", "meaning": "wonderful/amazing", "sentence": "Tuyệt vời! = Wonderful!"},
+        ]
+    },
+    "chết rồi": {
+        "category": "phrases",
+        "subcategory": "trouble",
+        "examples": [
+            {"word": "chết rồi", "meaning": "oh no/I'm dead", "sentence": "Chết rồi! = Oh no!"},
+        ]
+    },
+    "hỏng rồi": {
+        "category": "phrases",
+        "subcategory": "trouble",
+        "examples": [
+            {"word": "hỏng rồi", "meaning": "it's broken/ruined", "sentence": "Hỏng rồi! = It's ruined!"},
+        ]
+    },
+    "cẩn thận": {
+        "category": "phrases",
+        "subcategory": "warning",
+        "examples": [
+            {"word": "cẩn thận", "meaning": "be careful", "sentence": "Cẩn thận đấy! = Be careful!"},
+        ]
+    },
+    "nhanh lên": {
+        "category": "phrases",
+        "subcategory": "urgency",
+        "examples": [
+            {"word": "nhanh lên", "meaning": "hurry up", "sentence": "Nhanh lên! = Hurry up!"},
+        ]
+    },
+    "đợi đã": {
+        "category": "phrases",
+        "subcategory": "waiting",
+        "examples": [
+            {"word": "đợi đã", "meaning": "wait a moment", "sentence": "Đợi đã! = Wait!"},
+        ]
+    },
+    "đi thôi": {
+        "category": "phrases",
+        "subcategory": "action",
+        "examples": [
+            {"word": "đi thôi", "meaning": "let's go", "sentence": "Đi thôi! = Let's go!"},
+        ]
+    },
+    "về thôi": {
+        "category": "phrases",
+        "subcategory": "action",
+        "examples": [
+            {"word": "về thôi", "meaning": "let's go home", "sentence": "Về thôi! = Let's go home!"},
+        ]
+    },
+    # === DESCRIPTIVE WORDS ===
+    "lười": {
+        "category": "description",
+        "subcategory": "personality",
+        "examples": [
+            {"word": "lười", "meaning": "lazy", "sentence": "Lười học = Lazy to study"},
+        ]
+    },
+    "lười biếng": {
+        "category": "description",
+        "subcategory": "personality",
+        "examples": [
+            {"word": "lười biếng", "meaning": "lazy/slothful", "sentence": "Lười biếng quá = So lazy"},
+        ]
+    },
+    "dũng cảm": {
+        "category": "description",
+        "subcategory": "personality",
+        "examples": [
+            {"word": "dũng cảm", "meaning": "brave/courageous", "sentence": "Thật dũng cảm = So brave"},
+        ]
+    },
+    "thông minh": {
+        "category": "description",
+        "subcategory": "personality",
+        "examples": [
+            {"word": "thông minh", "meaning": "smart/intelligent", "sentence": "Rất thông minh = Very smart"},
+        ]
+    },
+    "ngu": {
+        "category": "description",
+        "subcategory": "personality",
+        "examples": [
+            {"word": "ngu", "meaning": "stupid/dumb", "sentence": "Ngu quá! = So stupid!"},
+        ]
+    },
+    "mạnh": {
+        "category": "description",
+        "subcategory": "physical",
+        "examples": [
+            {"word": "mạnh", "meaning": "strong", "sentence": "Mạnh lắm = Very strong"},
+        ]
+    },
+    "yếu": {
+        "category": "description",
+        "subcategory": "physical",
+        "examples": [
+            {"word": "yếu", "meaning": "weak", "sentence": "Yếu quá = So weak"},
+        ]
+    },
+    "béo": {
+        "category": "description",
+        "subcategory": "physical",
+        "examples": [
+            {"word": "béo", "meaning": "fat/chubby", "sentence": "Béo quá = So fat"},
+        ]
+    },
+    "xinh đẹp": {
+        "category": "description",
+        "subcategory": "appearance",
+        "examples": [
+            {"word": "xinh đẹp", "meaning": "beautiful/pretty", "sentence": "Xinh đẹp quá = So beautiful"},
+        ]
+    },
+    "tương lai": {
+        "category": "description",
+        "subcategory": "time",
+        "examples": [
+            {"word": "tương lai", "meaning": "future", "sentence": "Từ tương lai = From the future"},
+        ]
+    },
+    "quá khứ": {
+        "category": "description",
+        "subcategory": "time",
+        "examples": [
+            {"word": "quá khứ", "meaning": "past", "sentence": "Về quá khứ = Go to the past"},
+        ]
+    },
+}
+
+
 def get_pack_data(pack_id):
     """Get the vocabulary data for a specific pack"""
     if pack_id == "manga_fiction":
@@ -3083,6 +3729,8 @@ def get_pack_data(pack_id):
         return MILLENNIAL_PACK
     elif pack_id == "genz":
         return GENZ_PACK
+    elif pack_id == "doraemon":
+        return DORAEMON_PACK
     return {}
 
 

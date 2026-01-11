@@ -622,6 +622,264 @@ def get_all_cards():
     return cards
 
 
+class AnimatedButton(tk.Canvas):
+    """
+    Video game-style animated button with hover and press effects.
+    Features smooth color transitions and subtle scale effects.
+    """
+
+    def __init__(self, parent, text="", command=None, width=200, height=50,
+                 bg_color="#1a9fff", hover_color="#67c1f5", press_color="#0d5a8c",
+                 fg_color="#ffffff", font=("Segoe UI", 12, "bold"),
+                 corner_radius=8, **kwargs):
+        super().__init__(parent, width=width, height=height,
+                        highlightthickness=0, bg=parent.cget('bg'), **kwargs)
+
+        self.command = command
+        self.text = text
+        self.width = width
+        self.height = height
+        self.bg_color = bg_color
+        self.hover_color = hover_color
+        self.press_color = press_color
+        self.fg_color = fg_color
+        self.font = font
+        self.corner_radius = corner_radius
+
+        # Animation state
+        self.current_color = bg_color
+        self.target_color = bg_color
+        self.is_hovered = False
+        self.is_pressed = False
+        self.animation_id = None
+        self.glow_offset = 0
+
+        # Draw initial button
+        self._draw_button()
+
+        # Bind events
+        self.bind("<Enter>", self._on_enter)
+        self.bind("<Leave>", self._on_leave)
+        self.bind("<ButtonPress-1>", self._on_press)
+        self.bind("<ButtonRelease-1>", self._on_release)
+
+        # Configure cursor
+        self.configure(cursor="hand2")
+
+    def _hex_to_rgb(self, hex_color):
+        """Convert hex color to RGB tuple"""
+        hex_color = hex_color.lstrip('#')
+        return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+
+    def _rgb_to_hex(self, rgb):
+        """Convert RGB tuple to hex color"""
+        return '#{:02x}{:02x}{:02x}'.format(
+            max(0, min(255, int(rgb[0]))),
+            max(0, min(255, int(rgb[1]))),
+            max(0, min(255, int(rgb[2])))
+        )
+
+    def _interpolate_color(self, color1, color2, factor):
+        """Interpolate between two colors"""
+        rgb1 = self._hex_to_rgb(color1)
+        rgb2 = self._hex_to_rgb(color2)
+        return self._rgb_to_hex(tuple(
+            rgb1[i] + (rgb2[i] - rgb1[i]) * factor for i in range(3)
+        ))
+
+    def _draw_button(self, scale=1.0):
+        """Draw the button with current state"""
+        self.delete("all")
+
+        # Calculate scaled dimensions
+        pad = (1 - scale) * 2
+        x1, y1 = pad, pad
+        x2, y2 = self.width - pad, self.height - pad
+        r = self.corner_radius
+
+        # Draw glow effect when hovered
+        if self.is_hovered and not self.is_pressed:
+            glow_color = self._interpolate_color(self.current_color, "#ffffff", 0.3)
+            self.create_rounded_rect(x1-2, y1-2, x2+2, y2+2, r+2,
+                                    fill="", outline=glow_color, width=2, tags="glow")
+
+        # Draw main button shape
+        self.create_rounded_rect(x1, y1, x2, y2, r,
+                                fill=self.current_color, outline="", tags="button")
+
+        # Draw subtle gradient overlay (top highlight)
+        highlight = self._interpolate_color(self.current_color, "#ffffff", 0.15)
+        self.create_rounded_rect(x1, y1, x2, y1 + (y2-y1)*0.4, r,
+                                fill=highlight, outline="", tags="highlight")
+
+        # Draw text
+        text_y = self.height / 2
+        if self.is_pressed:
+            text_y += 1  # Subtle press effect
+
+        self.create_text(self.width/2, text_y, text=self.text,
+                        fill=self.fg_color, font=self.font, tags="text")
+
+        # Draw border
+        border_color = self._interpolate_color(self.current_color, "#ffffff", 0.2)
+        self.create_rounded_rect(x1, y1, x2, y2, r,
+                                fill="", outline=border_color, width=1, tags="border")
+
+    def create_rounded_rect(self, x1, y1, x2, y2, r, **kwargs):
+        """Create a rounded rectangle"""
+        points = [
+            x1+r, y1,
+            x2-r, y1,
+            x2, y1,
+            x2, y1+r,
+            x2, y2-r,
+            x2, y2,
+            x2-r, y2,
+            x1+r, y2,
+            x1, y2,
+            x1, y2-r,
+            x1, y1+r,
+            x1, y1,
+        ]
+        return self.create_polygon(points, smooth=True, **kwargs)
+
+    def _animate_color(self):
+        """Animate color transition"""
+        if self.current_color != self.target_color:
+            # Interpolate towards target
+            self.current_color = self._interpolate_color(
+                self.current_color, self.target_color, 0.3
+            )
+            self._draw_button()
+
+            # Continue animation
+            self.animation_id = self.after(16, self._animate_color)  # ~60fps
+        else:
+            self.animation_id = None
+
+    def _start_animation(self, target):
+        """Start color animation to target color"""
+        self.target_color = target
+        if self.animation_id is None:
+            self._animate_color()
+
+    def _on_enter(self, event):
+        """Mouse enter event"""
+        self.is_hovered = True
+        if not self.is_pressed:
+            self._start_animation(self.hover_color)
+
+    def _on_leave(self, event):
+        """Mouse leave event"""
+        self.is_hovered = False
+        self.is_pressed = False
+        self._start_animation(self.bg_color)
+
+    def _on_press(self, event):
+        """Mouse button press event"""
+        self.is_pressed = True
+        self.current_color = self.press_color
+        self._draw_button(scale=0.98)
+
+    def _on_release(self, event):
+        """Mouse button release event"""
+        was_pressed = self.is_pressed
+        self.is_pressed = False
+
+        if was_pressed and self.is_hovered:
+            self._start_animation(self.hover_color)
+            if self.command:
+                self.command()
+        else:
+            self._start_animation(self.bg_color)
+
+        self._draw_button()
+
+    def configure(self, **kwargs):
+        """Configure button properties"""
+        if 'text' in kwargs:
+            self.text = kwargs.pop('text')
+        if 'command' in kwargs:
+            self.command = kwargs.pop('command')
+        if 'bg_color' in kwargs:
+            self.bg_color = kwargs.pop('bg_color')
+            self.current_color = self.bg_color
+            self.target_color = self.bg_color
+        if 'state' in kwargs:
+            state = kwargs.pop('state')
+            if state == 'disabled':
+                self.unbind("<Enter>")
+                self.unbind("<Leave>")
+                self.unbind("<ButtonPress-1>")
+                self.unbind("<ButtonRelease-1>")
+                self.configure(cursor="")
+
+        super().configure(**kwargs)
+        self._draw_button()
+
+    config = configure  # Alias
+
+
+def create_game_button(parent, text, command, style="default", size="normal", colors=None):
+    """
+    Factory function to create animated buttons with predefined styles.
+
+    Styles: default, success, danger, secondary
+    Sizes: small, normal, large
+    """
+    if colors is None:
+        colors = {
+            'bg_dark': '#1b2838',
+            'bg_medium': '#2a475e',
+            'accent_blue': '#1a9fff',
+            'accent_hover': '#67c1f5',
+            'success': '#5c7e10',
+            'success_hover': '#7cb318',
+            'error': '#c23b22',
+            'error_hover': '#e74c3c',
+        }
+
+    # Size configurations
+    sizes = {
+        'small': {'width': 150, 'height': 40, 'font': ("Segoe UI", 10, "bold")},
+        'normal': {'width': 200, 'height': 50, 'font': ("Segoe UI", 12, "bold")},
+        'large': {'width': 280, 'height': 60, 'font': ("Segoe UI", 14, "bold")},
+    }
+
+    # Style configurations
+    styles = {
+        'default': {
+            'bg_color': colors['accent_blue'],
+            'hover_color': colors['accent_hover'],
+            'press_color': '#0d5a8c',
+        },
+        'success': {
+            'bg_color': colors['success'],
+            'hover_color': colors['success_hover'],
+            'press_color': '#4a6510',
+        },
+        'danger': {
+            'bg_color': colors['error'],
+            'hover_color': colors['error_hover'],
+            'press_color': '#8a2a18',
+        },
+        'secondary': {
+            'bg_color': colors['bg_medium'],
+            'hover_color': '#3d6278',
+            'press_color': '#1e3344',
+        },
+    }
+
+    config = {**sizes.get(size, sizes['normal']), **styles.get(style, styles['default'])}
+
+    return AnimatedButton(
+        parent, text=text, command=command,
+        width=config['width'], height=config['height'], font=config['font'],
+        bg_color=config['bg_color'], hover_color=config['hover_color'],
+        press_color=config['press_color']
+    )
+
+
 class LeitnerSystem:
     """
     Implements the Leitner System for spaced repetition.
@@ -1510,7 +1768,7 @@ class VietnameseVowelsApp:
             )
             btn.pack(side=tk.LEFT, padx=3)
 
-        # Action buttons with Steam style
+        # Action buttons with animated game-style effects
         btn_frame = tk.Frame(container, bg=c['bg_dark'])
         btn_frame.pack(pady=20)
 
@@ -1518,73 +1776,58 @@ class VietnameseVowelsApp:
         limit = self.study_limit.get()
         cards_to_study = min(cards_due, limit) if limit > 0 else cards_due
 
-        # Start Review button - prominent green
+        # Start Review button - prominent green with animation
         btn_text = f"START REVIEW  ({cards_to_study} cards)" if limit > 0 else f"START REVIEW  ({cards_due} cards due)"
-        review_btn = tk.Button(
+        review_btn = AnimatedButton(
             btn_frame,
             text=btn_text,
-            font=('Segoe UI', 14, 'bold'),
-            fg=c['text_bright'],
-            bg=c['success'],
-            activebackground=c['success_hover'],
-            activeforeground=c['text_bright'],
-            bd=0,
-            padx=40,
-            pady=15,
-            cursor='hand2',
-            command=self.start_review
+            command=self.start_review,
+            width=320, height=55,
+            bg_color=c['success'],
+            hover_color=c['success_hover'],
+            press_color='#4a6510',
+            font=('Segoe UI', 14, 'bold')
         )
         review_btn.pack(pady=8)
 
-        # Browse button - blue accent
-        browse_btn = tk.Button(
+        # Browse button - blue accent with animation
+        browse_btn = AnimatedButton(
             btn_frame,
             text="BROWSE ALL VOWELS",
-            font=('Segoe UI', 12, 'bold'),
-            fg=c['text_bright'],
-            bg=c['accent_blue'],
-            activebackground=c['accent_hover'],
-            activeforeground=c['text_bright'],
-            bd=0,
-            padx=35,
-            pady=12,
-            cursor='hand2',
-            command=self.show_browse
+            command=self.show_browse,
+            width=280, height=50,
+            bg_color=c['accent_blue'],
+            hover_color=c['accent_hover'],
+            press_color='#0d5a8c',
+            font=('Segoe UI', 12, 'bold')
         )
         browse_btn.pack(pady=8)
 
-        # Content Packs button
+        # Content Packs button with animation
         if CONTENT_PACKS_AVAILABLE:
-            packs_btn = tk.Button(
+            packs_btn = AnimatedButton(
                 btn_frame,
                 text="CONTENT PACKS",
-                font=('Segoe UI', 12, 'bold'),
-                fg=c['text_bright'],
-                bg=c['bg_medium'],
-                activebackground=c['accent_hover'],
-                activeforeground=c['text_bright'],
-                bd=0,
-                padx=35,
-                pady=12,
-                cursor='hand2',
-                command=self.show_content_packs
+                command=self.show_content_packs,
+                width=280, height=50,
+                bg_color=c['bg_medium'],
+                hover_color='#3d6278',
+                press_color='#1e3344',
+                font=('Segoe UI', 12, 'bold')
             )
             packs_btn.pack(pady=8)
 
-        # Reset progress button
-        reset_btn = tk.Button(
+        # Reset progress button with animation
+        reset_btn = AnimatedButton(
             btn_frame,
             text="RESET PROGRESS",
-            font=('Segoe UI', 10, 'bold'),
-            fg=c['text_secondary'],
-            bg=c['bg_medium'],
-            activebackground=c['error'],
-            activeforeground=c['text_bright'],
-            bd=0,
-            padx=25,
-            pady=8,
-            cursor='hand2',
-            command=self.confirm_reset_progress
+            command=self.confirm_reset_progress,
+            width=200, height=42,
+            bg_color=c['bg_medium'],
+            hover_color=c['error'],
+            press_color='#8a2a18',
+            fg_color=c['text_secondary'],
+            font=('Segoe UI', 10, 'bold')
         )
         reset_btn.pack(pady=8)
 
@@ -2115,51 +2358,41 @@ class VietnameseVowelsApp:
         self.answer_frame = tk.Frame(self.card_frame, bg=c['bg_card'])
         self.answer_frame.pack(fill=tk.BOTH, expand=True, pady=10)
 
-        # Show Answer button
-        show_btn = tk.Button(
+        # Show Answer button with animation
+        show_btn = AnimatedButton(
             self.answer_frame,
             text="SHOW ANSWER",
-            font=('Segoe UI', 14, 'bold'),
-            fg=c['text_bright'],
-            bg=c['accent_blue'],
-            activebackground=c['accent_hover'],
-            bd=0,
-            padx=40,
-            pady=15,
-            cursor='hand2',
-            command=self.reveal_answer
+            command=self.reveal_answer,
+            width=250, height=55,
+            bg_color=c['accent_blue'],
+            hover_color=c['accent_hover'],
+            press_color='#0d5a8c',
+            font=('Segoe UI', 14, 'bold')
         )
         show_btn.pack(pady=20)
 
-        # Navigation buttons
-        end_btn = tk.Button(
+        # Navigation buttons with animation
+        end_btn = AnimatedButton(
             self.nav_frame,
             text="END SESSION",
-            font=('Segoe UI', 11, 'bold'),
-            fg=c['text_primary'],
-            bg=c['error'],
-            activebackground=c['error_hover'],
-            bd=0,
-            padx=20,
-            pady=8,
-            cursor='hand2',
-            command=self.end_review
+            command=self.end_review,
+            width=150, height=42,
+            bg_color=c['error'],
+            hover_color=c['error_hover'],
+            press_color='#8a2a18',
+            font=('Segoe UI', 11, 'bold')
         )
         end_btn.pack(side=tk.LEFT)
 
-        home_btn = tk.Button(
+        home_btn = AnimatedButton(
             self.nav_frame,
             text="HOME",
-            font=('Segoe UI', 11, 'bold'),
-            fg=c['text_primary'],
-            bg=c['bg_medium'],
-            activebackground=c['bg_light'],
-            activeforeground=c['text_bright'],
-            bd=0,
-            padx=20,
-            pady=8,
-            cursor='hand2',
-            command=self.show_home
+            command=self.show_home,
+            width=100, height=42,
+            bg_color=c['bg_medium'],
+            hover_color='#3d6278',
+            press_color='#1e3344',
+            font=('Segoe UI', 11, 'bold')
         )
         home_btn.pack(side=tk.RIGHT)
 
@@ -2258,52 +2491,43 @@ class VietnameseVowelsApp:
             bg=c['bg_card']
         ).pack(pady=(10, 15))
 
-        # Correct/Wrong/Repeat buttons
+        # Correct/Wrong/Repeat buttons with game-style animations
         btn_frame = tk.Frame(self.answer_frame, bg=c['bg_card'])
         btn_frame.pack(pady=10)
 
-        wrong_btn = tk.Button(
+        wrong_btn = AnimatedButton(
             btn_frame,
             text="✗  WRONG",
-            font=('Segoe UI', 12, 'bold'),
-            fg=c['text_bright'],
-            bg=c['error'],
-            activebackground=c['error_hover'],
-            bd=0,
-            padx=25,
-            pady=12,
-            cursor='hand2',
-            command=self.mark_wrong
+            command=self.mark_wrong,
+            width=140, height=48,
+            bg_color=c['error'],
+            hover_color=c['error_hover'],
+            press_color='#8a2a18',
+            font=('Segoe UI', 12, 'bold')
         )
         wrong_btn.pack(side=tk.LEFT, padx=8)
 
-        repeat_btn = tk.Button(
+        repeat_btn = AnimatedButton(
             btn_frame,
             text="↻  REPEAT",
-            font=('Segoe UI', 12, 'bold'),
-            fg=c['text_bright'],
-            bg=c['accent_blue'],
-            activebackground=c['accent_hover'],
-            bd=0,
-            padx=25,
-            pady=12,
-            cursor='hand2',
-            command=self.add_back_to_deck
+            command=self.add_back_to_deck,
+            width=140, height=48,
+            bg_color=c['accent_blue'],
+            hover_color=c['accent_hover'],
+            press_color='#0d5a8c',
+            font=('Segoe UI', 12, 'bold')
         )
         repeat_btn.pack(side=tk.LEFT, padx=8)
 
-        correct_btn = tk.Button(
+        correct_btn = AnimatedButton(
             btn_frame,
             text="✓  CORRECT",
-            font=('Segoe UI', 12, 'bold'),
-            fg=c['text_bright'],
-            bg=c['success'],
-            activebackground=c['success_hover'],
-            bd=0,
-            padx=25,
-            pady=12,
-            cursor='hand2',
-            command=self.mark_correct
+            command=self.mark_correct,
+            width=140, height=48,
+            bg_color=c['success'],
+            hover_color=c['success_hover'],
+            press_color='#4a6510',
+            font=('Segoe UI', 12, 'bold')
         )
         correct_btn.pack(side=tk.LEFT, padx=8)
 
