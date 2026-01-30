@@ -9,8 +9,8 @@ CONTENT_PACKS = {
     "manga_fiction": {
         "id": "manga_fiction",
         "name": "Manga, Fiction & Fantasy",
-        "description": "500+ common words and onomatopoeia for reading Vietnamese manga, light novels, and fiction",
-        "word_count": 520,
+        "description": "Common words and onomatopoeia for reading Vietnamese manga, light novels, and fiction",
+        "word_count": 161,
         "categories": ["Common Words", "Onomatopoeia", "Emotions", "Actions", "Fantasy Terms"],
         "icon": "📚"
     },
@@ -18,7 +18,7 @@ CONTENT_PACKS = {
         "id": "self_help",
         "name": "Self-Help & Personal Development",
         "description": "Essential vocabulary for self-improvement books, motivation, and personal growth",
-        "word_count": 300,
+        "word_count": 84,
         "categories": ["Mindset", "Goals", "Habits", "Emotions", "Success"],
         "icon": "🎯"
     },

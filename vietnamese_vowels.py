@@ -820,66 +820,6 @@ class AnimatedButton(tk.Canvas):
     config = configure  # Alias
 
 
-def create_game_button(parent, text, command, style="default", size="normal", colors=None):
-    """
-    Factory function to create animated buttons with predefined styles.
-
-    Styles: default, success, danger, secondary
-    Sizes: small, normal, large
-    """
-    if colors is None:
-        colors = {
-            'bg_dark': '#1b2838',
-            'bg_medium': '#2a475e',
-            'accent_blue': '#1a9fff',
-            'accent_hover': '#67c1f5',
-            'success': '#5c7e10',
-            'success_hover': '#7cb318',
-            'error': '#c23b22',
-            'error_hover': '#e74c3c',
-        }
-
-    # Size configurations
-    sizes = {
-        'small': {'width': 150, 'height': 40, 'font': ("Segoe UI", 10, "bold")},
-        'normal': {'width': 200, 'height': 50, 'font': ("Segoe UI", 12, "bold")},
-        'large': {'width': 280, 'height': 60, 'font': ("Segoe UI", 14, "bold")},
-    }
-
-    # Style configurations
-    styles = {
-        'default': {
-            'bg_color': colors['accent_blue'],
-            'hover_color': colors['accent_hover'],
-            'press_color': '#0d5a8c',
-        },
-        'success': {
-            'bg_color': colors['success'],
-            'hover_color': colors['success_hover'],
-            'press_color': '#4a6510',
-        },
-        'danger': {
-            'bg_color': colors['error'],
-            'hover_color': colors['error_hover'],
-            'press_color': '#8a2a18',
-        },
-        'secondary': {
-            'bg_color': colors['bg_medium'],
-            'hover_color': '#3d6278',
-            'press_color': '#1e3344',
-        },
-    }
-
-    config = {**sizes.get(size, sizes['normal']), **styles.get(style, styles['default'])}
-
-    return AnimatedButton(
-        parent, text=text, command=command,
-        width=config['width'], height=config['height'], font=config['font'],
-        bg_color=config['bg_color'], hover_color=config['hover_color'],
-        press_color=config['press_color']
-    )
-
-
 class LeitnerSystem:
     """
     Implements the Leitner System for spaced repetition.
