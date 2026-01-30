@@ -1304,23 +1304,25 @@ class ContentPackManager:
 class VietnameseVowelsApp:
     """Main application class"""
 
-    # Steam-inspired dark theme colors
+    # Warm dark theme - video game inspired
     COLORS = {
-        'bg_dark': '#1b2838',        # Main background
-        'bg_medium': '#2a475e',      # Secondary background
-        'bg_light': '#3d5a73',       # Lighter elements
-        'bg_card': '#1e3a4c',        # Card background
-        'text_primary': '#c7d5e0',   # Main text
-        'text_secondary': '#8b929a', # Secondary text
+        'bg_dark': '#1a1a1a',        # Main background (charcoal)
+        'bg_medium': '#2d2d2d',      # Secondary background
+        'bg_light': '#404040',       # Lighter elements
+        'bg_card': '#252525',        # Card background
+        'text_primary': '#e0e0e0',   # Main text
+        'text_secondary': '#888888', # Secondary text
         'text_bright': '#ffffff',    # Bright text
-        'accent_blue': '#1a9fff',    # Primary accent
-        'accent_hover': '#67c1f5',   # Hover state
-        'success': '#5c7e10',        # Green/success
-        'success_hover': '#7cb318',  # Green hover
-        'error': '#c23b22',          # Red/error
-        'error_hover': '#e74c3c',    # Red hover
-        'border': '#3d5a73',         # Border color
-        'gold': '#ffc82c',           # Gold for mastered
+        'accent_blue': '#00d4ff',    # Cyan accent (neon)
+        'accent_hover': '#4de8ff',   # Cyan hover
+        'success': '#00c853',        # Vibrant green
+        'success_hover': '#00e676',  # Green hover
+        'error': '#ff1744',          # Vibrant red
+        'error_hover': '#ff5252',    # Red hover
+        'border': '#404040',         # Border color
+        'gold': '#ffd700',           # Gold for mastered
+        'purple': '#aa00ff',         # Purple accent
+        'orange': '#ff9100',         # Orange accent
     }
 
     def __init__(self, root):
@@ -1518,32 +1520,32 @@ class VietnameseVowelsApp:
             arrowcolor=c['text_primary'])
 
     def create_widgets(self):
-        """Create main widgets with Steam-like dark theme"""
+        """Create main widgets with video game-inspired dark theme"""
         c = self.COLORS
 
         # Main container
         self.main_frame = tk.Frame(self.root, bg=c['bg_dark'], padx=30, pady=20)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Header with gradient-like effect
+        # Header with neon accent
         self.header_frame = tk.Frame(self.main_frame, bg=c['bg_dark'])
         self.header_frame.pack(fill=tk.X, pady=(0, 25))
 
-        # Title with Vietnamese flag colors hint
+        # Title with neon glow effect
         title_frame = tk.Frame(self.header_frame, bg=c['bg_dark'])
         title_frame.pack(side=tk.LEFT)
 
         self.title_label = tk.Label(
             title_frame,
             text="VIETNAMESE VOWELS",
-            font=('Segoe UI', 24, 'bold'),
-            fg=c['text_bright'],
+            font=('Segoe UI', 26, 'bold'),
+            fg=c['accent_blue'],
             bg=c['bg_dark']
         )
         self.title_label.pack(side=tk.LEFT)
 
-        # Accent bar under title
-        accent_bar = tk.Frame(title_frame, bg=c['accent_blue'], height=3)
+        # Neon accent bar under title
+        accent_bar = tk.Frame(title_frame, bg=c['accent_blue'], height=4)
         accent_bar.pack(fill=tk.X, pady=(5, 0))
 
         # Stats display
@@ -1672,7 +1674,7 @@ class VietnameseVowelsApp:
         )
 
     def show_home(self):
-        """Show home screen with Steam-like dark theme"""
+        """Show home screen with video game-inspired dark theme"""
         self.clear_content()
         self.clear_nav()
         self.in_review_mode = False
@@ -1688,69 +1690,80 @@ class VietnameseVowelsApp:
         # Bind mousewheel to container and its children
         scroll_container.bind_mousewheel(container)
 
-        # Welcome section
+        # Welcome section with neon accent
         welcome = tk.Label(
             container,
-            text="Learn Vietnamese Vowels",
-            font=('Segoe UI', 32, 'bold'),
-            fg=c['text_bright'],
+            text="LEARN VIETNAMESE",
+            font=('Segoe UI', 36, 'bold'),
+            fg=c['accent_blue'],
             bg=c['bg_dark']
         )
-        welcome.pack(pady=(20, 10))
+        welcome.pack(pady=(20, 5))
+
+        subtitle = tk.Label(
+            container,
+            text="VOWELS & TONES",
+            font=('Segoe UI', 18, 'bold'),
+            fg=c['text_secondary'],
+            bg=c['bg_dark']
+        )
+        subtitle.pack(pady=(0, 10))
 
         desc = tk.Label(
             container,
-            text="Master the 12 Vietnamese vowels using spaced repetition.\nEach vowel comes with example words and native pronunciation.",
+            text="Master Vietnamese pronunciation with spaced repetition",
             font=('Segoe UI', 12),
             fg=c['text_secondary'],
             bg=c['bg_dark'],
             justify=tk.CENTER
         )
-        desc.pack(pady=(0, 30))
+        desc.pack(pady=(0, 25))
 
-        # Stats card with dark theme
+        # Stats card with game-style border
         stats_card = tk.Frame(container, bg=c['bg_card'], padx=30, pady=20)
         stats_card.pack(fill=tk.X, pady=10)
 
-        # Stats header
+        # Stats header with icon
         stats_header = tk.Label(
             stats_card,
-            text="YOUR PROGRESS",
+            text="⬡  YOUR PROGRESS",
             font=('Segoe UI', 14, 'bold'),
-            fg=c['accent_hover'],
+            fg=c['accent_blue'],
             bg=c['bg_card']
         )
         stats_header.pack(anchor=tk.W, pady=(0, 15))
 
-        # Progress boxes in a row
+        # Progress boxes in a row with gradient feel
         boxes_frame = tk.Frame(stats_card, bg=c['bg_card'])
         boxes_frame.pack(fill=tk.X)
 
+        # Color gradient for boxes (cooler to warmer as you progress)
+        box_colors = [c['error'], c['orange'], c['accent_blue'], c['purple'], c['gold']]
         box_data = [
-            ("BOX 1", "New", len(self.leitner.boxes[1]), c['text_primary']),
-            ("BOX 2", "", len(self.leitner.boxes[2]), c['text_primary']),
-            ("BOX 3", "", len(self.leitner.boxes[3]), c['text_primary']),
-            ("BOX 4", "", len(self.leitner.boxes[4]), c['text_primary']),
-            ("BOX 5", "Mastered", len(self.leitner.boxes[5]), c['gold']),
+            ("LVL 1", "New", len(self.leitner.boxes[1]), box_colors[0]),
+            ("LVL 2", "", len(self.leitner.boxes[2]), box_colors[1]),
+            ("LVL 3", "", len(self.leitner.boxes[3]), box_colors[2]),
+            ("LVL 4", "", len(self.leitner.boxes[4]), box_colors[3]),
+            ("LVL 5", "★ Mastered", len(self.leitner.boxes[5]), box_colors[4]),
         ]
 
         for i, (box_name, subtitle, count, color) in enumerate(box_data):
             box_frame = tk.Frame(boxes_frame, bg=c['bg_medium'], padx=15, pady=10)
-            box_frame.pack(side=tk.LEFT, padx=5, expand=True, fill=tk.X)
+            box_frame.pack(side=tk.LEFT, padx=4, expand=True, fill=tk.X)
 
             tk.Label(
                 box_frame,
                 text=box_name,
                 font=('Segoe UI', 10, 'bold'),
-                fg=c['text_secondary'],
+                fg=color,
                 bg=c['bg_medium']
             ).pack()
 
             tk.Label(
                 box_frame,
                 text=str(count),
-                font=('Segoe UI', 24, 'bold'),
-                fg=color,
+                font=('Segoe UI', 28, 'bold'),
+                fg=c['text_bright'],
                 bg=c['bg_medium']
             ).pack()
 
@@ -1759,7 +1772,7 @@ class VietnameseVowelsApp:
                     box_frame,
                     text=subtitle,
                     font=('Segoe UI', 9),
-                    fg=c['text_secondary'],
+                    fg=color,
                     bg=c['bg_medium']
                 ).pack()
 
@@ -1807,28 +1820,28 @@ class VietnameseVowelsApp:
         cards_to_study = min(cards_due, limit) if limit > 0 else cards_due
 
         # Start Review button - prominent green with animation
-        btn_text = f"START REVIEW  ({cards_to_study} cards)" if limit > 0 else f"START REVIEW  ({cards_due} cards due)"
+        btn_text = f"▶  START REVIEW  ({cards_to_study} cards)" if limit > 0 else f"▶  START REVIEW  ({cards_due} cards)"
         review_btn = AnimatedButton(
             btn_frame,
             text=btn_text,
             command=self.start_review,
-            width=320, height=55,
+            width=320, height=58,
             bg_color=c['success'],
             hover_color=c['success_hover'],
-            press_color='#4a6510',
+            press_color='#008f3d',
             font=('Segoe UI', 14, 'bold')
         )
         review_btn.pack(pady=8)
 
-        # Browse button - blue accent with animation
+        # Browse button - cyan accent with animation
         browse_btn = AnimatedButton(
             btn_frame,
-            text="BROWSE ALL VOWELS",
+            text="📖  BROWSE ALL CARDS",
             command=self.show_browse,
             width=280, height=50,
             bg_color=c['accent_blue'],
             hover_color=c['accent_hover'],
-            press_color='#0d5a8c',
+            press_color='#0099cc',
             font=('Segoe UI', 12, 'bold')
         )
         browse_btn.pack(pady=8)
@@ -1837,12 +1850,12 @@ class VietnameseVowelsApp:
         if CONTENT_PACKS_AVAILABLE:
             packs_btn = AnimatedButton(
                 btn_frame,
-                text="CONTENT PACKS",
+                text="📦  CONTENT PACKS",
                 command=self.show_content_packs,
                 width=280, height=50,
-                bg_color=c['bg_medium'],
-                hover_color='#3d6278',
-                press_color='#1e3344',
+                bg_color=c['purple'],
+                hover_color='#cc44ff',
+                press_color='#7700bb',
                 font=('Segoe UI', 12, 'bold')
             )
             packs_btn.pack(pady=8)
@@ -1850,12 +1863,12 @@ class VietnameseVowelsApp:
         # Reset progress button with animation
         reset_btn = AnimatedButton(
             btn_frame,
-            text="RESET PROGRESS",
+            text="⟲  RESET",
             command=self.confirm_reset_progress,
-            width=200, height=42,
+            width=160, height=42,
             bg_color=c['bg_medium'],
             hover_color=c['error'],
-            press_color='#8a2a18',
+            press_color='#cc0033',
             fg_color=c['text_secondary'],
             font=('Segoe UI', 10, 'bold')
         )
@@ -1867,9 +1880,9 @@ class VietnameseVowelsApp:
 
         tk.Label(
             info_card,
-            text="HOW THE LEITNER SYSTEM WORKS",
+            text="ℹ  HOW IT WORKS",
             font=('Segoe UI', 11, 'bold'),
-            fg=c['accent_hover'],
+            fg=c['accent_blue'],
             bg=c['bg_card']
         ).pack(anchor=tk.W, pady=(0, 10))
 
@@ -2396,12 +2409,12 @@ class VietnameseVowelsApp:
         # Show Answer button with animation
         show_btn = AnimatedButton(
             self.answer_frame,
-            text="SHOW ANSWER",
+            text="👁  SHOW ANSWER",
             command=self.reveal_answer,
-            width=250, height=55,
+            width=260, height=58,
             bg_color=c['accent_blue'],
             hover_color=c['accent_hover'],
-            press_color='#0d5a8c',
+            press_color='#0099cc',
             font=('Segoe UI', 14, 'bold')
         )
         show_btn.pack(pady=20)
@@ -2567,24 +2580,113 @@ class VietnameseVowelsApp:
         correct_btn.pack(side=tk.LEFT, padx=8)
 
     def mark_correct(self):
-        """Mark current card as correct"""
+        """Mark current card as correct with visual feedback"""
         if self.current_vowel:
             self.leitner.card_correct(self.current_vowel)
             self.update_stats_display()
-        self.show_next_card()
+        self._show_feedback_animation('correct')
 
     def mark_wrong(self):
-        """Mark current card as wrong"""
+        """Mark current card as wrong with visual feedback"""
         if self.current_vowel:
             self.leitner.card_wrong(self.current_vowel)
             self.update_stats_display()
-        self.show_next_card()
+        self._show_feedback_animation('wrong')
 
     def add_back_to_deck(self):
         """Add current card back to the end of the review queue without scoring"""
         if self.current_vowel:
             self.review_queue.append(self.current_vowel)
-        self.show_next_card()
+        self._show_feedback_animation('repeat')
+
+    def _show_feedback_animation(self, feedback_type):
+        """Show video game-style feedback animation before next card"""
+        c = self.COLORS
+
+        # Create overlay for animation
+        overlay = tk.Frame(self.content_frame, bg=c['bg_dark'])
+        overlay.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+        # Feedback configuration
+        configs = {
+            'correct': {
+                'color': c['success'],
+                'glow': '#00ff6a',
+                'icon': '✓',
+                'text': 'CORRECT!',
+                'subtext': '+1 Box Level'
+            },
+            'wrong': {
+                'color': c['error'],
+                'glow': '#ff4444',
+                'icon': '✗',
+                'text': 'WRONG',
+                'subtext': 'Back to Box 1'
+            },
+            'repeat': {
+                'color': c['accent_blue'],
+                'glow': '#00d4ff',
+                'icon': '↻',
+                'text': 'REPEAT',
+                'subtext': 'Added to queue'
+            }
+        }
+
+        config = configs.get(feedback_type, configs['correct'])
+
+        # Center container
+        center = tk.Frame(overlay, bg=c['bg_dark'])
+        center.place(relx=0.5, rely=0.5, anchor='center')
+
+        # Large icon with glow effect (using multiple labels)
+        icon_size = 120
+        icon_label = tk.Label(
+            center,
+            text=config['icon'],
+            font=('Segoe UI', icon_size, 'bold'),
+            fg=config['color'],
+            bg=c['bg_dark']
+        )
+        icon_label.pack()
+
+        # Main text
+        text_label = tk.Label(
+            center,
+            text=config['text'],
+            font=('Segoe UI', 36, 'bold'),
+            fg=config['color'],
+            bg=c['bg_dark']
+        )
+        text_label.pack(pady=(10, 5))
+
+        # Subtext
+        sub_label = tk.Label(
+            center,
+            text=config['subtext'],
+            font=('Segoe UI', 14),
+            fg=c['text_secondary'],
+            bg=c['bg_dark']
+        )
+        sub_label.pack()
+
+        # Animate: pulse effect
+        def pulse_animation(step=0):
+            if step < 6:
+                # Alternate between bright and normal
+                if step % 2 == 0:
+                    icon_label.configure(fg=config['glow'])
+                    text_label.configure(fg=config['glow'])
+                else:
+                    icon_label.configure(fg=config['color'])
+                    text_label.configure(fg=config['color'])
+                self.root.after(80, lambda: pulse_animation(step + 1))
+            else:
+                # Animation complete, proceed to next card
+                overlay.destroy()
+                self.show_next_card()
+
+        # Start animation after brief delay
+        self.root.after(50, pulse_animation)
 
     def end_review(self):
         """End the review session"""
